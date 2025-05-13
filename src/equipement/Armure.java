@@ -50,7 +50,7 @@ public class Armure extends Equipement {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(this.m_nom).append(" (classe d'armure :").append(this.m_classe).append(")");
+        sb.append(this.m_nom).append(" (classe d'armure : ").append(this.m_classe).append(")");
 
         return sb.toString();
     }

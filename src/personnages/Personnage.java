@@ -185,7 +185,7 @@ public abstract class Personnage implements Entite{
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getNom()).append(" (").append(this.m_race.toString()).append(" ").append(this.m_classe).append(", ").append(this.m_PV).append("/").append(this.m_MAX_PV).append(")");
+        sb.append(this.getNom()).append(" (").append(this.m_race.toString()).append(" ").append(this.m_classe).append(", ").append(this.m_PV).append("/").append(this.m_MAX_PV).append(")\n");
 
         return sb.toString();
     }
@@ -201,6 +201,7 @@ public abstract class Personnage implements Entite{
         sb.append(afficherEquipement(this.m_armure));
         sb.append(afficherEquipement(this.m_arme));
 
+        sb.append("\tInventaire :\n");
         for(Equipement equipement : this.m_inventaire){
             if(equipement.getClasse().equals("Armure")){
                 sb.append(afficherEquipement((Armure) equipement));
@@ -242,9 +243,17 @@ public abstract class Personnage implements Entite{
         return sb.toString();
     }
 
+    //Méthode à appeler lors du passage au donjon suivant : réinitialise les PV du personnage
+    public void resetPV(){
+        this.m_PV = this.m_MAX_PV;
+    }
+
     
 
     /* TODO-LIST :
-        - methode toString détaillée (voir README)
+        - Tests Personnages
+        - Tests Monstre
+        - ajout Equipement dans l'inventaire
+        - afficher inventaire
     */
 }

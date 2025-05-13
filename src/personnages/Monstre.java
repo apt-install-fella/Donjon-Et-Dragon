@@ -2,7 +2,7 @@ package personnages;
 
 import java.util.Random;
 
-public abstract class Monstre implements Entite {
+public class Monstre implements Entite {
     private int m_id;
     private String m_espece;
     private final int m_MAX_PV;
