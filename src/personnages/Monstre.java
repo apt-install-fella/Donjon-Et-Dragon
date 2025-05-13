@@ -129,7 +129,6 @@ public abstract class Monstre implements Entite {
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append(this.getNom()).append(" (").append(this.m_PV).append("/").append(this.m_MAX_PV).append(")");
-
         return sb.toString();
     }
 
@@ -137,7 +136,19 @@ public abstract class Monstre implements Entite {
     @Override
     public String toStringDetails(){
         StringBuilder sb = new StringBuilder();
-        
+        sb.append(this.getNom()).append("\n");
+        sb.append("\t").append("Vie : ").append(this.m_PV).append("/").append(this.m_MAX_PV).append("\n");
+
+        //Afficher la classe d'armure
+        sb.append("\t").append("Classe Armure : ").append(this.m_classeArmure).append("\n");
+
+        //Ajout de la portée d'attaque et des dégâts
+        sb.append("\t").append("Attaque : (dégâts : ").append(this.m_nbLancers).append("d").append(this.m_nbFaces).append(", portee : ").append(this.m_porteeAttaque).append(")\n");
+
+        //Ajout de la force, dextérité et vitesse
+        sb.append("\t").append("Force : ").append(this.m_force).append("\n");
+        sb.append("\t").append("Dexterite : ").append(this.m_dexterite).append("\n");
+        sb.append("\t").append("Vitesse : ").append(this.m_vitesse).append("\n");
 
         return sb.toString();
     }
