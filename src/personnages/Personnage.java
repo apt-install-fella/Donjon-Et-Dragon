@@ -133,38 +133,43 @@ public abstract class Personnage implements Entite{
     L'entite doit être à portée d'attaque
     Le joueur doit avoir équipé une arme
     ------
-    Affiche ce qui se passe directement
+    @return texte
     */
     @Override
-    public void attaquer(Entite cible){
-        System.out.println("Lancé d'un dé à 20 faces...");
+    public String attaquer(Entite cible){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lancé d'un dé à 20 faces...\n");
         int jetAttaque = jetDes(1, 20);
-        System.out.println("Vous avez fait : " + jetAttaque);
+        sb.append("Vous avez fait : ").append(jetAttaque).append("\n");
 
         //Ajout des bonus en fonction du type de l'arme
         switch(m_arme.getType()){
             case "à distance":
-                System.out.println("Votre attaque est de : " + jetAttaque + " + " + this.m_dexterite + " (dextérité) = " + jetAttaque + this.m_dexterite);
+                sb.append("Votre attaque est de : ").append(jetAttaque).append(" + ").append(this.m_dexterite).append(" (dextérité) = ");
                 jetAttaque += this.m_dexterite;
+                sb.append(jetAttaque).append("\n");
                 break;
             case "courante au corps-à-corps": case "de guerre au corps-à-corps":
-                System.out.println("Votre attaque est de : " + jetAttaque + " + " + this.m_force + " (force) = " + jetAttaque + this.m_force);
+                sb.append("Votre attaque est de : ").append(jetAttaque).append(" + ").append(this.m_force).append(" (force) = ");
                 jetAttaque += this.m_force;
+                sb.append(jetAttaque).append("\n");
                 break;
         }
 
         //On vérifie si cela perce l'armure ou non
         if(jetAttaque <= cible.getClasseArmure()){
-            System.out.println("Votre attaque n'est pas assez puissante pour percer l'armure du " + cible.getNom() + " (" + cible.getClasseArmure() + ")...");
+            sb.append("Votre attaque n'est pas assez puissante pour percer l'armure du ").append(cible.getNom()).append(" (").append(cible.getClasseArmure()).append(")...\n");
         }
         else{
-            System.out.println("Votre attaque perce l'armure du " + cible.getNom() + " (" + cible.getClasseArmure() + ") !");
-            System.out.println("Lancé d'un dé à 4 faces...");
+            sb.append("Votre attaque perce l'armure du ").append(cible.getNom()).append(" (").append(cible.getClasseArmure()).append(") !\n");
+            sb.append("Lancé d'un dé à 4 faces...\n");
             int degats = m_arme.jetDes();
-            System.out.println("Vous infligez " + degats + " dégâts au " + cible.getNom());
+            sb.append("Vous infligez ").append(degats).append(" dégâts au ").append(cible.getNom()).append("\n");
             cible.recevoirDegats(degats);
-            System.out.println("Il reste " + cible.getPV() + " PV à " + cible.getNom() +  ".");
+            sb.append("Il reste ").append(cible.getPV()).append(" PV au ").append(cible.getNom()).append(".\n");
         }
+
+        return sb.toString();
 
     }
 

@@ -6,7 +6,7 @@ package personnages{
     {
         + recevoirDegats(degats : Integer)
         + estVivant() : Boolean
-        + attaquer(Entite cible)
+        + attaquer(Entite cible) : String
         + getClasseArmure() : Integer
         + getNom() : String
         + getPV() : Integer
@@ -36,7 +36,7 @@ package personnages{
         + recevoirDegats(degats : Integer)
         + estVivant() : Boolean
         + getDistance() : Integer
-        + attaquer(cible : Entite)
+        + attaquer(cible : Entite) : String
         + getClasseArmure() : Integer
         + getNom() : String
         + getPV() : Integer
@@ -104,7 +104,7 @@ package personnages{
             + getPV() : Integer
             + recevoirDegats(degats : Integer)
             + estVivant() : Boolean
-            + attaquer(cible : Entite)
+            + attaquer(cible : Entite) : String
             + toString() : String
             + toStringDetails() : String
         }
