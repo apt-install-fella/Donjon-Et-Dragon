@@ -1,0 +1,108 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package personnages{
+    abstract class Personnage <<abstract>>
+    {
+        - m_nom : String
+        - m_race : Race
+        - m_PV : Integer
+        - m_force : Integer
+        - m_dexterite : Integer
+        - m_vitesse : Integer
+        - m_initiative : Integer
+        - m_armure : Armure
+        - m_arme : Arme
+        - m_inventaire : Equipement[*]
+
+        ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*])
+        - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
+    }
+
+    enum Race <<enumeration>>
+    {
+        HUMAIN
+        NAIN
+        ELFE
+        HALFELIN
+    }
+
+    class Guerrier extends Personnage
+    {
+        + <<create>> Guerrier(nom : String, race : Race)
+        - {static} initInventaire() : Equipement[*]
+    }
+
+    class Clerc extends Personnage
+    {
+        + <<create>> Clerc(nom : String, race : Race)
+        - {static} initInventaire() : Equipement[*]
+    }
+
+    class Magicien extends Personnage
+    {
+        + <<create>> Magicien(nom : String, race : Race)
+        - {static} initInventaire() : Equipement[*]
+    }
+
+    class Roublard extends Personnage
+    {
+        + <<create>> Roublard(nom : String, race : Race)
+        - {static} initInventaire() : Equipement[*]
+    }
+}
+
+package equipement {
+    abstract class Equipement <<abstract>>
+    {
+        # m_nom : String
+        # m_type : String
+
+        ~ <<create>> Equipement(nom : String)
+    }
+
+    class Armure extends Equipement
+    {
+        - m_classe : Integer <<final>>
+
+        + <<create>> Armure(nom : String)
+    }
+
+    class Arme extends Equipement
+    {
+        - m_nbLancers : Integer <<final>>
+        - m_nbFaces : Integer <<final>>
+        - m_nbPortee : Integer <<final>>
+
+        + <<create>> Arme(nom : String, nbLancers : Integer, nbFaces : Integer, portee : Integer)
+    }
+}
+
+Personnage "*" o--> "1..*\n - m_race" Race : utilise
+Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède=
+
+
+    class Donjon {
+    - m_num : int
+    - m_nb_joueurs : int
+    - m_nb_montres : int
+    - m_longueur : int
+    - m_largeur : int
+    - m_cases : Hashtable<String, int[][]
+
+
+    +«Create» Donjon(num : int, joueurs : int, montres : int, longueur : int, largeurnom :int)
+    +«Create» Donjon(num : int, joueurs : int, montres : int)
+    +«Create» Donjon(num : int,joueurs : int, montres : int, longueur : int)
+
+    +nommerCases() : void
+    +remplirPlateau() : void
+    +ordreDeJeu() : void
+    +seDeplacer(perso : int) : void
+
+
+    }
+
+
+
+@enduml
