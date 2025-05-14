@@ -38,4 +38,12 @@ class PersonnageTest {
 
     }
 
+    @Test
+    void resetPV(){
+        Magicien mage = new Magicien("Halcyon", Race.ELFE);
+        mage.recevoirDegats(4);
+        mage.resetPV();
+        assertEquals(12, mage.getPV());
+    }
+
 }

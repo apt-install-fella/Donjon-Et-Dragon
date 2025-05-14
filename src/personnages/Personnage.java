@@ -77,6 +77,7 @@ public abstract class Personnage implements Entite{
     public void equiper(Arme arme){
         if(this.m_arme == null){
             m_arme = arme;
+            this.m_inventaire.remove(arme);
         }
         else{
             this.m_inventaire.add(m_arme);
@@ -86,7 +87,6 @@ public abstract class Personnage implements Entite{
             this.m_force -= m_arme.getAugmentationForce();
 
             m_arme = arme;
-            this.m_inventaire.remove(arme);
         }
         //Modifie la vitesse et la force si besoin
         this.m_vitesse -= arme.getDiminutionVitesse();
@@ -100,6 +100,7 @@ public abstract class Personnage implements Entite{
     public void equiper(Armure armure){
         if(this.m_armure == null){
             m_armure = armure;
+            this.m_inventaire.remove(armure);
         }
         else{
             this.m_inventaire.add(m_armure);
@@ -108,7 +109,6 @@ public abstract class Personnage implements Entite{
             this.m_vitesse += m_armure.getDiminutionVitesse();
 
             m_armure = armure;
-            this.m_inventaire.remove(armure);
         }
         //Modifie la vitesse si besoin
         this.m_vitesse -= armure.getDiminutionVitesse();
@@ -211,7 +211,10 @@ public abstract class Personnage implements Entite{
         return sb.toString();
     }
 
-    private String afficherEquipement(Arme arme){
+    /*
+        Servent lorsque de toStringDetails() --> affichage de l'arme ou armure équipée
+    */
+    private static String afficherEquipement(Arme arme){
         StringBuilder sb = new StringBuilder();
 
         if(arme != null){
@@ -223,7 +226,7 @@ public abstract class Personnage implements Entite{
         return sb.toString();
     }
 
-    private String afficherEquipement(Armure armure){
+    private static String afficherEquipement(Armure armure){
         StringBuilder sb = new StringBuilder();
 
         if(armure != null){
@@ -251,7 +254,10 @@ public abstract class Personnage implements Entite{
         this.m_inventaire.add(armure);
     }
 
-    private String afficherEquipement(Armure armure, int position){
+    /*
+        Servent lors de l'affichage de l'inventaire
+    */
+    private static String afficherEquipement(Armure armure, int position){
         StringBuilder sb = new StringBuilder();
         if(armure != null){
             sb.append("\t").append("[").append(position).append("] ").append(armure.toString());
@@ -260,7 +266,7 @@ public abstract class Personnage implements Entite{
         return sb.toString();
     }
 
-    private String afficherEquipement(Arme arme, int position){
+    private static String afficherEquipement(Arme arme, int position){
         StringBuilder sb = new StringBuilder();
         if(arme != null){
             sb.append("\t").append("[").append(position).append("] ").append(arme.toString());
@@ -289,9 +295,4 @@ public abstract class Personnage implements Entite{
 
         return sb.toString();
     }
-
-
-    /* TODO-LIST :
-        - Tests Monstre
-    */
 }
