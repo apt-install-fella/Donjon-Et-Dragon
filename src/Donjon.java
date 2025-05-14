@@ -1,141 +1,183 @@
+import personnages.Personnage;
+
+
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Hashtable;
-//il faut importer la classe perso et montres, pour le moment pour les tours
-//import Monstres;
-//import Joueurs;
-import personnages.*;
+import java.util.Map;
+import java.util.Random;
+import personnages.Monstre;
+import personnages.Entite;
 
 public class Donjon {
-
     private int m_num;
     private int m_longueur;
     private int m_largeur;
-    private int m_nb_joueurs;
-    private int m_nb_montres;
+    private Hashtable<Integer, Entite> m_entites;
     private Hashtable<String, int[]> m_cases;
 
-    public Donjon(int num,int joueurs, int montres, int longueur, int largeur) {
+    public Donjon(int num, int longueur, int largeur) {
         m_num = num;
-        m_nb_joueurs = joueurs;
-        m_nb_montres = montres;
         m_longueur = longueur;
         m_largeur = largeur;
-        m_cases = new Hashtable<>(longueur*largeur);
+        m_entites = new Hashtable<>();
+        m_cases = new Hashtable<>(longueur * largeur);
     }
 
-    public Donjon(int num, int joueurs, int montres) {
-        m_num = num;
-        m_nb_joueurs = joueurs;
-        m_nb_montres = montres;
-        m_longueur= (int)(Math.random() * (15 - 25 + 1)) + 15;
-        m_largeur=(int)(Math.random() * (15 - 25 + 1)) + 15;
-        m_cases = new Hashtable<>(m_longueur*m_largeur);
+    // Ajouter une entité (personnage ou monstre)
+    public void ajoutEntite(Entite e) {
+        int idEntite = m_entites.size() + 1;
+        m_entites.put(idEntite, e);
     }
 
-    public Donjon(int num, int joueurs, int montres, int longueur) {
-        m_num = num;
-        m_nb_joueurs = joueurs;
-        m_nb_montres = montres;
-        m_longueur= longueur;
-        m_largeur=(int)(Math.random() * (11)) + 15;  // entre 15 et 25
-        m_cases = new Hashtable<>(m_longueur*m_largeur); //dictionaire de cases
-    }
-
-    //methode qui nommerra toutes les cases du plateau
-    public void nommerCases() {
-           for (int i = 0; i < m_longueur; i++) {
-               for (int j = 0; j < m_largeur; j++) {
-                   char lettre = (char) ('A' + j); // parcours l'alphabet
-                   String nomCase = "" + lettre + i; // concatenation
-                   m_cases.put(nomCase, new int[]{0, 0}); //la ligne du dico a un nom et les tabs pour le moment rien dessus
-               }
-           }
-    }
-
-
-//on met les monstres, obstacles joueurs et equipements
-    public void remplirPlateau() {
-        int players = m_nb_joueurs+m_nb_montres;
-        int equip= (int) (Math.random() * (2));
-
-        for (int[] tableau : m_cases.values()) { //pour chaque tableau de notre dictionnaire
-            tableau[0]=(int)(Math.random() * (players + 1));
-            //un nombre entre 0 et le total des joueurs et monstres
-            if (equip == 1) { //si equipement est a 1 on met sur la case un type d'equipement
-                tableau[1] = tableau[0] = (int) (Math.random() *  6) + (players + 2); //entre le nombre de players +2, et players +7, donc 5 equipements
-            }
-            else { //si equip est a 0 on laisse la case vide
-                tableau[1] = 0;
-            }
-        }
-    }
-
+    // Ordre de jeu (en fonction des scores des dés)
     public void ordreDeJeu() {
-        ArrayList<int[]> tours = new ArrayList<>();
+        Random random = new Random();
+        Hashtable<Integer, Integer> scores = new Hashtable<>();
 
-        for (int i = 0; i < m_nb_joueurs + m_nb_montres; i++) {
-            int[] temp = new int[2];
-            temp[0] = i + 1; // joueur/monstre Id
-            temp[1] = (int) (Math.random() * 21); // jet random entre 0 et 20
-            tours.add(temp);
+        for (Map.Entry<Integer, Entite> entry : m_entites.entrySet()) {
+            int id = entry.getKey();
+            Entite e = entry.getValue();
+
+            int score = 1 + random.nextInt(20);
+            scores.put(id, score);
+
+            System.out.println(e.getNom() + " a obtenu : " + score);
         }
 
-        // Tri
-        for (int i = 0; i < tours.size(); i++) {
-            for (int j = 0; j < tours.size() - 1 - i; j++) {
-                if (tours.get(j)[1] < tours.get(j + 1)[1]) { //verif la case 1 du tab j et j+1
-                    int[] temp = tours.get(j);
-                    tours.set(j, tours.get(j + 1));
-                    tours.set(j + 1, temp);
+        ArrayList<Integer> ids = new ArrayList<>(m_entites.keySet());
+        ids.sort((id1, id2) -> Integer.compare(scores.get(id2), scores.get(id1)));
+
+        System.out.println("\nOrdre de jeu :");
+        for (int id : ids) {
+            System.out.println("- " + m_entites.get(id).getNom());
+        }
+    }
+
+    // Déplacement d'une entité
+    public void seDeplacer(int entitéID, String direction) {
+        Entite e = m_entites.get(entitéID);
+        if (e == null) {
+            System.out.println("Aucune entité avec cet ID.");
+            return;
+        }
+
+        for (Map.Entry<String, int[]> entry : m_cases.entrySet()) {
+            String nomCase = entry.getKey();
+            int[] valeurs = entry.getValue();
+
+            if (valeurs.length > 0 && valeurs[0] == entitéID) {
+                char lettre = nomCase.charAt(0); // colonne
+                int numero = Integer.parseInt(nomCase.substring(1)); // ligne
+
+                // Calcul direction
+                switch (direction.toLowerCase()) {
+                    case "haut": numero -= 1; break;
+                    case "bas": numero += 1; break;
+                    case "gauche": lettre -= 1; break;
+                    case "droite": lettre += 1; break;
+                    case "diagonale haut gauche": lettre -= 1; numero -= 1; break;
+                    case "diagonale haut droite": lettre += 1; numero -= 1; break;
+                    case "diagonale bas gauche": lettre -= 1; numero += 1; break;
+                    case "diagonale bas droite": lettre += 1; numero += 1; break;
+                    default:
+                        System.out.println("Direction invalide");
+                        return;
+                }
+
+                String nouvelleCase = "" + lettre + numero;
+
+                if (m_cases.containsKey(nouvelleCase)) {
+                    int[] destination = m_cases.get(nouvelleCase);
+                    if (destination.length == 0 || destination[0] == 0) {
+                        m_cases.put(nouvelleCase, valeurs); // déplacer
+                        m_cases.put(nomCase, new int[]{0}); // libérer l'ancienne case
+                        System.out.println(e.getNom() + " se déplace vers " + nouvelleCase);
+                    } else {
+                        System.out.println("Case occupée !");
+                    }
+                } else {
+                    System.out.println("Case inexistante !");
+                }
+
+                return;
+            }
+        }
+
+        System.out.println("Entité non trouvée dans le donjon.");
+    }
+
+    // Affichage du plateau
+    public void Affichage_plateau() {
+        char[][] plateau = new char[m_longueur][m_largeur];
+
+        // Initialiser le plateau avec des points (cases vides)
+        for (int i = 0; i < m_longueur; i++) {
+            for (int j = 0; j < m_largeur; j++) {
+                plateau[i][j] = '.'; // '.' représente une case vide
+            }
+        }
+
+        // Affichage des entités sur le plateau
+        for (Map.Entry<Integer, Entite> entry : m_entites.entrySet()) { //pour chaque perso/monstre
+            int id = entry.getKey();
+            Entite e = entry.getValue();
+
+            for (Map.Entry<String, int[]> caseEntry : m_cases.entrySet()) { //on parcours tout le plateau
+                String caseNom = caseEntry.getKey(); //le nom de la case A2
+                int[] caseValeurs = caseEntry.getValue(); //le tableau a deux cases de cette case
+
+                if (caseValeurs[0] == id) {//si la premiere case du tab a la meme valeur qur l'id
+                    int x = caseNom.charAt(0) - 'A'; // Calculer la colonne (en fonction du nom de la case)
+                    int y = Integer.parseInt(caseNom.substring(1)) - 1; // Calculer la ligne
+
+                    // Si c'est un personnage, on affiche son ID
+                    if (e instanceof Personnage) {
+                        plateau[y][x] = (char) ('0' + id); // Affichage de l'ID du personnage
+                    }
+                    // Si c'est un monstre, on affiche l'ID et un "M"
+                    else if (e instanceof Monstre) {
+                        plateau[y][x] = (char) ('0' + id); // Affichage de l'ID du monstre
+                        plateau[y][x]=+'M'; // Ajout d'un "M" pour indiquer que c'est un monstre
+                    }
                 }
             }
         }
 
+        // Gestion des obstacles et des équipements
+        for (int i = 0; i < m_longueur; i++) {
+            for (int j = 0; j < m_largeur; j++) { // Parcours de la grille
+                String caseNom = "" + (char) ('A' + j) + (i + 1); // Nom de la case
+                char currentChar = plateau[i][j]; // Valeur actuelle de la case
 
+                // Vérifier si l'ID dans la première position du tableau m_cases est supérieur à la taille de m_entites
+                if (m_cases.containsKey(caseNom)) {
+                    int[] caseValeurs = m_cases.get(caseNom);
 
-        //affichage des tours
-        //suprimable si marche mal
-        System.out.println("Lancement des des! qui pourra avancer en premier? *roulement de tambours*");
-        for (int[] player : tours) {
-            System.out.println("Joueur/Monstre " + player[0] + " a un score de : " + player[1]);
-        }
+                    // Si l'ID est supérieur à la taille de m_entites, afficher un obstacle (x)
+                    if (caseValeurs.length > 0 && caseValeurs[0] > m_entites.size()) {
+                        plateau[i][j] = 'x'; // Afficher un 'x' pour un obstacle
+                    }
 
-        System.out.println("L'ordre sera donc: ");
-        for (int[] player : tours) {
-            System.out.println("" + player[0]);
-        }
-
-    }
-
-    //toutes directions???????
-    public void seDeplacer(int perso, String direction) {
-        // int distance=perso.getVitesse() / 3;
-        int distance =3; //a retier quand on aura la vitesse de chaque perso
-        //bouger gauche droite charB +- 1
-        //bouger haut bas 2 +-1
-
-        //parcours toute cases du dico
-        for (Map.Entry<String, int[]> emplacement : m_cases.entrySet()) {
-            String nomCase = emplacement.getKey();      // nom de la case
-            int[] valeurs = emplacement.getValue();     // par exemple {0, 0}
-
-            if (valeurs[0] == perso) {
-                //recupere position exacte colonne et ligne
-                char lettre = nomCase.charAt(0);                    // Prend le 1er caractère
-                int numero = Integer.parseInt(nomCase.substring(1)); // prend tout sauf 1 caractere(le premier) et converti le rreste en int
-
-                int numHaut= numero - distance;
-                char lettreGauche = (char)(lettre - distance);
-                int numBas= numero + distance;
-                char lettreDroite = (char)(lettreGauche + distance);
-
-                //verification des differentes directions
-
-
+                    // Vérifier si le deuxième élément du tableau est différent de 0 (il y'a equipement)
+                    if (caseValeurs[1] != 0) {
+                        if (currentChar == '.') {
+                            plateau[i][j] = '*'; // Remplacer le point par un '*' si la case est occupée
+                        }
+                        else {
+                            plateau[i][j] = (char) (currentChar + '*'); // Ajouter '*' à ce qui existe déjà
+                        }
+                    }
+                }
             }
         }
+
+        // Affichage final du plateau
+        for (int i = 0; i < m_longueur; i++) {
+            for (int j = 0; j < m_largeur; j++) {
+                System.out.print(plateau[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
+
 }
-
-
