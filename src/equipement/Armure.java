@@ -54,5 +54,5 @@ public class Armure extends Equipement {
 
         return sb.toString();
     }
-    
+
 }

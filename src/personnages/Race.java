@@ -5,7 +5,6 @@ public enum Race {
     NAIN,
     ELFE,
     HALFELIN;
-<<<<<<< HEAD
 
     public String toString(){
         if (this == Race.HUMAIN) {
@@ -19,6 +18,4 @@ public enum Race {
         }
         return null;
     }
-=======
->>>>>>> master
 }
