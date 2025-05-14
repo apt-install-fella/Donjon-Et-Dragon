@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Roublard extends Personnage {
     public Roublard(String nom, Race race){
-        super(nom, race, 16, initInventaire());
+        super(nom, race, 16, initInventaire(), "Roublard");
     }
 
     private static ArrayList<Equipement> initInventaire(){

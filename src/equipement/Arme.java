@@ -1,51 +1,82 @@
 package equipement;
+import java.util.Random;
+
 
 public class Arme extends Equipement {
     private final int m_nbLancers;
     private final int m_nbFaces;
     private final int m_portee;
-    public Arme(String nom){
-        super(nom);
 
-        //Initialiser le type, la portée et le type/nombre de dés
+    public Arme(String nom){
+        super(nom, "Arme");
+
+        //Initialiser le type, la portée et le type/nombre de dés et les désaventages
         switch (nom){
             case "bâton": case "masse d'armes":
-                m_type = "courante au corps-à-corps";
+                this.m_type = "courante au corps-à-corps";
                 this.m_nbLancers = 1;
                 this.m_nbFaces = 6;
                 this.m_portee = 1;
+                this.m_diminutionVitesse = 0;
+                this.m_augmentationForce = 0;
                 break;
             case "épée longue": case "rapière":
                 m_type = "de guerre au corps-à-corps";
                 this.m_nbLancers = 1;
                 this.m_nbFaces = 8;
                 this.m_portee = 1;
+                this.m_diminutionVitesse = 2;
+                this.m_augmentationForce = 4;
                 break;
             case "arbalète légère":
                 this.m_nbLancers = 1;
                 this.m_nbFaces = 8;
                 this.m_portee = 16;
-                m_type = "à distance";
+                this.m_type = "à distance";
+                this.m_diminutionVitesse = 0;
+                this.m_augmentationForce = 0;
                 break;
             case "fronde":
                 this.m_nbLancers = 1;
                 this.m_nbFaces = 4;
                 this.m_portee = 6;
-                m_type = "à distance";
+                this.m_type = "à distance";
+                this.m_diminutionVitesse = 0;
+                this.m_augmentationForce = 0;
                 break;
             case "arc court":
                 this.m_nbLancers = 1;
                 this.m_nbFaces = 6;
                 this.m_portee = 16;
-                m_type = "à distance";
+                this.m_type = "à distance";
+                this.m_diminutionVitesse = 0;
+                this.m_augmentationForce = 0;
                 break;
             default:
                 this.m_nbLancers = 0;
                 this.m_nbFaces = 0;
                 this.m_portee = 0;
-                m_type = "Unknow";
+                this.m_type = "Unknow";
+                this.m_diminutionVitesse = 0;
+                this.m_augmentationForce = 0;
         }
     }
 
+     public int jetDes(){
+        Random random = new Random();
+        int somme = 0;
 
+        for(int i=0; i<m_nbLancers; i++){
+            somme += 1 + random.nextInt(m_nbFaces);
+        }
+
+        return somme;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.m_nom).append(" (dégâts : ").append(this.m_nbLancers).append("d").append(this.m_nbFaces).append(", portee : ").append(this.m_portee).append(")");
+
+        return sb.toString();
+    }
 }

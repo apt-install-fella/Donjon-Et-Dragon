@@ -4,15 +4,22 @@
 package personnages{
     interface Entite <<interface>>
     {
-        + recevoirDegats(degats : Integer) : Boolean
+        + recevoirDegats(degats : Integer)
         + estVivant() : Boolean
-        + attaquer(entite : Entite) : Boolean
+        + attaquer(Entite cible) : String
+        + getClasseArmure() : Integer
+        + getNom() : String
+        + getPV() : Integer
+        + toString() : String
+        + toStringDetails() : String
     }
 
     abstract class Personnage <<abstract>> implements Entite
     {
-        - m_nom : String
-        - m_race : Race
+        - m_nom : String <<final>>
+        - m_race : Race <<final>>
+        - m_classe : String <<final>>
+        - m_MAX_PV : Integer <<final>>
         - m_PV : Integer
         - m_force : Integer
         - m_dexterite : Integer
@@ -22,14 +29,22 @@ package personnages{
         - m_arme : Arme
         - m_inventaire : Equipement[*]
 
-        ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*])
+        ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*], classe : String)
         - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
         + equiper(arme : Arme)
         + equiper(armure : Armure)
         + recevoirDegats(degats : Integer)
         + estVivant() : Boolean
         + getDistance() : Integer
-        + attaquer(monstre : Entite) : Boolean
+        + attaquer(cible : Entite) : String
+        + getClasseArmure() : Integer
+        + getNom() : String
+        + getPV() : Integer
+        + toString() : String
+        + toStringDetails() : String
+        - afficherEquipement(Arme arme) : String
+        - afficherEquipement(Armure armure) : String
+        + resetPV()
 
     }
 
@@ -39,6 +54,8 @@ package personnages{
         NAIN
         ELFE
         HALFELIN
+
+        + toString() : String
     }
 
     class Guerrier extends Personnage
@@ -69,20 +86,28 @@ package personnages{
         {
             - m_id : Integer
             - m_espece : String
+            - m_MAX_PV : Integer <<final>>
             - m_PV : Integer
             - m_force : Integer
             - m_dexterite : Integer
             - m_classeArmure : Integer
             - m_initiative : Integer
+            - m_vitesse : Integer
             - m_porteeAttaque : Integer
             - m_nbLancers : Integer
             - m_nbFaces : Integer
 
-            + <<create>> Monstre(ID : Integer, espece : String, PV : Integer, porteeAttaque : Integer, classeArmure : Integer, initiative : Integer, force : Integer, dexterite : Integer, nbLancers : Integer, nbFaces : Integer)
-            ~ getClasseArmure() : Integer
+            + <<create>> Monstre(ID : Integer, espece : String, PV : Integer, porteeAttaque : Integer, classeArmure : Integer, initiative : Integer, vitesse : Integer, force : Integer, dexterite : Integer, nbLancers : Integer, nbFaces : Integer)
+            - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
+            - jetDesAttaque() : Integer
+            + getClasseArmure() : Integer
+            + getNom() : String
+            + getPV() : Integer
             + recevoirDegats(degats : Integer)
             + estVivant() : Boolean
-            + attaquer(personnage : Entite) : Boolean
+            + attaquer(cible : Entite) : String
+            + toString() : String
+            + toStringDetails() : String
         }
 }
 
@@ -90,14 +115,17 @@ package equipement {
     abstract class Equipement <<abstract>>
     {
         # m_nom : String
+        - m_classe : String
         # m_type : String
         # m_diminutionForce : Integer
         # m_augmentationForce : Integer
 
-        ~ <<create>> Equipement(nom : String)
+        ~ <<create>> Equipement(nom : String, classe : String)
         + getDiminutionVitesse() : Integer
         + getAugmentationForce() : Integer
         + getType() : String
+        + <<abstract>> toString() : String
+        + getClasse() : String
     }
 
     class Armure extends Equipement
@@ -105,6 +133,7 @@ package equipement {
         - m_classe : Integer <<final>>
 
         + <<create>> Armure(nom : String)
+        + toString() : String
     }
 
     class Arme extends Equipement
@@ -115,6 +144,8 @@ package equipement {
 
         + <<create>> Arme(nom : String, nbLancers : Integer, nbFaces : Integer, portee : Integer)
         + jetDes() : Integer
+        + toString() : String
+
     }
 
 }
