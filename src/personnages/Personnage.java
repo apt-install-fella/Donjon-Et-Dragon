@@ -197,18 +197,11 @@ public abstract class Personnage implements Entite{
         sb.append("\t").append("Vie : ").append(this.m_PV).append("/").append(this.m_MAX_PV).append("\n");
 
         //Ajout de l'équipement et inventaire
-        sb.append(afficherEquipement(this.m_armure));
-        sb.append(afficherEquipement(this.m_arme));
+        sb.append(afficherEquipement(this.m_armure)).append("\n");
+        sb.append(afficherEquipement(this.m_arme)).append("\n");
 
-        sb.append("\tInventaire :\n");
-        for(Equipement equipement : this.m_inventaire){
-            if(equipement.getClasse().equals("Armure")){
-                sb.append(afficherEquipement((Armure) equipement));
-            }
-            else{
-                sb.append(afficherEquipement((Arme) equipement));
-            }
-        }
+        sb.append("\t");
+        sb.append(afficherInventaire());
 
         //Ajout des caractéristiques
         sb.append("\t").append("Force : ").append(this.m_force).append("\n");
@@ -222,10 +215,10 @@ public abstract class Personnage implements Entite{
         StringBuilder sb = new StringBuilder();
 
         if(arme != null){
-            sb.append("\t").append("Arme : ").append(arme.toString()).append("\n");
+            sb.append("\t").append("Arme : ").append(arme.toString());
         }
         else{
-            sb.append("\t").append("Arme : aucune").append("\n");
+            sb.append("\t").append("Arme : aucune");
         }
         return sb.toString();
     }
@@ -234,10 +227,10 @@ public abstract class Personnage implements Entite{
         StringBuilder sb = new StringBuilder();
 
         if(armure != null){
-            sb.append("\t").append("Armure : ").append(armure.toString()).append("\n");
+            sb.append("\t").append("Armure : ").append(armure.toString());
         }
         else{
-            sb.append("\t").append("Armure : aucune").append("\n");
+            sb.append("\t").append("Armure : aucune");
         }
         return sb.toString();
     }
@@ -247,11 +240,58 @@ public abstract class Personnage implements Entite{
         this.m_PV = this.m_MAX_PV;
     }
 
+    /*
+    Ajout d'équipements dans l'inventaire (utilisées lorsque le personnage rammasse un équipement)
+    */
+    public void ajoutEquipement(Arme arme){
+        this.m_inventaire.add(arme);
+    }
+
+    public void ajoutEquipement(Armure armure){
+        this.m_inventaire.add(armure);
+    }
+
+    private String afficherEquipement(Armure armure, int position){
+        StringBuilder sb = new StringBuilder();
+        if(armure != null){
+            sb.append("\t").append("[").append(position).append("] ").append(armure.toString());
+        }
+
+        return sb.toString();
+    }
+
+    private String afficherEquipement(Arme arme, int position){
+        StringBuilder sb = new StringBuilder();
+        if(arme != null){
+            sb.append("\t").append("[").append(position).append("] ").append(arme.toString());
+        }
+
+        return sb.toString();
+    }
+
+
+    public String afficherInventaire(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Inventaire : \n");
+
+        for(int i=0; i<this.m_inventaire.size(); i++){
+            Equipement equipement = this.m_inventaire.get(i);
+
+            if(equipement.getClasse().equals("Armure")){
+                sb.append(afficherEquipement((Armure) equipement, i+1));
+            }
+            else{
+                sb.append(afficherEquipement((Arme) equipement, i+1));
+            }
+
+        }
+        sb.append("\n");
+
+        return sb.toString();
+    }
+
 
     /* TODO-LIST :
-        - Tests Personnages
         - Tests Monstre
-        - ajout Equipement dans l'inventaire
-        - afficher inventaire
     */
 }

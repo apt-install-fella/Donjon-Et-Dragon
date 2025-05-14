@@ -42,9 +42,14 @@ package personnages{
         + getPV() : Integer
         + toString() : String
         + toStringDetails() : String
-        - afficherEquipement(Arme arme) : String
-        - afficherEquipement(Armure armure) : String
+        - afficherEquipement(arme : Arme) : String
+        - afficherEquipement(armure : Armure) : String
         + resetPV()
+        + ajoutEquipement(arme : Arme)
+        + ajoutEquipement(armure : Armure)
+        - afficherEquipement(armure : Armure, position : Integer) : String
+        - afficherEquipement(arme : Arme, position : Integer) : String
+        + afficherInventaire() : String
 
     }
 
