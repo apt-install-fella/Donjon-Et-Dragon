@@ -82,7 +82,7 @@ Personnage "*" o--> "1..*\n - m_race" Race : utilise
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède=
 
 
- class Donjon {
+    class Donjon {
     - m_num : int
     - m_nb_joueurs : int
     - m_nb_montres : int

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Magicien extends Personnage {
     public Magicien(String nom, Race race){
-        super(nom, race, 12, initInventaire());
+        super(nom, race, 12, initInventaire(), "Magicien");
     }
 
     private static ArrayList<Equipement> initInventaire(){

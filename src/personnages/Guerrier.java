@@ -7,8 +7,7 @@ import java.util.ArrayList;
 public class Guerrier extends Personnage {
 
     public Guerrier(String nom, Race race){
-        super(nom, race, 20, initInventaire());
-
+        super(nom, race, 20, initInventaire(), "Guerrier");
     }
 
     private static ArrayList<Equipement> initInventaire(){

@@ -4,7 +4,7 @@ public class Armure extends Equipement {
     private final int m_classe;
 
     public Armure(String nom){
-        super(nom);
+        super(nom, "Armure");
 
         //Determiner la classe de l'armure
         switch (nom){
@@ -28,13 +28,31 @@ public class Armure extends Equipement {
         switch(nom){
             case "armure d'écailles": case "demi-plate":
                 this.m_type = "légère";
+                this.m_diminutionVitesse = 0;
+                this.m_augmentationForce = 0;
                 break;
             case "cotte de mailles": case "harnois":
                 this.m_type = "lourde";
+                this.m_diminutionVitesse = 4;
+                this.m_augmentationForce = 0;
                 break;
             default:
                 this.m_type = "Unknow";
+                this.m_diminutionVitesse = 0;
+                this.m_augmentationForce = 0;
         }
+    }
+
+    public int getClasseArmure(){
+        return this.m_classe;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.m_nom).append(" (classe d'armure : ").append(this.m_classe).append(")");
+
+        return sb.toString();
     }
 
 }
