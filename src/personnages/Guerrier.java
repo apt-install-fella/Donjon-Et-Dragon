@@ -7,7 +7,11 @@ import java.util.ArrayList;
 public class Guerrier extends Personnage {
 
     public Guerrier(String nom, Race race){
+<<<<<<< HEAD
         super(nom, race, 20, initInventaire(), "Guerrier");
+=======
+        super(nom, race, 20, initInventaire());
+>>>>>>> master
 
     }
 

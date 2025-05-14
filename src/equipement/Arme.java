@@ -1,6 +1,6 @@
 package equipement;
-
 import java.util.Random;
+
 
 public class Arme extends Equipement {
     private final int m_nbLancers;
@@ -73,12 +73,10 @@ public class Arme extends Equipement {
         return somme;
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.m_nom).append(" (dégâts : ").append(this.m_nbLancers).append("d").append(this.m_nbFaces).append(", portee : ").append(this.m_portee).append(")");
 
         return sb.toString();
     }
-
-
 }

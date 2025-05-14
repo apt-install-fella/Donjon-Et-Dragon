@@ -1,7 +1,6 @@
 package personnages;
 
 import equipement.*;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -248,7 +247,6 @@ public abstract class Personnage implements Entite{
         this.m_PV = this.m_MAX_PV;
     }
 
-    
 
     /* TODO-LIST :
         - Tests Personnages

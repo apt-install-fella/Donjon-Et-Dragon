@@ -6,7 +6,11 @@ import java.util.ArrayList;
 
 public class Clerc extends Personnage {
     public Clerc(String nom, Race race){
+<<<<<<< HEAD
         super(nom, race, 16, initInventaire(), "Clerc");
+=======
+        super(nom, race, 16, initInventaire());
+>>>>>>> master
     }
 
     private static ArrayList<Equipement> initInventaire(){

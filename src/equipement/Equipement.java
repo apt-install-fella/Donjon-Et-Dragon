@@ -28,5 +28,4 @@ public abstract class Equipement {
 
     @Override
     public abstract String toString();
-
 }

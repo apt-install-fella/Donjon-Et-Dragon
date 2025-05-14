@@ -30,6 +30,7 @@ package personnages{
         + estVivant() : Boolean
         + getDistance() : Integer
         + attaquer(monstre : Entite) : Boolean
+
     }
 
     enum Race <<enumeration>>
