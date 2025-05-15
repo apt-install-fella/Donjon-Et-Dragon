@@ -128,6 +128,11 @@ public abstract class Personnage implements Entite{
         return this.m_vitesse / 3;
     }
 
+    @Override
+    public int getInitiative(){
+        return this.m_initiative;
+    }
+
     /* PRECONDITION :
     L'entite doit être à portée d'attaque
     Le joueur doit avoir équipé une arme

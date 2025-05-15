@@ -12,6 +12,7 @@ package personnages{
         + getPV() : Integer
         + toString() : String
         + toStringDetails() : String
+        + getInitiative() : Integer
     }
 
     abstract class Personnage <<abstract>> implements Entite
@@ -37,6 +38,7 @@ package personnages{
         + recevoirDegats(degats : Integer)
         + estVivant() : Boolean
         + getDistance() : Integer
+        + getInitiative() : Integer
         + attaquer(cible : Entite) : String
         + getClasseArmure() : Integer
         + getPV() : Integer
@@ -110,6 +112,7 @@ package personnages{
             + recevoirDegats(degats : Integer)
             + estVivant() : Boolean
             + getPV() : Integer
+            + getInitiative() : Integer
             + attaquer(cible : Entite) : String
             + toString() : String
             + toStringDetails() : String
