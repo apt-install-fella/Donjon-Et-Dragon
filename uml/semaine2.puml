@@ -13,15 +13,15 @@ class Main
 package personnages{
     interface Entite <<interface>>
     {
-        + recevoirDegats(degats : Integer)
-        + estVivant() : Boolean
-        + attaquer(Entite cible) : String
-        + getClasseArmure() : Integer
-        + getNom() : String
-        + getPV() : Integer
-        + toString() : String
-        + toStringDetails() : String
-        + getInitiative() : Integer
+        + {abstract} recevoirDegats(degats : Integer)
+        + {abstract} estVivant() : Boolean
+        + {abstract} attaquer(Entite cible) : String
+        + {abstract} getClasseArmure() : Integer
+        + {abstract} getNom() : String
+        + {abstract} getPV() : Integer
+        + {abstract} toString() : String
+        + {abstract} toStringDetails() : String
+        + {abstract} getInitiative() : Integer
     }
 
     abstract class Personnage <<abstract>> implements Entite
@@ -99,33 +99,33 @@ package personnages{
     }
 
     class Monstre implements Entite
-        {
-            - m_id : Integer <<final>>
-            - m_espece : String <<final>>
-            - m_MAX_PV : Integer <<final>>
-            - m_PV : Integer
-            - m_force : Integer
-            - m_dexterite : Integer
-            - m_classeArmure : Integer
-            - m_initiative : Integer
-            - m_vitesse : Integer
-            - m_porteeAttaque : Integer <<final>>
-            - m_nbLancers : Integer <<final>>
-            - m_nbFaces : Integer <<final>>
+    {
+        - m_id : Integer <<final>>
+        - m_espece : String <<final>>
+        - m_MAX_PV : Integer <<final>>
+        - m_PV : Integer
+        - m_force : Integer
+        - m_dexterite : Integer
+        - m_classeArmure : Integer
+        - m_initiative : Integer
+        - m_vitesse : Integer
+        - m_porteeAttaque : Integer <<final>>
+        - m_nbLancers : Integer <<final>>
+        - m_nbFaces : Integer <<final>>
 
-            + <<create>> Monstre(ID : Integer, espece : String, PV : Integer, porteeAttaque : Integer, classeArmure : Integer, initiative : Integer, vitesse : Integer, force : Integer, dexterite : Integer, nbLancers : Integer, nbFaces : Integer)
-            - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
-            - jetDesAttaque() : Integer
-            + getNom() : String
-            + getClasseArmure() : Integer
-            + recevoirDegats(degats : Integer)
-            + estVivant() : Boolean
-            + getPV() : Integer
-            + getInitiative() : Integer
-            + attaquer(cible : Entite) : String
-            + toString() : String
-            + toStringDetails() : String
-        }
+        + <<create>> Monstre(ID : Integer, espece : String, PV : Integer, porteeAttaque : Integer, classeArmure : Integer, initiative : Integer, vitesse : Integer, force : Integer, dexterite : Integer, nbLancers : Integer, nbFaces : Integer)
+        - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
+        - jetDesAttaque() : Integer
+        + getNom() : String
+        + getClasseArmure() : Integer
+        + recevoirDegats(degats : Integer)
+        + estVivant() : Boolean
+        + getPV() : Integer
+        + getInitiative() : Integer
+        + attaquer(cible : Entite) : String
+        + toString() : String
+        + toStringDetails() : String
+    }
 }
 
 package equipement {
@@ -142,7 +142,7 @@ package equipement {
         + getAugmentationForce() : Integer
         + getType() : String
         + getClasse() : String
-        + <<abstract>> toString() : String
+        + {abstract} toString() : String
     }
 
     class Armure extends Equipement

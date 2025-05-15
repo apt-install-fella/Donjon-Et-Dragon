@@ -125,7 +125,8 @@ public class Main {
 
         System.out.println(id-1 + " personnages créé(s) avec succès !");
 
-        //Création des monstres                                            FAIRE ID MONSTRE EN FONCTION DE L'ESPECE
+        //Création des monstres
+        // FAIRE ID MONSTRE EN FONCTION DE L'ESPECE
         System.out.println();
         System.out.println("Maître du jeu, à votre tour. Créez les monstres qui terrifieront les joueurs !");
         id = 1;
