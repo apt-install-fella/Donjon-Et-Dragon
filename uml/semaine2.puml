@@ -1,5 +1,14 @@
 @startuml
 'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam style strictuml
+hide empty members
+
+class Main
+{
+    + {static} main( args:String[*] )
+}
 
 package personnages{
     interface Entite <<interface>>
@@ -163,6 +172,17 @@ Personnage "*" o--> "1\n - m_race" Race : est
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède
 Personnage "1" *--> "1\n - m_arme" Arme : équipe
 Personnage "1" *--> "1\n - m_armure" Armure : équipe
+
+Donjon "1" *--> "1\n -m_entite" Entite : contient
+Donjon ..> Equipement : <<uses>>
+
+Main ..> Clerc : <<instanciate>>
+Main ..> Guerrier : <<instanciate>>
+Main ..> Magicien : <<instanciate>>
+Main ..> Roublard : <<instanciate>>
+Main ..> Monstre : <<instanciate>>
+Main ..> Donjon : <<instanciate>>
+
 
 class Donjon {
     - m_num : int
