@@ -1,5 +1,6 @@
 import equipement.Arme;
 import equipement.Armure;
+
 import personnages.*;
 
 import java.util.Scanner;
@@ -7,6 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         Scanner scan  = new Scanner(System.in);
+
         System.out.println("Bienvenue dans DOOnjon et Dragons");
         Donjon donjon;
 
@@ -109,9 +111,7 @@ public class Main {
         }
 
 
-            /// ////////////////////////////////////////
-            /// ////////////////////////////////////////
-            /// ////////////////////////////////////////
+
             //Création des personnages
             System.out.println("Création des personnages, à vous de jouer, joueurs !");
 
