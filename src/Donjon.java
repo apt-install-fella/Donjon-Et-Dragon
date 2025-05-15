@@ -48,6 +48,7 @@ public class Donjon {
     }
 
     public Hashtable<Integer, Entite> getEntites() {
+        ;
         return m_entites;
     }
 
@@ -66,8 +67,11 @@ public class Donjon {
 
 
 
-    public Hashtable<String, int[]> getCases() {
-        return m_cases;
+    public void getCases() {
+        for (Map.Entry<Integer, Entite> entry : m_entites.entrySet()) {
+            System.out.println(entry.getValue().getNom());
+            System.out.println("--> "+entry.getKey()+"\n");
+        }
     }
 
 
@@ -257,6 +261,12 @@ public class Donjon {
 
     public void Affichage_deplacement(int entiteID, String direction) {
         System.out.println(seDeplacer(entiteID, direction));
+    }
+
+    public void Affichage_tours() {
+        Affichage_plateau();
+        System.out.println("les monstres sont suivis d'un M|| les equipements sont représentés par des *\n\n");
+        getEntites();
     }
 
 
