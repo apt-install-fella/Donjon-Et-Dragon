@@ -170,17 +170,29 @@ class Donjon {
     - m_nb_montres : int
     - m_longueur : int
     - m_largeur : int
-    - m_cases : Hashtable<String, int[][]
+    - m_cases : Hashtable<String, int[][]>
+    - entites : Hashtable<int, Entite>
+
+
 
 
     +«Create» Donjon(num : int, joueurs : int, montres : int, longueur : int, largeurnom :int)
     +«Create» Donjon(num : int, joueurs : int, montres : int)
     +«Create» Donjon(num : int,joueurs : int, montres : int, longueur : int)
 
+    +ajoutEntite(Entite e) : void
+    +ordreDeJeu() : StringBuilder
     +nommerCases() : void
     +remplirPlateau() : void
-    +ordreDeJeu() : void
-    +seDeplacer(perso : int) : void
+    +seDeplacer(entiteID : int, direction : String) : String
+    +Affichage_plateau() : void
+    +Affichage_ordre() : void
+    +Affichage_deplacement(entiteID : int, direction : String) : void
+
+
+
+
+
 
 }
 
