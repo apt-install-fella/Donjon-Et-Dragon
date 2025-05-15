@@ -50,7 +50,7 @@ class DonjonTest {
 
         Entite p1 = new Guerrier("Fella", Race.NAIN);
         Entite p2 = new Clerc("Elora", Race.NAIN);
-        Entite p3 =new Monstre(1,"Dragon",20,24,6,9,45,87,34,3,6);
+        Entite p3 =new Monstre(3,"Dragon",20,24,6,9,45,87,34,3,6);
         donjon.ajoutEntite(p1);
         donjon.ajoutEntite(p2);
         donjon.ajoutEntite(p3);
