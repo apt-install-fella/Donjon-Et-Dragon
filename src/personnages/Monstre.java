@@ -3,8 +3,8 @@ package personnages;
 import java.util.Random;
 
 public class Monstre implements Entite {
-    private int m_id;
-    private String m_espece;
+    private final int m_id;
+    private final String m_espece;
     private final int m_MAX_PV;
     private int m_PV;
     private int m_force;
@@ -12,9 +12,9 @@ public class Monstre implements Entite {
     private int m_classeArmure;
     private int m_initiative;
     private int m_vitesse;
-    private int m_porteeAttaque;
-    private int m_nbLancers;
-    private int m_nbFaces;
+    private final int m_porteeAttaque;
+    private final int m_nbLancers;
+    private final int m_nbFaces;
 
     public Monstre(int ID, String espece, int PV, int porteeAttaque, int classeArmure, int initiative, int vitesse, int force, int dexterite, int nbLancers, int nbFaces){
         this.m_id = ID;
@@ -128,7 +128,7 @@ public class Monstre implements Entite {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getNom()).append(" (").append(this.m_PV).append("/").append(this.m_MAX_PV).append(")");
+        sb.append(this.getNom()).append(" (").append(this.m_PV).append("/").append(this.m_MAX_PV).append(")\n");
         return sb.toString();
     }
 

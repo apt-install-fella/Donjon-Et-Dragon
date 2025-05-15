@@ -12,6 +12,9 @@ public abstract class Equipement {
         this.m_classe = classe;
     }
 
+    /*
+        Retourne un entier positif
+    */
     public int getDiminutionVitesse(){
         return m_diminutionVitesse;
     }

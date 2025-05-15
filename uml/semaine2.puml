@@ -31,6 +31,7 @@ package personnages{
 
         ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*], classe : String)
         - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
+        + getNom() : String
         + equiper(arme : Arme)
         + equiper(armure : Armure)
         + recevoirDegats(degats : Integer)
@@ -38,13 +39,17 @@ package personnages{
         + getDistance() : Integer
         + attaquer(cible : Entite) : String
         + getClasseArmure() : Integer
-        + getNom() : String
         + getPV() : Integer
         + toString() : String
         + toStringDetails() : String
-        - afficherEquipement(Arme arme) : String
-        - afficherEquipement(Armure armure) : String
+        - {static} afficherEquipement(arme : Arme) : String
+        - {static} afficherEquipement(armure : Armure) : String
         + resetPV()
+        + ajoutEquipement(arme : Arme)
+        + ajoutEquipement(armure : Armure)
+        - {static} afficherEquipement(armure : Armure, position : Integer) : String
+        - {static} afficherEquipement(arme : Arme, position : Integer) : String
+        + afficherInventaire() : String
 
     }
 
@@ -84,8 +89,8 @@ package personnages{
 
     class Monstre implements Entite
         {
-            - m_id : Integer
-            - m_espece : String
+            - m_id : Integer <<final>>
+            - m_espece : String <<final>>
             - m_MAX_PV : Integer <<final>>
             - m_PV : Integer
             - m_force : Integer
@@ -93,18 +98,18 @@ package personnages{
             - m_classeArmure : Integer
             - m_initiative : Integer
             - m_vitesse : Integer
-            - m_porteeAttaque : Integer
-            - m_nbLancers : Integer
-            - m_nbFaces : Integer
+            - m_porteeAttaque : Integer <<final>>
+            - m_nbLancers : Integer <<final>>
+            - m_nbFaces : Integer <<final>>
 
             + <<create>> Monstre(ID : Integer, espece : String, PV : Integer, porteeAttaque : Integer, classeArmure : Integer, initiative : Integer, vitesse : Integer, force : Integer, dexterite : Integer, nbLancers : Integer, nbFaces : Integer)
             - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
             - jetDesAttaque() : Integer
-            + getClasseArmure() : Integer
             + getNom() : String
-            + getPV() : Integer
+            + getClasseArmure() : Integer
             + recevoirDegats(degats : Integer)
             + estVivant() : Boolean
+            + getPV() : Integer
             + attaquer(cible : Entite) : String
             + toString() : String
             + toStringDetails() : String
@@ -124,8 +129,8 @@ package equipement {
         + getDiminutionVitesse() : Integer
         + getAugmentationForce() : Integer
         + getType() : String
-        + <<abstract>> toString() : String
         + getClasse() : String
+        + <<abstract>> toString() : String
     }
 
     class Armure extends Equipement
@@ -133,6 +138,7 @@ package equipement {
         - m_classe : Integer <<final>>
 
         + <<create>> Armure(nom : String)
+        + getClasseArmure() : Integer
         + toString() : String
     }
 
@@ -142,7 +148,7 @@ package equipement {
         - m_nbFaces : Integer <<final>>
         - m_nbPortee : Integer <<final>>
 
-        + <<create>> Arme(nom : String, nbLancers : Integer, nbFaces : Integer, portee : Integer)
+        + <<create>> Arme(nom : String)
         + jetDes() : Integer
         + toString() : String
 
@@ -150,8 +156,10 @@ package equipement {
 
 }
 
-Personnage "*" o--> "1..*\n - m_race" Race : est
+Personnage "*" o--> "1\n - m_race" Race : est
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède
+Personnage "1" *--> "1\n - m_arme" Arme : équipe
+Personnage "1" *--> "1\n - m_armure" Armure : équipe
 
 class Donjon {
     - m_num : int
