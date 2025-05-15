@@ -13,6 +13,7 @@ package personnages{
         + toString() : String
         + toStringDetails() : String
         + getInitiative() : Integer
+        + getDistance() : Integer
     }
 
     abstract class Personnage <<abstract>> implements Entite
@@ -113,6 +114,7 @@ package personnages{
             + estVivant() : Boolean
             + getPV() : Integer
             + getInitiative() : Integer
+            + getDistance() : Integer
             + attaquer(cible : Entite) : String
             + toString() : String
             + toStringDetails() : String
@@ -182,7 +184,7 @@ class Donjon {
 
     +ajoutEntite(Entite e) : void
     +ordreDeJeu() : StringBuilder
-    +nommerCases() : void
+    -nommerCases() : void
     +remplirPlateau() : void
     +seDeplacer(entiteID : int, direction : String) : String
     +Affichage_plateau() : void

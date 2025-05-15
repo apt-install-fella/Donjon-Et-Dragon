@@ -10,4 +10,6 @@ public interface Entite {
     String toString();
     String toStringDetails();
     int getInitiative();
+    int getDistance();
 }
+
