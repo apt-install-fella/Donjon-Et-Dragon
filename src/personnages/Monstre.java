@@ -83,6 +83,11 @@ public class Monstre implements Entite {
     @Override
     public int getPV() {return this.m_PV;}
 
+    @Override
+    public int getInitiative(){
+        return this.m_initiative;
+    }
+
     /* PRECONDITION :
     L'entite doit être à portée d'attaque
     ------

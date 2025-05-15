@@ -9,4 +9,5 @@ public interface Entite {
     int getPV();
     String toString();
     String toStringDetails();
+    int getInitiative();
 }
