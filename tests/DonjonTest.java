@@ -89,16 +89,15 @@ class DonjonTest {
         donjon.ajoutPersonnage(p1);
         donjon.ajoutPersonnage(p2);
         donjon.ajoutMonstre(p3);
-/*
-        donjon.getCases().put("A5", new int[]{1, 0});
-        donjon.getCases().put("B4", new int[]{2, 1}); //2eme case tab pleine, donc equipement
-        donjon.getCases().put("D4", new int[]{3, 0});
-        donjon.getCases().put("J2", new int[]{3, 6});
-        donjon.getCases().put("E5", new int[]{4, 0}); //plus que le nombre d'id, donc ca sera un obstacle
 
-       donjon.Affichage_plateau();
+        donjon.positionner(p1, "B3");
+        donjon.positionner(p2, "D5");
+        donjon.positionner(p3, "F2");
 
- */
+
+        donjon.Affichage_plateau();
+
+
     }
 
     @Test
@@ -111,5 +110,6 @@ class DonjonTest {
         donjon.ajoutPersonnage(p1);
         donjon.ajoutPersonnage(p2);
         donjon.ajoutMonstre(p3);
+
     }
 }
