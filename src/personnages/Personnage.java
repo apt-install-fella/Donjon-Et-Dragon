@@ -36,7 +36,6 @@ public abstract class Personnage implements Entite{
 
         switch(m_race){
             case HUMAIN:
-                m_PV += 2;
                 m_force += 2;
                 m_dexterite += 2;
                 m_vitesse += 2;
