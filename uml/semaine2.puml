@@ -142,6 +142,7 @@ package equipement {
         + getAugmentationForce() : Integer
         + getType() : String
         + getClasse() : String
+        + getNom() : String
         + {abstract} toString() : String
     }
 

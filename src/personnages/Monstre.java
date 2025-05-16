@@ -88,6 +88,12 @@ public class Monstre implements Entite {
         return this.m_initiative;
     }
 
+    @Override
+    public int getDistance(){
+        return this.m_vitesse / 3;
+    }
+
+
     /* PRECONDITION :
     L'entite doit être à portée d'attaque
     ------

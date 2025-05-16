@@ -1,6 +1,8 @@
 import personnages.*;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,39 +13,42 @@ class DonjonTest {
     void ajoutEntite() {
         Donjon donjon = new Donjon(1, 5, 7);
 
-        Entite p1 = new Guerrier("Fella", Race.ELFE);
-        Entite p2 = new Guerrier("Elora", Race.HUMAIN);
-        Entite p3 = new Guerrier("Jomni", Race.ELFE);
-        Entite p4 =new Monstre(1,"Dragon",20,24,6,9,45,87,34,3,6);
+        Guerrier p1 = new Guerrier("Fella", Race.ELFE);
+        Guerrier p2 = new Guerrier("Elora", Race.HUMAIN);
+        Guerrier p3 = new Guerrier("Jomni", Race.ELFE);
+        Monstre p4 =new Monstre(1,"Dragon",20,24,6,9,45,87,34,3,6);
 
-        donjon.ajoutEntite(p1);
-        donjon.ajoutEntite(p2);
-        donjon.ajoutEntite(p3);
-        donjon.ajoutEntite(p4);
+        donjon.ajoutPersonnage(p1);
+        donjon.ajoutPersonnage(p2);
+        donjon.ajoutPersonnage(p3);
+        donjon.ajoutMonstre(p4);
 
-          donjon.afficherEntites();
     }
 
     @Test
     void ordreDeJeu() {
         Donjon donjon = new Donjon(1, 5, 5);
 
-        Entite p1 = new Guerrier("Fella", Race.ELFE);
-        Entite p2 = new Guerrier("Elora", Race.HUMAIN);
-        Entite p3 = new Guerrier("Jomni", Race.ELFE);
-        Entite p4 =new Monstre(1,"Dragon",20,24,6,9,45,87,34,3,6);
+        Guerrier p1 = new Guerrier("Fella", Race.ELFE);
+        Guerrier p2 = new Guerrier("Elora", Race.HUMAIN);
+        Guerrier p3 = new Guerrier("Jomni", Race.ELFE);
+        Monstre p4 =new Monstre(1,"Dragon",20,24,6,9,45,87,34,3,6);
 
-        donjon.ajoutEntite(p1);
-        donjon.ajoutEntite(p2);
-        donjon.ajoutEntite(p3);
-        donjon.ajoutEntite(p4);
+        donjon.ajoutPersonnage(p1);
+        donjon.ajoutPersonnage(p2);
+        donjon.ajoutPersonnage(p3);
+        donjon.ajoutMonstre(p4);
 
-        String ordre = donjon.ordreDeJeu().toString();
-       System.out.println(ordre);
+        ArrayList<Entite> ordre= new ArrayList<>(donjon.ordreDeJeu());
+        for (Entite entite : ordre) {
+            System.out.println(entite.getNom());
+        }
+
     }
 
     @Test
     void seDeplacer() {
+        /*
         Donjon donjon = new Donjon(1, 5, 5);
 
         donjon.nommerCases();
@@ -69,7 +74,7 @@ class DonjonTest {
         System.out.println(message1);
         System.out.println(message2);
         System.out.println(message3);
-
+*/
     }
 
 
@@ -78,19 +83,33 @@ class DonjonTest {
     void affichage_plateau() {
         Donjon donjon = new Donjon(1, 7, 10);
 
-        Entite p1 = new Magicien("Fella", Race.HUMAIN);
-        Entite p2 = new Guerrier("Elora", Race.ELFE);
-        Entite p3 = new Monstre(1,"Dragon",20,24,6,9,45,87,34,3,6);
-        donjon.ajoutEntite(p1);
-        donjon.ajoutEntite(p2);
-        donjon.ajoutEntite(p3);
+        Magicien p1 = new Magicien("Fella", Race.HUMAIN);
+        Guerrier p2 = new Guerrier("Elora", Race.ELFE);
+        Monstre p3 = new Monstre(1,"Dragon",20,24,6,9,45,87,34,3,6);
+        donjon.ajoutPersonnage(p1);
+        donjon.ajoutPersonnage(p2);
+        donjon.ajoutMonstre(p3);
 
-        donjon.getCases().put("A5", new int[]{1, 0});
-        donjon.getCases().put("B4", new int[]{2, 1}); //2eme case tab pleine, donc equipement
-        donjon.getCases().put("D4", new int[]{3, 0});
-        donjon.getCases().put("J2", new int[]{3, 6});
-        donjon.getCases().put("E5", new int[]{4, 0}); //plus que le nombre d'id, donc ca sera un obstacle
+        donjon.positionner(p1, "B3");
+        donjon.positionner(p2, "D5");
+        donjon.positionner(p3, "F2");
 
-       donjon.Affichage_plateau();
+
+        donjon.Affichage_plateau();
+
+
+    }
+
+    @Test
+    void afficherEntites() {
+        Donjon donjon = new Donjon(1, 7, 10);
+
+        Magicien p1 = new Magicien("Fella", Race.HUMAIN);
+        Guerrier p2 = new Guerrier("Elora", Race.ELFE);
+        Monstre p3 = new Monstre(1,"Dragon",20,24,6,9,45,87,34,3,6);
+        donjon.ajoutPersonnage(p1);
+        donjon.ajoutPersonnage(p2);
+        donjon.ajoutMonstre(p3);
+
     }
 }

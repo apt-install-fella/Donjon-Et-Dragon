@@ -29,6 +29,8 @@ public abstract class Equipement {
 
     public String getClasse(){return m_classe;}
 
+    public String getNom(){return m_nom;}
+
     @Override
     public abstract String toString();
 }
