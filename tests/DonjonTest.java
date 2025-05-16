@@ -1,11 +1,7 @@
 import personnages.*;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DonjonTest {
 
@@ -80,7 +76,7 @@ class DonjonTest {
 
 
     @Test
-    void affichage_plateau() {
+    void affichagePlateau() {
         Donjon donjon = new Donjon(1, 7, 10);
 
         Magicien p1 = new Magicien("Fella", Race.HUMAIN);
@@ -95,7 +91,7 @@ class DonjonTest {
         donjon.positionner(p3, "F2");
 
 
-        donjon.Affichage_plateau();
+        donjon.affichagePlateau();
 
 
     }

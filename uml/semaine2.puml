@@ -169,6 +169,45 @@ package equipement {
 
 }
 
+
+
+class Donjon {
+    - m_num : int
+    - m_nb_montres : int
+    - m_nb_personnages : int
+    - m_longueur : int
+    - m_largeur : int
+    - m_entites : Hashtable<Integer, Entite>
+    - m_cases : Hashtable<String, int[][]>
+
+
+    +«Create» Donjon(num : int, longueur : int, largeur : int)
+    +«Create» Donjon(num : int)
+
+    -initDonjon1() : void
+    -initDonjon2() : void
+    -initDonjon3() : void
+    +ajoutPersonnage(e : Personnage) : void
+    +ajoutMonstre(e : Monstre) : void
+    +ajoutObstacle(position : String) : boolean
+    +ajoutEquipement(equip: Equipement, position : String) : String
+    +getNomEquipementParId(id : int) : String
+    +positionner(e : entite, position : String) : String
+    +seDeplacer(entiteID : int, direction : String) : String
+    +finDonjon(perso : Personnage) : String
+    +affichage_plateau() : void
+    +affichage_ordre() : void
+    +tours() : void
+    -getId(entite : Entite) : int
+    -existeCase(position : String) : boolean
+    -afficherIdEntite() : void
+    -getNombreEntites() : int
+    -nommerCases() : void
+    -ordreDeJeu() : ArrayList<Entite>
+
+}
+
+
 Personnage "*" o--> "1\n - m_race" Race : est
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède
 Personnage "1" *--> "1\n - m_arme" Arme : équipe
@@ -185,37 +224,6 @@ Main ..> Monstre : <<instanciate>>
 Main ..> Donjon : <<instanciate>>
 
 
-class Donjon {
-    - m_num : int
-    - m_nb_joueurs : int
-    - m_nb_montres : int
-    - m_longueur : int
-    - m_largeur : int
-    - m_cases : Hashtable<String, int[][]>
-    - entites : Hashtable<int, Entite>
-
-
-
-
-    +«Create» Donjon(num : int, joueurs : int, montres : int, longueur : int, largeurnom :int)
-    +«Create» Donjon(num : int, joueurs : int, montres : int)
-    +«Create» Donjon(num : int,joueurs : int, montres : int, longueur : int)
-
-    +ajoutEntite(Entite e) : void
-    +ordreDeJeu() : StringBuilder
-    +nommerCases() : void
-    +remplirPlateau() : void
-    +seDeplacer(entiteID : int, direction : String) : String
-    +Affichage_plateau() : void
-    +Affichage_ordre() : void
-    +Affichage_deplacement(entiteID : int, direction : String) : void
-
-
-
-
-
-
-}
 
 
 

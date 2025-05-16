@@ -298,6 +298,6 @@ public class Main {
 
             System.out.println("Maître du jeu, vous avez créé " + (id -1) + " monstres avec succès !");
 
-            donjon.Affichage_plateau();
+            donjon.affichagePlateau();
     }
 }
