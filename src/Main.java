@@ -1,8 +1,12 @@
 import equipement.*;
+import jeu.Donjon;
+import jeu.Narrateur;
+import jeu.Tours;
 import personnages.*;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -384,6 +388,70 @@ public class Main {
             System.out.println("Le donjon et les personnages/monstres sont créés, que le donjon commence !");
 
             donjon.affichagePlateau();
+
+
+            ///////////GESTION DES TOURS/////////
+        Narrateur narrateur;
+        System.out.println("Oups, et vous Maitre du jeu, nous vous avons presque oublié. Voulez vous un pseudo? (o/n)");
+        choix = scan.nextLine();
+        if (choix.equalsIgnoreCase("o")) {
+            System.out.println("Quel sera ce pseudo?");
+            String pseudo = scan.nextLine();
+            narrateur = new Narrateur(pseudo);
+        }
+        else {
+            System.out.println("Vous restez donc 'Maitre du jeu'");
+            narrateur = new Narrateur();
+        }
+
+        System.out.println("L'ordre de jeu sera le suivant : ");
+        donjon.affichageOrdre();
+
+        ArrayList<Entite> joueurs = new ArrayList<>(donjon.getOrdre());
+
+        while (true) {
+            int tour=1;
+            for (Entite entite : joueurs) {
+                Tours tours= new Tours(tour);
+                int id=donjon.getId(entite);
+                boolean estUnPerso=false;
+                Personnage perso=null;
+                Monstre monstre=null;
+                Hashtable<Personnage,Integer> persos = new Hashtable<>(donjon.getListePersonnages());//je recup la liste des persos du donjon
+                Hashtable<Monstre,Integer> mons = new Hashtable<>(donjon.getListeMonstres());
+                for (Map.Entry<Personnage, Integer> e : persos.entrySet()) {//pour chaque perso de cette liste
+                    if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
+                        estUnPerso=true;
+                        perso = e.getKey();
+                    }
+
+                }
+                for (Map.Entry<Monstre, Integer> e : mons.entrySet()) {//pour chaque perso de cette liste
+                    if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
+                        estUnPerso=false;
+                        monstre = e.getKey();
+                    }
+
+                }
+
+                if (estUnPerso && perso!=null) {
+                    boolean fin= tours.ajouterTourPersonnage(perso,donjon,narrateur);
+                    if (fin) {
+                        break;
+                    }
+
+                }
+                else {
+                    boolean fin= tours.ajouterTourMonstre(monstre,donjon,narrateur);
+                    if (fin) {
+                        break;
+                    }
+
+                }
+
+            }
+            tour=tour+1;
+        }
 
         }
     }

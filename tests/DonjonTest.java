@@ -1,3 +1,4 @@
+import jeu.Donjon;
 import personnages.*;
 import org.junit.jupiter.api.Test;
 
@@ -34,18 +35,20 @@ class DonjonTest {
         donjon.ajoutPersonnage(p2);
         donjon.ajoutPersonnage(p3);
         donjon.ajoutMonstre(p4);
-
+/*
         ArrayList<Entite> ordre= new ArrayList<>(donjon.ordreDeJeu());
         for (Entite entite : ordre) {
             System.out.println(entite.getNom());
         }
+
+ */
 
     }
 
     @Test
     void seDeplacer() {
         /*
-        Donjon donjon = new Donjon(1, 5, 5);
+        jeu.Donjon donjon = new jeu.Donjon(1, 5, 5);
 
         donjon.nommerCases();
 

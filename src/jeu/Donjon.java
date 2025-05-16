@@ -1,3 +1,5 @@
+package jeu;
+
 import equipement.Arme;
 import equipement.Armure;
 import equipement.Equipement;
@@ -18,7 +20,7 @@ public class Donjon {
     //LARGEUR C'EST LES LETTRES (COLONNES)
 
     //==========attributs====================
-    private int m_num;
+    private final int m_num;
     private int m_nb_monstres;
     private int m_nb_personnages;
     private int m_longueur;
@@ -46,24 +48,29 @@ public class Donjon {
 
     public Donjon(int num) { //par defaut
         m_num = num;
-        switch (num){
-            case 1:initDonjon1(); break;
-            case 2:initDonjon2(); break;
-            case 3:initDonjon3(); break;
-            default:System.out.println("model de donjon inexistant");
+        switch (num) {
+            case 1:
+                initDonjon1();
+                break;
+            case 2:
+                initDonjon2();
+                break;
+            case 3:
+                initDonjon3();
+                break;
+            default:
+                System.out.println("model de donjon inexistant");
         }
     }
     //============================================================================
 
 
-
     /// ////PAR DEFAUT////////////
     /// choix des tailles par defaut
     /// choix des obstacles et equipements par defaut
-    ///
     private void initDonjon1() {
-        m_longueur=7;
-        m_largeur=10;
+        m_longueur = 7;
+        m_largeur = 10;
         m_entites = new Hashtable<>();
         m_personnages = new Hashtable<>();
         m_monstres = new Hashtable<>();
@@ -85,8 +92,8 @@ public class Donjon {
     }
 
     private void initDonjon2() {
-        m_longueur=16;
-        m_largeur=20;
+        m_longueur = 16;
+        m_largeur = 20;
         m_entites = new Hashtable<>();
         m_personnages = new Hashtable<>();
         m_monstres = new Hashtable<>();
@@ -112,8 +119,8 @@ public class Donjon {
     }
 
     private void initDonjon3() {
-        m_longueur=18;
-        m_largeur=17;
+        m_longueur = 18;
+        m_largeur = 17;
         m_entites = new Hashtable<>();
         m_personnages = new Hashtable<>();
         m_monstres = new Hashtable<>();
@@ -138,8 +145,8 @@ public class Donjon {
         ajoutEquipement(arme4, "M15");
 
     }
-    /// /////////////////////////////////////////
 
+    /// /////////////////////////////////////////
 
 
 
@@ -162,13 +169,21 @@ public class Donjon {
         m_nb_monstres++;
     }
 
-   //AJOUT D'UN OBSTACLE
+    public Hashtable<Personnage, Integer> getListePersonnages() {
+        return m_personnages;
+    }
+
+    public Hashtable<Monstre, Integer> getListeMonstres() {
+        return m_monstres;
+    }
+
+    //AJOUT D'UN OBSTACLE
     public boolean ajoutObstacle(String position) {
         int idObs = 700; //supperieur au nombre max de perso (taille du plateau max 625)
         for (Map.Entry<String, int[]> caseEntry : m_cases.entrySet()) {
             if (caseEntry.getKey().equals(position)) {
-                int [] val= caseEntry.getValue();
-                val[0]=idObs;
+                int[] val = caseEntry.getValue();
+                val[0] = idObs;
                 return true;
             }
         }
@@ -176,26 +191,23 @@ public class Donjon {
     }
 
     //AJOUT D'UN EQUIPEMENT
-    public String ajoutEquipement(Equipement equip, String position) {
-        int id;
-        switch(equip.getNom()) {
+    public void ajoutEquipement(Equipement equip, String position) {
+        int id = switch (equip.getNom()) {
             // Armures légères
-            case  "armure d'écailles": id = 1; break;
-            case "demi-plate": id = 2; break;
-            case "cotte de mailles": id =3; break;
-            case "harnois": id =4; break;
-            case "bâton": id =5; break;
-            case "masse d'armes": id =6; break;
-            case "épée longue": id =7; break;
-            case "rapière": id =8; break;
-            case "arbalète légère": id =9; break;
-            case "fronde": id =10; break;
-            case "arc court": id =11; break;
-
-            default: id =20; //nombre au hasard
-        }
-        int [] val=null;
-
+            case "armure d'écailles" -> 1;
+            case "demi-plate" -> 2;
+            case "cotte de mailles" -> 3;
+            case "harnois" -> 4;
+            case "bâton" -> 5;
+            case "masse d'armes" -> 6;
+            case "épée longue" -> 7;
+            case "rapière" -> 8;
+            case "arbalète légère" -> 9;
+            case "fronde" -> 10;
+            case "arc court" -> 11;
+            default -> 20; //nombre au hasard
+        };
+        int[] val = null;
 
 
         for (Map.Entry<String, int[]> caseEntry : m_cases.entrySet()) {
@@ -204,43 +216,48 @@ public class Donjon {
                 break; // on a trouvé la bonne case, on sort de la boucle
             }
         }
-        if (val!=null && id!=20) {
-            val[1]=id; //je mets l'id de l'equipement dans la deuxieme case du dico des positions
-            return "equipement ajouté au plateau avec succes";
+        if (val != null && id != 20) {
+            val[1] = id; //je mets l'id de l'equipement dans la deuxieme case du dico des positions
         }
 
-        return "l'equipement n'existe pas";
     }
 
 
     //servira pour cree un equipement
-    public String getNomEquipementParId (int id) {
-        switch (id) {
-            case 1: return "armure d'écailles";
-            case 2: return "demi-plate";
-            case 3: return "cotte de mailles";
-            case 4: return "harnois";
-            case 5: return "bâton";
-            case 6: return "masse d'armes";
-            case 7: return "épée longue";
-            case 8: return"rapière";
-            case 9: return"arbalète légère";
-            case 10: return "fronde";
-            case 11 : return "arc court";
-
-            default: return "l'equipement n'existe pas";
-        }
+    public String getEquipementParId(int id) {
+        return switch (id) {
+            case 1 -> "armure d'écailles";
+            case 2 -> "demi-plate";
+            case 3 -> "cotte de mailles";
+            case 4 -> "harnois";
+            case 5 -> "bâton";
+            case 6 -> "masse d'armes";
+            case 7 -> "épée longue";
+            case 8 -> "rapière";
+            case 9 -> "arbalète légère";
+            case 10 -> "fronde";
+            case 11 -> "arc court";
+            default -> "l'equipement n'existe pas";
+        };
     }
 
 
-
-    private int getId(Entite entite) {
-        for(Map.Entry<Integer, Entite> entry : m_entites.entrySet()) {
+    public int getId(Entite entite) {
+        for (Map.Entry<Integer, Entite> entry : m_entites.entrySet()) {
             if (entry.getValue().equals(entite)) {
                 return entry.getKey();
             }
         }
         return 0;
+    }
+
+    protected Entite getEntiteParId(int id) {
+        for (Map.Entry<Integer, Entite> entry : m_entites.entrySet()) {
+            if (entry.getKey().equals(id)) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     private Boolean existeCase(String position) {
@@ -251,7 +268,8 @@ public class Donjon {
         }
         return false;
     }
-    ///POSITIONER ENTITE
+
+    /// POSITIONER ENTITE
     public String positionner(Entite e, String position) {
         int id = getId(e);
         if (id == 0) {
@@ -277,17 +295,13 @@ public class Donjon {
     }
 
 
-
-
     // CONNAITRE L'ID DE CHAQUE ENTITE
-    private void afficherIDentite() {
-        System.out.println("Nous avons ajouté à la partie :");
+    protected void afficherIDentite() {
         for (Map.Entry<Integer, Entite> entry : getEntites().entrySet()) { //pour chaque case de notre dico d'entite
             System.out.println(entry.getValue().getNom());//le nom de l'entite
-            System.out.println(" --> "+entry.getKey()+"\n");//son id dans la game
+            System.out.println(" --> " + entry.getKey() + "\n");//son id dans la game
         }
     }
-
 
 
     private int getNombreEntites() {
@@ -298,6 +312,9 @@ public class Donjon {
         return m_entites;
     }
 
+    protected Hashtable<String, int[]> getCases() {
+        return m_cases;
+    }
 
 
     //METHODE QUI NOMMERA TOUTES LES CASES DU PLATEAU
@@ -338,7 +355,8 @@ public class Donjon {
         String retourne; //pour les phrases a l'affichage
 
         if (e == null) {
-            return "Aucune entité avec cet ID dans le donjon" ;}
+            return "Aucune entité avec cet ID dans le donjon";
+        }
 
         for (Map.Entry<String, int[]> entry : m_cases.entrySet()) { //je parcours toutes mes cases
             String nomCase = entry.getKey();
@@ -349,19 +367,39 @@ public class Donjon {
                 char lettre = nomCase.charAt(0); // colonne
                 int numero = Integer.parseInt(nomCase.substring(1)); // ligne
 
-                Entite joueur= m_entites.get(entiteID); //recup entite
+                Entite joueur = m_entites.get(entiteID); //recup entite
 
-                int distance =joueur.getDistance();
+                int distance = joueur.getDistance();
                 // Calcul direction
                 switch (direction.toLowerCase()) {
-                    case "haut": numero -= distance; break;
-                    case "bas": numero += distance; break;
-                    case "gauche": lettre -= distance; break;
-                    case "droite": lettre += distance; break;
-                    case "diagonale haut gauche": lettre -= distance; numero -= distance; break;
-                    case "diagonale haut droite": lettre += distance; numero -= distance; break;
-                    case "diagonale bas gauche": lettre -= distance; numero += distance; break;
-                    case "diagonale bas droite": lettre += distance; numero += distance; break;
+                    case "haut":
+                        numero -= distance;
+                        break;
+                    case "bas":
+                        numero += distance;
+                        break;
+                    case "gauche":
+                        lettre -= distance;
+                        break;
+                    case "droite":
+                        lettre += distance;
+                        break;
+                    case "diagonale haut gauche":
+                        lettre -= distance;
+                        numero -= distance;
+                        break;
+                    case "diagonale haut droite":
+                        lettre += distance;
+                        numero -= distance;
+                        break;
+                    case "diagonale bas gauche":
+                        lettre -= distance;
+                        numero += distance;
+                        break;
+                    case "diagonale bas droite":
+                        lettre += distance;
+                        numero += distance;
+                        break;
                     default:
                         return "Direction invalide";
                 }
@@ -376,12 +414,12 @@ public class Donjon {
                         m_cases.put(nomCase, new int[]{0, 0}); // libérer l'ancienne case
 
 
-                        retourne=(e.getNom() + " se déplace vers " + nouvelleCase);
+                        retourne = (e.getNom() + " se déplace vers " + nouvelleCase);
                     } else {
-                        retourne=("Case occupée !");
+                        retourne = ("Case occupée !");
                     }
                 } else {
-                    retourne=("Case inexistante !");
+                    retourne = ("Case inexistante !");
                 }
 
                 return retourne;
@@ -391,25 +429,21 @@ public class Donjon {
         return ("Entité non trouvée dans le donjon.");
     }
 
-
-    public String finDonjon(Personnage perso) {
+    public int finDonjon(Personnage perso) {
         if (!perso.estVivant()) {
-            return (perso.getNom()+" est mort, votre équipe a échoué le Donjon "+m_num+"...");
+            return 0;//si qlq est mort
         }
-        if (m_nb_monstres==0) {
-            return ("Victoire! donjon : " +m_num+" terminé \n"+"Félicitation! tous les monstres on été vaincus, et l'équipe est au complet. Á bientot dans un nouveau Donjon :)");
+        if (m_nb_monstres == 0) {
+            return 1;        //si y'a plus de monstre
         }
-        return "l'equipe est au complet: "+m_nb_personnages+"\n"+"il reste encore "+m_nb_monstres+" à vaincre, courage!";
-
+        return 2;   //la partie continu
     }
-
 
 
 
     // Affichage du plateau
     public void affichagePlateau() {
         String[][] plateau = new String[m_longueur][m_largeur];
-
 
 
         // Initialiser toutes les cases à '.'
@@ -431,13 +465,14 @@ public class Donjon {
                     int x = caseNom.charAt(0) - 'A';
                     int y = Integer.parseInt(caseNom.substring(1)) - 1;
 
-                    for (Map.Entry<Personnage,Integer> perso : m_personnages.entrySet()) {
+                    for (Map.Entry<Personnage, Integer> perso : m_personnages.entrySet()) {
 
                         if (m_personnages.containsKey(perso.getKey())) {
                             plateau[y][x] = (String) ("" + id);
+                            break;
                         }
                     }
-                    for (Map.Entry<Monstre,Integer> monstre : m_monstres.entrySet()) {
+                    for (Map.Entry<Monstre, Integer> monstre : m_monstres.entrySet()) {
                         if (m_monstres.containsKey(monstre.getKey())) {
                             plateau[y][x] = (String) (("" + id));
                             plateau[y][x] += 'M';
@@ -470,7 +505,7 @@ public class Donjon {
             }
         }
 
-        // Affichage en-tête colonne A B C ...
+        // Affichage en-tête colonne A B C…
         System.out.print("   ");
         for (int j = 0; j < m_largeur; j++) {
             System.out.print(" " + (char) ('A' + j));
@@ -488,56 +523,28 @@ public class Donjon {
     }
 
     public void affichageOrdre() {
-        ArrayList<Entite> joueurs= new ArrayList<>();
-        joueurs.addAll(ordreDeJeu());
+        ArrayList<Entite> joueurs = new ArrayList<>(ordreDeJeu());
 
         for (Entite entite : joueurs) {
             System.out.println(entite.getNom());
         }
     }
 
+    public ArrayList<Entite> getOrdre() {
+        return ordreDeJeu();
+    }
+
     public void affichageDeplacement(int entiteID, String direction) {
         System.out.println(seDeplacer(entiteID, direction));
     }
 
-    public void tours(int num, Entite joueur) {
-        boolean estUnMonstre = false;
-        System.out.println("=====================================================================================");
-        System.out.println("donjon : "+ m_num);
-        System.out.println("Tours : "+num);
-
-        affichageOrdre();
-
-        System.out.println("Aller "+joueur.getNom()+", a toi de jouer!");
-        System.out.println("=====================================================================================");
-
-        joueur.toStringDetails();
-        int id= getId(joueur);
-
-        affichagePlateau();
-
-        for (Map.Entry<Monstre, Integer> monstre : m_monstres.entrySet()) {
-            if (monstre.getValue() == id) {
-                estUnMonstre = true;
-            }
-        }
-
-        if (estUnMonstre) {
-            for (int i = 3; i > 0; i--) {
-
-                System.out.println(" vous avez "+i+ "action(s), que choisissez vous? \n " +
-                        "[1] laisser le maître du jeu commenter l'action précédente\n" +
-                        "[2] commenter action précédente\n" +
-                        "[3] attaquer\n" +
-                        "[4] se déplacer\n" +
-                        "[5] s'équiper");
-            }
-        }
-
-
-        System.out.println("les monstres sont suivis d'un M|| les equipements sont représentés par des *\n\n");
-        getEntites();
+    public int getNumDonjons() {
+        return m_num;
     }
 
 
+
+
 }
+
+
