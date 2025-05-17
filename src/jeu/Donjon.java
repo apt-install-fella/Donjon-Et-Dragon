@@ -298,8 +298,7 @@ public class Donjon {
     // CONNAITRE L'ID DE CHAQUE ENTITE
     protected void afficherIDentite() {
         for (Map.Entry<Integer, Entite> entry : getEntites().entrySet()) { //pour chaque case de notre dico d'entite
-            System.out.println(entry.getValue().getNom());//le nom de l'entite
-            System.out.println(" --> " + entry.getKey() + "\n");//son id dans la game
+            System.out.println(entry.getValue().getNom()+" --> " + entry.getKey());//le nom de l'entite
         }
     }
 
@@ -405,7 +404,7 @@ public class Donjon {
                 }
 
 
-                String nouvelleCase = "" + lettre + numero; //on accede a la nouvelle case
+                String nouvelleCase = Character.toString(lettre).toUpperCase() + numero;
 
                 if (m_cases.containsKey(nouvelleCase)) { //si notre tableau de case a bien la case (on est pas aller trop haut par ex
                     int[] destination = m_cases.get(nouvelleCase); //on recup le tableau de cette nouvelle case

@@ -31,28 +31,29 @@ public class Tours {
 
         System.out.println("=====================================================================================");
         System.out.println("donjon : " + donjon.getNumDonjons());
-        System.out.println("jeu.Tours : " + m_nu);
-
+        System.out.println("Tours : " + m_nu);
+        System.out.println("\n\t Les personnages et monstre joueront comme suit:");
         donjon.affichageOrdre();
 
-        System.out.println("Aller " + personnage.getNom() + ", a toi de jouer!");
+        System.out.println("\nAller " + personnage.getNom() + ", a toi de jouer!");
         System.out.println("=====================================================================================");
 
-        personnage.toStringDetails();
+
+        System.out.println("Voici l'id de tout le monde:");
+        donjon.afficherIDentite();
+        System.out.println("\n");
+        donjon.affichagePlateau();
+        System.out.println("les monstres sont suivis d'un M || les équipements sont représentés par des *\n\n");
+
+        System.out.println("=====================================================================================");
         int id = donjon.getId(personnage);
 
-        donjon.afficherIDentite();
-
-        donjon.affichagePlateau();
-        System.out.println("les monstres sont suivis d'un M|| les equipements sont représentés par des *\n\n");
-
-        System.out.println("=====================================================================================");
         personnage.toStringDetails();
 
 
         for (int i = 3; i > 0; i--) {
 
-            System.out.println(" vous avez " + i + "action(s), que choisissez vous? \n " +
+            System.out.println(" vous avez " + i + "action(s), que choisissez vous? \n" +
                     "[1] laisser le maître du jeu commenter l'action précédente\n" +
                     "[2] commenter action précédente\n" +
                     "[3] attaquer\n" +
@@ -64,21 +65,35 @@ public class Tours {
                     System.out.println("Laisser au "+narrateur.getPseudo()+" la parole? bien, que veut-il nous dire?");
                     String nouveau = scan.nextLine();
                     narrateur.commenter(nouveau);
+                    
                 }
                 case "2" -> {
 //le personnage peut dire des trucs?
+                    System.out.println(personnage.getNom() + " souhaite commenter : ");
+                    String commentaire = scan.nextLine();
+                    narrateur.commenter(commentaire);
                 }
                 case "3" -> {
                     System.out.println("La meilleure defense est l'attaque, qui voulez-vous attaquer?(un id suffit)");
-                    String attaqué = scan.nextLine();
-                    int decision = Integer.parseInt(attaqué);
+                    String cible = scan.nextLine(); //donne id de la cible
+                    int decision = Integer.parseInt(cible); //on convert l'id en int
 
-                    Entite attaque = donjon.getEntiteParId(decision);
-                    if (attaque != null) {
-                        personnage.attaquer(attaque);
-                        attaque.recevoirDegats(2); //NOMBRE AU HASARD, JE SAIS PAS COMMENT GÉRER CA
-                        int finito=donjon.finDonjon(personnage);
-                       if (finito==0 || finito==1) {
+                    Entite attaque = donjon.getEntiteParId(decision); //je recupere la cible
+                    if (attaque != null) { //si la cible existe bine
+                        personnage.attaquer(attaque); //on l'attaque
+                        boolean finito=false;//on cree un bool de fin de partie
+                        Personnage mort=null;//on recupere le perso supposer mort (ici ca servira pas trop car un personnage tue pas un autre perso)
+                                            //mais on en a besoin pour l'appel de fonction
+                       for (Map.Entry<Personnage, Integer> e : donjon.getListePersonnages().entrySet())  { //pour chque perso de la liste des perso
+                           Personnage player = e.getKey(); //on recup le perso
+                           int result= donjon.finDonjon(player);
+                           if (result==1) {
+                               System.out.println("il n'y a plus de monstres, les personnages ont gagné.");
+                               finito=true;
+                               break;
+                           }
+                       }
+                       if (finito) {
                            fin=true;
                        }
                     }
@@ -87,27 +102,69 @@ public class Tours {
                     int distance=personnage.getDistance();
                     String dis= String.valueOf(distance);
 
-                    System.out.println("Vous souhaitez changer de position, dites en plus, où voulez vous aller? pas plus de "+dis+" cases");
-                    String position = scan.nextLine();
-                    String deplacement = donjon.seDeplacer(id, position);
-                    System.out.println(deplacement);
+                    System.out.println("Vous souhaitez changer de position, dites en plus, où voulez-vous aller ? Le déplacement sera de " + dis + " cases");
+                    System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche | [6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
+                    String direction= scan.nextLine();
+                    String position;
+
+                    switch (direction) {
+                        case "1":
+                            position = "haut";
+                            break;
+                        case "2":
+                            position = "bas";
+                            break;
+                        case "3":
+                            position = "gauche";
+                            break;
+                        case "4":
+                            position = "droite";
+                            break;
+                        case "5":
+                            position = "diagonale haut gauche";
+                            break;
+                        case "6":
+                            position = "diagonale haut droite";
+                            break;
+                        case "7":
+                            position = "diagonale bas gauche";
+                            break;
+                        case "8":
+                            position = "diagonale bas droite";
+                            break;
+                        default:
+                            position = "invalide";
+                            break;
+                    }
+
+
+                    if (position.equals("invalide")) {
+                        System.out.println("Direction invalide. Pas de déplacement.");
+                    } else {
+                        String deplacement = donjon.seDeplacer(id, position);
+                        System.out.println(deplacement);
+                    }
+
                 }
 
                 case "5" -> {
                     System.out.println("Vous optez pour une protection personnel");
                     int armeId;
+
                     for (Map.Entry<String, int[]> positions : donjon.getCases().entrySet()) { //on parcours le tab de caes
                         if (positions.getValue()[0] == id) { //si dans cette case on a le perso
                             armeId = positions.getValue()[1]; //on recup l'id de l'equiment dispo
-                            String arm = String.valueOf((armeId));//on recup le nom de cet equipement
+                            if (armeId <= 0) continue;
+
+                            String arme = String.valueOf((armeId));//on recup le nom de cet equipement
                             if (armeId>4 && armeId<12) { //si l'id est plus grand que 4 c'est une arme
-                                Arme arme = new Arme(arm); //on cree cette arme
-                                personnage.equiper(arme);//le perso s'equipe
-                                System.out.println("Le personnage " + armeId + " s'equipe avec " + arm);
+                                Arme newArm = new Arme(arme); //on cree cette arme
+                                personnage.equiper(newArm);//le perso s'equipe
+                                System.out.println("Le personnage " + personnage.getNom() + " s’équipe avec " + arme);
                             } else if (armeId>0 && armeId<5) { //si l'id est plus petit que 5 c'est une armure
-                                Armure armure = new Armure(arm);  //on cree l'armure
+                                Armure armure = new Armure(arme);  //on cree l'armure
                                 personnage.equiper(armure);//le perso s'equipe
-                                System.out.println("Le personnage " + armeId + " s'equipe avec " + arm);
+                                System.out.println("Le personnage " + personnage.getNom() + " s’équipe avec " + arme);
                             }
                         }
 
@@ -170,29 +227,80 @@ public class Tours {
                 }
                 case "2" -> {
 //le personnage peut dire des trucs?
+                    System.out.println(monstre.getNom() + " souhaite commenter : ");
+                    String commentaire = scan.nextLine();
+                    narrateur.commenter(commentaire);
                 }
                 case "3" -> {
                     System.out.println(monstre.getNom()+"Qui va etre votre victime?(un id suffit)");
-                    String victime = scan.nextLine();
-                    int decision = Integer.parseInt(victime);
+                    String cible = scan.nextLine();
+                    int decision = Integer.parseInt(cible);
 
                     Entite attaque = donjon.getEntiteParId(decision);
                     if (attaque != null) {
                         monstre.attaquer(attaque);
-                        attaque.recevoirDegats(2); //AU HASARD
-                        int finito=donjon.finDonjon((Personnage) attaque);
-                        if (finito==0) {
-                            fin=true;
+                        boolean finito=false;
+                        Personnage mort=null;
+                        for (Map.Entry<Personnage, Integer> e : donjon.getListePersonnages().entrySet())  {
+                            Personnage player = e.getKey();
+                           int result= donjon.finDonjon(player);
+                           if (result==0) {
+                               System.out.println("Le personnage "+player.getNom()+" est mort, fin du donjon...");
+                               finito=true;
+                               break;
+                           }
                         }
+                       if (finito) {
+                           fin=true;
+                       }
                     }
                 }
                 case "4" -> {
                     int distance =monstre.getDistance();
                     String dis= String.valueOf(distance);
                     System.out.println("Une stratégie se met en place, quelle position est la plus adapté? pas plus de "+distance+" cases");
-                    String position = scan.nextLine();
-                    String deplacement = donjon.seDeplacer(id, position);
-                    System.out.println(deplacement);
+                    System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche | [6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
+                    String direction= scan.nextLine();
+                    String position;
+
+                    switch (direction) {
+                        case "1":
+                            position = "haut";
+                            break;
+                        case "2":
+                            position = "bas";
+                            break;
+                        case "3":
+                            position = "gauche";
+                            break;
+                        case "4":
+                            position = "droite";
+                            break;
+                        case "5":
+                            position = "diagonale haut gauche";
+                            break;
+                        case "6":
+                            position = "diagonale haut droite";
+                            break;
+                        case "7":
+                            position = "diagonale bas gauche";
+                            break;
+                        case "8":
+                            position = "diagonale bas droite";
+                            break;
+                        default:
+                            position = "invalide";
+                            break;
+                    }
+
+
+                    if (position.equals("invalide")) {
+                        System.out.println("Direction invalide. Pas de déplacement.");
+                    } else {
+                        String deplacement = donjon.seDeplacer(id, position);
+                        System.out.println(deplacement);
+                    }
+
                 }
 
                 default -> {
@@ -202,6 +310,7 @@ public class Tours {
             }
             donjon.affichagePlateau(); //j'affiche le plateau apres chaque choix
         }
+        //on retourne fin pour savoir si ce tour a conduit vers la fin d'un donjon ou pas
         return fin;
 
     }
