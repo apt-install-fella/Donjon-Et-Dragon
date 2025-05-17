@@ -24,8 +24,7 @@ public class Tours {
 
     }
 
-    public boolean ajouterTourPersonnage(Personnage personnage, Donjon donjon, Narrateur narrateur){
-        boolean fin = false;
+    public void ajouterTourPersonnage(Personnage personnage, Donjon donjon, Narrateur narrateur){
         Scanner scan = new Scanner(System.in);
 
 
@@ -65,7 +64,7 @@ public class Tours {
                     System.out.println("Laisser au "+narrateur.getPseudo()+" la parole? bien, que veut-il nous dire?");
                     String nouveau = scan.nextLine();
                     narrateur.commenter(nouveau);
-                    
+
                 }
                 case "2" -> {
 //le personnage peut dire des trucs?
@@ -79,23 +78,13 @@ public class Tours {
                     int decision = Integer.parseInt(cible); //on convert l'id en int
 
                     Entite attaque = donjon.getEntiteParId(decision); //je recupere la cible
-                    if (attaque != null) { //si la cible existe bine
-                        personnage.attaquer(attaque); //on l'attaque
-                        boolean finito=false;//on cree un bool de fin de partie
-                        Personnage mort=null;//on recupere le perso supposer mort (ici ca servira pas trop car un personnage tue pas un autre perso)
-                                            //mais on en a besoin pour l'appel de fonction
-                       for (Map.Entry<Personnage, Integer> e : donjon.getListePersonnages().entrySet())  { //pour chque perso de la liste des perso
-                           Personnage player = e.getKey(); //on recup le perso
-                           int result= donjon.finDonjon(player);
-                           if (result==1) {
-                               System.out.println("il n'y a plus de monstres, les personnages ont gagné.");
-                               finito=true;
-                               break;
-                           }
-                       }
-                       if (finito) {
-                           fin=true;
-                       }
+                    if (attaque != null) { //si la cible existe bien
+                        String attaquer=personnage.attaquer(attaque); //on l'attaque
+                        System.out.println(attaquer);
+
+                    }
+                    else {
+                        System.out.println("attaque impossible");
                     }
                 }
                 case "4" -> {
@@ -142,6 +131,7 @@ public class Tours {
                         System.out.println("Direction invalide. Pas de déplacement.");
                     } else {
                         String deplacement = donjon.seDeplacer(id, position);
+                        donjon.affichagePlateau();
                         System.out.println(deplacement);
                     }
 
@@ -178,14 +168,12 @@ public class Tours {
             }
 
         }
-        return fin;
 
     }
 
 
 
-    public boolean ajouterTourMonstre(Monstre monstre, Donjon donjon, Narrateur narrateur){
-        boolean fin = false;
+    public void ajouterTourMonstre(Monstre monstre, Donjon donjon, Narrateur narrateur){
         Scanner scan = new Scanner(System.in);
 
 
@@ -232,27 +220,18 @@ public class Tours {
                     narrateur.commenter(commentaire);
                 }
                 case "3" -> {
-                    System.out.println(monstre.getNom()+"Qui va etre votre victime?(un id suffit)");
-                    String cible = scan.nextLine();
-                    int decision = Integer.parseInt(cible);
+                    System.out.println(monstre.getNom()+", qui va etre votre victime?(un id suffit)");
+                    String cible = scan.nextLine(); //donne id de la cible
+                    int decision = Integer.parseInt(cible); //on convert l'id en int
 
-                    Entite attaque = donjon.getEntiteParId(decision);
-                    if (attaque != null) {
-                        monstre.attaquer(attaque);
-                        boolean finito=false;
-                        Personnage mort=null;
-                        for (Map.Entry<Personnage, Integer> e : donjon.getListePersonnages().entrySet())  {
-                            Personnage player = e.getKey();
-                           int result= donjon.finDonjon(player);
-                           if (result==0) {
-                               System.out.println("Le personnage "+player.getNom()+" est mort, fin du donjon...");
-                               finito=true;
-                               break;
-                           }
-                        }
-                       if (finito) {
-                           fin=true;
-                       }
+                    Entite attaque = donjon.getEntiteParId(decision); //je recupere la cible
+                    if (attaque != null) { //si la cible existe bien
+                        String attaquer=monstre.attaquer(attaque); //on l'attaque
+                        System.out.println(attaquer);
+
+                    }
+                    else {
+                        System.out.println("attaque impossible");
                     }
                 }
                 case "4" -> {
@@ -311,7 +290,6 @@ public class Tours {
             donjon.affichagePlateau(); //j'affiche le plateau apres chaque choix
         }
         //on retourne fin pour savoir si ce tour a conduit vers la fin d'un donjon ou pas
-        return fin;
 
     }
 

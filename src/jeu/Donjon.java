@@ -444,11 +444,10 @@ public class Donjon {
     public void affichagePlateau() {
         String[][] plateau = new String[m_longueur][m_largeur];
 
-
-        // Initialiser toutes les cases à '.'
+        // Initialiser toutes les cases à " . "
         for (int i = 0; i < m_longueur; i++) {
             for (int j = 0; j < m_largeur; j++) {
-                plateau[i][j] = ".";
+                plateau[i][j] = " . ";
             }
         }
 
@@ -464,19 +463,19 @@ public class Donjon {
                     int x = caseNom.charAt(0) - 'A';
                     int y = Integer.parseInt(caseNom.substring(1)) - 1;
 
-                    for (Map.Entry<Personnage, Integer> perso : m_personnages.entrySet()) {
+                    String contenu = "";
 
-                        if (m_personnages.containsKey(perso.getKey())) {
-                            plateau[y][x] = (String) ("" + id);
-                            break;
-                        }
+                    // Vérifie si c'est un personnage
+                    if (m_personnages.containsValue(id)) {
+                        contenu = String.format("%2d ", id); // exemple " 1 "
                     }
-                    for (Map.Entry<Monstre, Integer> monstre : m_monstres.entrySet()) {
-                        if (m_monstres.containsKey(monstre.getKey())) {
-                            plateau[y][x] = (String) (("" + id));
-                            plateau[y][x] += 'M';
-                        }
+
+                    // Vérifie si c'est un monstre
+                    if (m_monstres.containsValue(id)) {
+                        contenu = String.format("%-2dM", id); // exemple "3M "
                     }
+
+                    plateau[y][x] = contenu;
                 }
             }
         }
@@ -488,38 +487,42 @@ public class Donjon {
             int x = caseNom.charAt(0) - 'A';
             int y = Integer.parseInt(caseNom.substring(1)) - 1;
 
+            // Obstacle
             if (valeurs[0] == 700) {
-                plateau[y][x] = "x";
+                plateau[y][x] = " x ";
             }
 
-
+            // Equipement
             if (valeurs[1] != 0) {
-                // Ajout d’un * si équipement
-                if (plateau[y][x] == ".") {
-                    plateau[y][x] = "*";
+                if (plateau[y][x].equals(" . ") || plateau[y][x].equals(" x ")) {
+                    plateau[y][x] = plateau[y][x].substring(0, 2) + "*";
                 } else {
-                    // fusionner l’équipement avec un autre élément
-                    plateau[y][x] += "*";
+                    // Ajouter une étoile si déjà une entité
+                    if (!plateau[y][x].contains("*")) {
+                        plateau[y][x] = plateau[y][x].substring(0, 2) + "*";
+                    }
                 }
             }
         }
 
         // Affichage en-tête colonne A B C…
-        System.out.print("   ");
+        System.out.print("    ");
         for (int j = 0; j < m_largeur; j++) {
-            System.out.print(" " + (char) ('A' + j));
+            System.out.print(" " + (char) ('A' + j) + " ");
         }
         System.out.println();
 
         // Affichage des lignes du plateau
         for (int i = 0; i < m_longueur; i++) {
-            System.out.printf("%2d ", i + 1); // numéro de ligne
+            System.out.printf("%2d |", i + 1); // numéro de ligne
             for (int j = 0; j < m_largeur; j++) {
-                System.out.print(" " + plateau[i][j]);
+                System.out.print(plateau[i][j]);
             }
             System.out.println();
         }
     }
+
+
 
     public void affichageOrdre() {
         ArrayList<Entite> joueurs = new ArrayList<>(ordreDeJeu());

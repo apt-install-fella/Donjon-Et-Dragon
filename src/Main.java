@@ -133,325 +133,334 @@ public class Main {
 
         //Numéro de donjon (on quitte si les joueurs ne réussissent pas un donjon)
         for (int i = 1; i < 4; i++) {
-            //Création du donjon
-            System.out.println("------------");
-            System.out.println("Création du donjon...");
-            System.out.println("Il est temps de choisir la structure du donjon.\nVoulez-vous un modèle prédéfini ? (o/n)");
-            String decision = scan.nextLine();
-            if (decision.equalsIgnoreCase("o")) {
-                donjon = new Donjon(i);
-            } else {
-                System.out.println("Création d'un donjon personalisé : choisissons les paramètres !");
+                //Création du donjon
+                System.out.println("------------");
+                System.out.println("Création du donjon...");
+                System.out.println("Il est temps de choisir la structure du donjon.\nVoulez-vous un modèle prédéfini ? (o/n)");
+                String decision = scan.nextLine();
+                if (decision.equalsIgnoreCase("o")) {
+                    donjon = new Donjon(i);
+                } else {
+                    System.out.println("Création d'un donjon personalisé : choisissons les paramètres !");
 
-                int lignes;
-                do {
-                    System.out.println("Combien de lignes aura votre carte du donjon ? (nombre compris entre 15 et 25)");
-                    lignes = scan.nextInt();
-                    scan.nextLine();
-                } while (lignes < 15 || lignes > 25);
+                    int lignes;
+                    do {
+                        System.out.println("Combien de lignes aura votre carte du donjon ? (nombre compris entre 15 et 25)");
+                        lignes = scan.nextInt();
+                        scan.nextLine();
+                    } while (lignes < 15 || lignes > 25);
 
-                int colonnes;
-                do {
-                    System.out.println("Combien de colonnes aura votre carte du donjon ? (nombre compris entre 15 et 25)");
-                    colonnes = scan.nextInt();
-                    scan.nextLine();
-                } while (colonnes < 15 || colonnes > 25);
+                    int colonnes;
+                    do {
+                        System.out.println("Combien de colonnes aura votre carte du donjon ? (nombre compris entre 15 et 25)");
+                        colonnes = scan.nextInt();
+                        scan.nextLine();
+                    } while (colonnes < 15 || colonnes > 25);
 
-                donjon = new Donjon(i, lignes, colonnes);
+                    donjon = new Donjon(i, lignes, colonnes);
 
-                //Ajout d'obstacles
-                System.out.println("Parfait notre carte est prête, ajoutons lui quelques obstacles pour augmenter la difficulté !");
-                System.out.println("Voulez-vous créer un obstacle ? (o/n)");
-                String decision2 = scan.nextLine();
+                    //Ajout d'obstacles
+                    System.out.println("Parfait notre carte est prête, ajoutons lui quelques obstacles pour augmenter la difficulté !");
+                    System.out.println("Voulez-vous créer un obstacle ? (o/n)");
+                    String decision2 = scan.nextLine();
 
-                if (decision2.equalsIgnoreCase("o")) {
-                    boolean continuer = true;
+                    if (decision2.equalsIgnoreCase("o")) {
+                        boolean continuer = true;
 
-                    while (continuer) {
-                        System.out.println("A quelle position voulez-vous placer cet obstacle (ex : A2 --> colonne/ligne) ?");
-                        String position = scan.nextLine();
-                        boolean ajout = donjon.ajoutObstacle(position);
-                        if (ajout) {
-                            System.out.println("Obstacle ajouté avec succès.");
-                            System.out.println("Voulez-vous en créer un autre ? (o/n)");
-                            String decision3 = scan.nextLine();
-                            if (decision3.equalsIgnoreCase("n")) {
+                        while (continuer) {
+                            System.out.println("A quelle position voulez-vous placer cet obstacle (ex : A2 --> colonne/ligne) ?");
+                            String position = scan.nextLine();
+                            boolean ajout = donjon.ajoutObstacle(position);
+                            if (ajout) {
+                                System.out.println("Obstacle ajouté avec succès.");
+                                System.out.println("Voulez-vous en créer un autre ? (o/n)");
+                                String decision3 = scan.nextLine();
+                                if (decision3.equalsIgnoreCase("n")) {
+                                    continuer = false;
+                                }
+                            } else {
+                                System.out.println("Oups, case non existante, recommencez.");
+                            }
+                        }
+                    }
+
+                    //Ajout d'équipements
+                    System.out.println("Passons à l'ajout d'équipement sur la carte.\n Voulez-vous ajouter des équipements? (o/n)");
+                    String decision4 = scan.nextLine();
+                    if (decision4.equalsIgnoreCase("o")) {
+                        boolean continuer = true;
+                        while (continuer) {
+                            System.out.println("Voulez-vous une arme ou une armure ? Taper 1 pour arme, 2 pour armure. Si vous avez changé d'avis taper n");
+                            String arme = scan.nextLine();
+                            if (arme.equals("1")) {
+                                Arme arme1 = new Arme("bâton");
+                                Arme arme2 = new Arme("masse d'armes");
+                                Arme arme3 = new Arme("épée longue");
+                                Arme arme4 = new Arme("rapière");
+                                Arme arme5 = new Arme("arbalète légère");
+                                Arme arme6 = new Arme("fronde");
+                                Arme arme7 = new Arme("arc court");
+                                int choixArme;
+                                do {
+                                    System.out.println("Choisissez une arme :");
+                                    System.out.print("\t[1] " + arme1.toString());
+                                    System.out.print("\t[2] " + arme2.toString());
+                                    System.out.print("\t[3] " + arme3.toString());
+                                    System.out.print("\t[4] " + arme4.toString());
+                                    System.out.print("\t[5] " + arme5.toString());
+                                    System.out.print("\t[6] " + arme6.toString());
+                                    System.out.print("\t[7] " + arme7.toString());
+                                    System.out.print("\t(choix entre 1 et 7)");
+
+                                    choixArme = scan.nextInt();
+                                    scan.nextLine();
+                                } while (choixArme < 1 || choixArme > 7);
+
+                                Arme armeChoisie;
+
+                                switch (choixArme) {
+                                    case 1:
+                                        armeChoisie = arme1;
+                                        break;
+                                    case 2:
+                                        armeChoisie = arme2;
+                                        break;
+                                    case 3:
+                                        armeChoisie = arme3;
+                                        break;
+                                    case 4:
+                                        armeChoisie = arme4;
+                                        break;
+                                    case 5:
+                                        armeChoisie = arme5;
+                                        break;
+                                    case 6:
+                                        armeChoisie = arme6;
+                                        break;
+                                    default:
+                                        armeChoisie = arme7;
+                                }
+
+                                System.out.println("Où voulez-vous placer cet arme ? (ex : A2)");
+                                String position = scan.nextLine();
+
+                                donjon.ajoutEquipement(armeChoisie, position);
+
+                            } else if (arme.equals("2")) {
+                                Armure armure1 = new Armure("armure d'écailles");
+                                Armure armure2 = new Armure("demi-plate");
+                                Armure armure3 = new Armure("cotte de mailles");
+                                Armure armure4 = new Armure("harnois");
+                                int choixArmure;
+
+                                do {
+                                    System.out.println("Choisissez une armure :");
+                                    System.out.print("\t[1] " + armure1.toString());
+                                    System.out.print("\t[2] " + armure2.toString());
+                                    System.out.print("\t[3] " + armure3.toString());
+                                    System.out.print("\t[4] " + armure4.toString());
+                                    System.out.print("\t(choix entre 1 et 4)");
+
+                                    choixArmure = scan.nextInt();
+                                    scan.nextLine();
+                                } while (choixArmure < 1 || choixArmure > 4);
+
+                                Armure armureChoisie;
+
+                                switch (choixArmure) {
+                                    case 1:
+                                        armureChoisie = armure1;
+                                        break;
+                                    case 2:
+                                        armureChoisie = armure2;
+                                        break;
+                                    case 3:
+                                        armureChoisie = armure3;
+                                        break;
+                                    default:
+                                        armureChoisie = armure4;
+                                }
+
+                                System.out.println("Où voulez-vous placer cet armure ? (ex : A2)");
+                                String position = scan.nextLine();
+
+                                donjon.ajoutEquipement(armureChoisie, position);
+
+                            } else if (arme.equals("n")) {
                                 continuer = false;
+                            } else {
+                                System.out.println("Oups, vous avez taper sur une mauvaise touche, recommencez.");
                             }
-                        } else {
-                            System.out.println("Oups, case non existante, recommencez.");
                         }
                     }
                 }
 
-                //Ajout d'équipements
-                System.out.println("Passons à l'ajout d'équipement sur la carte.\n Voulez-vous ajouter des équipements? (o/n)");
-                String decision4 = scan.nextLine();
-                if (decision4.equalsIgnoreCase("o")) {
-                    boolean continuer = true;
-                    while (continuer) {
-                        System.out.println("Voulez-vous une arme ou une armure ? Taper 1 pour arme, 2 pour armure. Si vous avez changé d'avis taper n");
-                        String arme = scan.nextLine();
-                        if (arme.equals("1")) {
-                            Arme arme1 = new Arme("bâton");
-                            Arme arme2 = new Arme("masse d'armes");
-                            Arme arme3 = new Arme("épée longue");
-                            Arme arme4 = new Arme("rapière");
-                            Arme arme5 = new Arme("arbalète légère");
-                            Arme arme6 = new Arme("fronde");
-                            Arme arme7 = new Arme("arc court");
-                            int choixArme;
-                            do {
-                                System.out.println("Choisissez une arme :");
-                                System.out.print("\t[1] " + arme1.toString());
-                                System.out.print("\t[2] " + arme2.toString());
-                                System.out.print("\t[3] " + arme3.toString());
-                                System.out.print("\t[4] " + arme4.toString());
-                                System.out.print("\t[5] " + arme5.toString());
-                                System.out.print("\t[6] " + arme6.toString());
-                                System.out.print("\t[7] " + arme7.toString());
-                                System.out.print("\t(choix entre 1 et 7)");
+                //Ajout des personnages au donjon
+                System.out.println("Maître du jeu, vous allez désormais placer les joueurs sur le plateau...");
 
-                                choixArme = scan.nextInt();
-                                scan.nextLine();
-                            } while (choixArme < 1 || choixArme > 7);
+                for (Personnage perso : personnages) {
+                    donjon.ajoutPersonnage(perso);
 
-                            Arme armeChoisie;
-
-                            switch (choixArme) {
-                                case 1:
-                                    armeChoisie = arme1;
-                                    break;
-                                case 2:
-                                    armeChoisie = arme2;
-                                    break;
-                                case 3:
-                                    armeChoisie = arme3;
-                                    break;
-                                case 4:
-                                    armeChoisie = arme4;
-                                    break;
-                                case 5:
-                                    armeChoisie = arme5;
-                                    break;
-                                case 6:
-                                    armeChoisie = arme6;
-                                    break;
-                                default:
-                                    armeChoisie = arme7;
-                            }
-
-                            System.out.println("Où voulez-vous placer cet arme ? (ex : A2)");
-                            String position = scan.nextLine();
-
-                            donjon.ajoutEquipement(armeChoisie, position);
-
-                        } else if (arme.equals("2")) {
-                            Armure armure1 = new Armure("armure d'écailles");
-                            Armure armure2 = new Armure("demi-plate");
-                            Armure armure3 = new Armure("cotte de mailles");
-                            Armure armure4 = new Armure("harnois");
-                            int choixArmure;
-
-                            do {
-                                System.out.println("Choisissez une armure :");
-                                System.out.print("\t[1] " + armure1.toString());
-                                System.out.print("\t[2] " + armure2.toString());
-                                System.out.print("\t[3] " + armure3.toString());
-                                System.out.print("\t[4] " + armure4.toString());
-                                System.out.print("\t(choix entre 1 et 4)");
-
-                                choixArmure = scan.nextInt();
-                                scan.nextLine();
-                            } while (choixArmure < 1 || choixArmure > 4);
-
-                            Armure armureChoisie;
-
-                            switch (choixArmure) {
-                                case 1:
-                                    armureChoisie = armure1;
-                                    break;
-                                case 2:
-                                    armureChoisie = armure2;
-                                    break;
-                                case 3:
-                                    armureChoisie = armure3;
-                                    break;
-                                default:
-                                    armureChoisie = armure4;
-                            }
-
-                            System.out.println("Où voulez-vous placer cet armure ? (ex : A2)");
-                            String position = scan.nextLine();
-
-                            donjon.ajoutEquipement(armureChoisie, position);
-
-                        } else if (arme.equals("n")) {
-                            continuer = false;
-                        } else {
-                            System.out.println("Oups, vous avez taper sur une mauvaise touche, recommencez.");
-                        }
-                    }
-                }
-            }
-
-            //Ajout des personnages au donjon
-            System.out.println("Maître du jeu, vous allez désormais placer les joueurs sur le plateau...");
-
-            for (Personnage perso : personnages) {
-                donjon.ajoutPersonnage(perso);
-
-                System.out.println("Positionnons " + perso.getNom() + ". Où voulez-vous le positionner (ex : A2) ? Attention aux obstacles !");
-                donjon.affichagePlateau();
-                String pos = scan.nextLine();
-                donjon.positionner(perso, pos);
-            }
-
-
-            //Création des monstres
-            System.out.println();
-            System.out.println("Maître du jeu, créez les monstres qui terrifieront les joueurs !");
-            int nbMonstres = 1;
-            Hashtable<String, Integer> espece = new Hashtable<>();          //Sert pour l'id du monstre
-
-            do {
-                System.out.println("Monstre " + nbMonstres + " :");
-                System.out.println("Quelle est l'espèce de ce monstre ?");
-                String nom = scan.nextLine();
-
-                if (!espece.containsKey(nom)) {              //S'il n'y a pas encore eu de monstre de cette espèce, on l'ajoute
-                    espece.put(nom, 1);
-                } else {                                       //Sinon on incrémente le nombre de 1
-                    espece.put(nom, espece.get(nom) + 1);
+                    System.out.println("Positionnons " + perso.getNom() + ". Où voulez-vous le positionner (ex : A2) ? Attention aux obstacles !");
+                    donjon.affichagePlateau();
+                    String pos = scan.nextLine();
+                    donjon.positionner(perso, pos);
                 }
 
-                System.out.println("Entrez le nombre de PV qu'a le " + nom + " : ");
-                int PV = scan.nextInt();
-                scan.nextLine();
 
-                System.out.println("Entrez la classe d'armure de " + nom + " : ");
-                int classeArmure = scan.nextInt();
-                scan.nextLine();
-
-                System.out.println("Entrez l'initiative de " + nom + " : ");
-                int initiative = scan.nextInt();
-                scan.nextLine();
-
-                System.out.println("Entrez la vitesse de " + nom + " : ");
-                int vitesse = scan.nextInt();
-                scan.nextLine();
-
-                System.out.println("Entrez la force de " + nom + " : ");
-                int force = scan.nextInt();
-                scan.nextLine();
-
-                System.out.println("Entrez la dextérité de " + nom + " : ");
-                int dexterite = scan.nextInt();
-                scan.nextLine();
-
-                System.out.println("Entrez la portee de l'attaque du " + nom + " : ");
-                int porteeAttaque = scan.nextInt();
-                scan.nextLine();
-
-                System.out.println("Choix du jet de dé des attaques du " + nom);
-                System.out.print("\tEntrez le nombre de dé : ");
-                int nbLancers = scan.nextInt();
-                scan.nextLine();
-                System.out.print("\tEntrez le nombre de faces du dé : ");
-                int nbFaces = scan.nextInt();
-                scan.nextLine();
-
-
-                Monstre monstre = new Monstre(espece.get(nom), nom, PV, porteeAttaque, classeArmure, initiative, vitesse, force, dexterite, nbLancers, nbFaces);
-
-
-                donjon.ajoutMonstre(monstre);
-
+                //Création des monstres
                 System.out.println();
-                System.out.println("Positionnons ce monstre ! \nOù voulez-vous le positionner (ex : A2) ? Attention aux obstacles !");
+                System.out.println("Maître du jeu, créez les monstres qui terrifieront les joueurs !");
+                int nbMonstres = 1;
+                Hashtable<String, Integer> espece = new Hashtable<>();          //Sert pour l'id du monstre
+
+                do {
+                    System.out.println("Monstre " + nbMonstres + " :");
+                    System.out.println("Quelle est l'espèce de ce monstre ?");
+                    String nom = scan.nextLine();
+
+                    if (!espece.containsKey(nom)) {              //S'il n'y a pas encore eu de monstre de cette espèce, on l'ajoute
+                        espece.put(nom, 1);
+                    } else {                                       //Sinon on incrémente le nombre de 1
+                        espece.put(nom, espece.get(nom) + 1);
+                    }
+
+                    System.out.println("Entrez le nombre de PV qu'a le " + nom + " : ");
+                    int PV = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println("Entrez la classe d'armure de " + nom + " : ");
+                    int classeArmure = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println("Entrez l'initiative de " + nom + " : ");
+                    int initiative = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println("Entrez la vitesse de " + nom + " : ");
+                    int vitesse = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println("Entrez la force de " + nom + " : ");
+                    int force = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println("Entrez la dextérité de " + nom + " : ");
+                    int dexterite = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println("Entrez la portee de l'attaque du " + nom + " : ");
+                    int porteeAttaque = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println("Choix du jet de dé des attaques du " + nom);
+                    System.out.print("\tEntrez le nombre de dé : ");
+                    int nbLancers = scan.nextInt();
+                    scan.nextLine();
+                    System.out.print("\tEntrez le nombre de faces du dé : ");
+                    int nbFaces = scan.nextInt();
+                    scan.nextLine();
+
+
+                    Monstre monstre = new Monstre(espece.get(nom), nom, PV, porteeAttaque, classeArmure, initiative, vitesse, force, dexterite, nbLancers, nbFaces);
+
+
+                    donjon.ajoutMonstre(monstre);
+
+                    System.out.println();
+                    System.out.println("Positionnons ce monstre ! \nOù voulez-vous le positionner (ex : A2) ? Attention aux obstacles !");
+                    donjon.affichagePlateau();
+                    String pos = scan.nextLine();
+                    donjon.positionner(monstre, pos);
+
+                    System.out.println("Monstre créé ! Voici un récapitulatif :");
+                    System.out.println(monstre.toString());
+
+                    //Vérification si le maître du jeu veut créer un autre monstre
+                    System.out.println("Voulez-vous créer un autre monstre ? (o/n)");
+                    choix = scan.nextLine();
+                    nbMonstres++;
+                } while (choix.equalsIgnoreCase("o"));
+
+                System.out.println("Maître du jeu, vous avez créé " + (nbMonstres - 1) + " monstres avec succès !");
+
+                //Jeu
+                System.out.println("Le donjon et les personnages/monstres sont créés, que le donjon commence !");
+
                 donjon.affichagePlateau();
-                String pos = scan.nextLine();
-                donjon.positionner(monstre, pos);
-
-                System.out.println("Monstre créé ! Voici un récapitulatif :");
-                System.out.println(monstre.toString());
-
-                //Vérification si le maître du jeu veut créer un autre monstre
-                System.out.println("Voulez-vous créer un autre monstre ? (o/n)");
-                choix = scan.nextLine();
-                nbMonstres++;
-            } while (choix.equalsIgnoreCase("o"));
-
-            System.out.println("Maître du jeu, vous avez créé " + (nbMonstres - 1) + " monstres avec succès !");
-
-            //Jeu
-            System.out.println("Le donjon et les personnages/monstres sont créés, que le donjon commence !");
-
-            donjon.affichagePlateau();
 
 
-            ///////////GESTION DES TOURS/////////
-        Narrateur narrateur;
-        System.out.println("Oups, et vous Maitre du jeu, nous vous avons presque oublié. Voulez vous un pseudo? (o/n)");
-        choix = scan.nextLine();
-        if (choix.equalsIgnoreCase("o")) {
-            System.out.println("Quel sera ce pseudo?");
-            String pseudo = scan.nextLine();
-            narrateur = new Narrateur(pseudo);
-        }
-        else {
-            System.out.println("Vous restez donc 'Maitre du jeu'");
-            narrateur = new Narrateur();
-        }
-
-        System.out.println("L'ordre de jeu sera le suivant : ");
-        donjon.affichageOrdre();
-
-        ArrayList<Entite> joueurs = new ArrayList<>(donjon.getOrdre());
-
-        while (true) {
-            int tour=1;
-            for (Entite entite : joueurs) {
-                Tours tours= new Tours(tour);
-                int id=donjon.getId(entite);
-                boolean estUnPerso=false;
-                Personnage perso=null;
-                Monstre monstre=null;
-                Hashtable<Personnage,Integer> persos = new Hashtable<>(donjon.getListePersonnages());//je recup la liste des persos du donjon
-                Hashtable<Monstre,Integer> mons = new Hashtable<>(donjon.getListeMonstres());
-                for (Map.Entry<Personnage, Integer> e : persos.entrySet()) {//pour chaque perso de cette liste
-                    if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
-                        estUnPerso=true;
-                        perso = e.getKey();
-                    }
-
-                }
-                for (Map.Entry<Monstre, Integer> e : mons.entrySet()) {//pour chaque perso de cette liste
-                    if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
-                        estUnPerso=false;
-                        monstre = e.getKey();
-                    }
-
-                }
-
-                if (estUnPerso && perso!=null) {
-                    boolean fin= tours.ajouterTourPersonnage(perso,donjon,narrateur);
-                    if (fin) {
-                        break;
-                    }
-
-                }
-                else {
-                    boolean fin= tours.ajouterTourMonstre(monstre,donjon,narrateur);
-                    if (fin) {
-                        break;
-                    }
-
-                }
-
+                ///////////GESTION DES TOURS/////////
+            Narrateur narrateur;
+            System.out.println("\n\nOups, et vous Maitre du jeu, nous vous avons presque oublié. Voulez vous un pseudo? (o/n)");
+            choix = scan.nextLine();
+            if (choix.equalsIgnoreCase("o")) {
+                System.out.println("Quel sera ce pseudo?");
+                String pseudo = scan.nextLine();
+                narrateur = new Narrateur(pseudo);
             }
-            tour=tour+1;
-        }
+            else {
+                System.out.println("Vous restez donc 'Maitre du jeu'");
+                narrateur = new Narrateur();
+            }
+
+            System.out.println("Que le jeu commence! bonne chance\n");
+
+            ArrayList<Entite> joueurs = new ArrayList<>(donjon.getOrdre());
+
+            while (true) {
+                int tour=1;
+                for (Entite entite : joueurs) {
+                    Tours tours= new Tours(tour);
+                    int id=donjon.getId(entite);
+                    boolean estUnPerso=false;
+                    Personnage perso=null;
+                    Monstre monstre=null;
+                    Hashtable<Personnage,Integer> persos = new Hashtable<>(donjon.getListePersonnages());//je recup la liste des persos du donjon
+                    Hashtable<Monstre,Integer> mons = new Hashtable<>(donjon.getListeMonstres());
+                    for (Map.Entry<Personnage, Integer> e : persos.entrySet()) {//pour chaque perso de cette liste
+                        if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
+                            estUnPerso=true;
+                            perso = e.getKey();
+                        }
+
+                    }
+                    for (Map.Entry<Monstre, Integer> e : mons.entrySet()) {//pour chaque perso de cette liste
+                        if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
+                            estUnPerso=false;
+                            monstre = e.getKey();
+                        }
+
+                    }
+
+                    if (estUnPerso) {
+                        tours.ajouterTourPersonnage(perso, donjon, narrateur);
+                    }
+                    else {
+                        tours.ajouterTourMonstre(monstre, donjon, narrateur);
+                    }
+
+                    for (Map.Entry<Personnage, Integer> e : persos.entrySet()) {//pour chaque perso de cette liste
+                        int fin=donjon.finDonjon(e.getKey());
+
+                        if (fin==0){
+                            System.out.println("oh non! "+e.getKey().getNom()+"est mort! Les monstres on gagné...");
+                            System.out.println("GAME OVER");
+                            break;
+                        } else if (fin==1) {
+                            System.out.println("Le dernier monstre a été abattu, votre équipe a reussi ce donjon!");
+                            System.out.println("VICTOIRE");
+                            break;
+                        }
+                        else {
+                            System.out.println("On continu!");
+                        }
+
+                    }
+
+                }
+                tour=tour+1;
+            }
 
         }
     }

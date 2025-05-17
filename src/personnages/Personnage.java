@@ -141,6 +141,9 @@ public abstract class Personnage implements Entite{
     */
     @Override
     public String attaquer(Entite cible){
+        if (m_arme == null) {
+            return "Erreur : vous n'avez pas d'arme pour attaquer.";
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("Lancé d'un dé à 20 faces...\n");
         int jetAttaque = jetDes(1, 20);

@@ -171,40 +171,55 @@ package equipement {
 
 
 
-class Donjon {
-    - m_num : int
-    - m_nb_montres : int
-    - m_nb_personnages : int
-    - m_longueur : int
-    - m_largeur : int
-    - m_entites : Hashtable<Integer, Entite>
-    - m_cases : Hashtable<String, int[][]>
+package "jeu" {
+    class Donjon {
+        - m_num : int
+        - m_nb_monstres : int
+        - m_nb_personnages : int
+        - m_longueur : int
+        - m_largeur : int
+        - m_entites : Hashtable<Integer, Entite>
+        - m_personnages : Hashtable<Personnage, Integer>
+        - m_monstres : Hashtable<Monstre, Integer>
+        - m_cases : Hashtable<String, int[]>
 
+        + Donjon(num : int, longueur : int, largeur : int)
+        + Donjon(num : int)
+        - initDonjon1() : void
+        - initDonjon2() : void
+        - initDonjon3() : void
+        + ajoutPersonnage(e : Personnage) : void
+        + ajoutMonstre(e : Monstre) : void
+        + getListePersonnages() : Hashtable<Personnage, Integer>
+        + getListeMonstres() : Hashtable<Monstre, Integer>
+        + ajoutObstacle(position : String) : boolean
+        + ajoutEquipement(equip : Equipement, position : String) : void
+        + getEquipementParId(id : int) : String
+        + getId(entite : Entite) : int
+        + positionner(e : Entite, position : String) : String
+        + afficherIDentite() : void
+        - getEntites() : Hashtable<Integer, Entite>
+        - getNombreEntites() : int
+        - existeCase(position : String) : Boolean
+        - nommerCases() : void
+        + getCases() : Hashtable<String, int[]>
+        - ordreDeJeu() : ArrayList<Entite>
+    }
 
-    +«Create» Donjon(num : int, longueur : int, largeur : int)
-    +«Create» Donjon(num : int)
+    class Narrateur {
+            - m_pseudo : String
+            + Narrateur(pseudo : String)
+            + Narrateur()
+            + getPseudo() : String
+            + commenter(phrase : String) : String
+    }
 
-    -initDonjon1() : void
-    -initDonjon2() : void
-    -initDonjon3() : void
-    +ajoutPersonnage(e : Personnage) : void
-    +ajoutMonstre(e : Monstre) : void
-    +ajoutObstacle(position : String) : boolean
-    +ajoutEquipement(equip: Equipement, position : String) : String
-    +getNomEquipementParId(id : int) : String
-    +positionner(e : entite, position : String) : String
-    +seDeplacer(entiteID : int, direction : String) : String
-    +finDonjon(perso : Personnage) : String
-    +affichage_plateau() : void
-    +affichage_ordre() : void
-    +tours() : void
-    -getId(entite : Entite) : int
-    -existeCase(position : String) : boolean
-    -afficherIdEntite() : void
-    -getNombreEntites() : int
-    -nommerCases() : void
-    -ordreDeJeu() : ArrayList<Entite>
-
+    class Tours {
+               - m_nu : int
+               + Tours(num : int)
+               + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : Narrateur) : void
+               + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : Narrateur) : void
+    }
 }
 
 
@@ -222,7 +237,13 @@ Main ..> Magicien : <<instanciate>>
 Main ..> Roublard : <<instanciate>>
 Main ..> Monstre : <<instanciate>>
 Main ..> Donjon : <<instanciate>>
+Main ..> Tours : <<instanciate>>
+Main ..> Narrateur : <<instanciate>>
 
+
+
+Tours ..> Narrateur : reçoit en paramètre
+Tours ..> Donjon : reçoit en paramètre
 
 
 
