@@ -173,36 +173,36 @@ package equipement {
 
 package "jeu" {
     class Donjon {
-        - m_num : int
-        - m_nb_monstres : int
-        - m_nb_personnages : int
-        - m_longueur : int
-        - m_largeur : int
+        - m_num : Integer
+        - m_nb_monstres : Integer
+        - m_nb_personnages : Integer
+        - m_longueur : Integer
+        - m_largeur : Integer
         - m_entites : Hashtable<Integer, Entite>
         - m_personnages : Hashtable<Personnage, Integer>
         - m_monstres : Hashtable<Monstre, Integer>
-        - m_cases : Hashtable<String, int[]>
+        - m_cases : Hashtable<String, Integer[]>
 
-        + Donjon(num : int, longueur : int, largeur : int)
+        + Donjon(num : Integer, longueur : Integer, largeur : Integer)
         + Donjon(num : int)
-        - initDonjon1() : void
-        - initDonjon2() : void
-        - initDonjon3() : void
-        + ajoutPersonnage(e : Personnage) : void
-        + ajoutMonstre(e : Monstre) : void
+        - initDonjon1()
+        - initDonjon2()
+        - initDonjon3()
+        + ajoutPersonnage(e : Personnage)
+        + ajoutMonstre(e : Monstre)
         + getListePersonnages() : Hashtable<Personnage, Integer>
         + getListeMonstres() : Hashtable<Monstre, Integer>
-        + ajoutObstacle(position : String) : boolean
-        + ajoutEquipement(equip : Equipement, position : String) : void
+        + ajoutObstacle(position : String) : Boolean
+        + ajoutEquipement(equip : Equipement, position : String)
         + getEquipementParId(id : int) : String
-        + getId(entite : Entite) : int
+        + getId(entite : Entite) : Integer
         + positionner(e : Entite, position : String) : String
-        + afficherIDentite() : void
+        + afficherIDentite()
         - getEntites() : Hashtable<Integer, Entite>
-        - getNombreEntites() : int
+        - getNombreEntites() : Integer
         - existeCase(position : String) : Boolean
-        - nommerCases() : void
-        + getCases() : Hashtable<String, int[]>
+        - nommerCases()
+        + getCases() : Hashtable<String, Integer[]>
         - ordreDeJeu() : ArrayList<Entite>
     }
 
@@ -215,10 +215,10 @@ package "jeu" {
     }
 
     class Tours {
-               - m_nu : int
+               - m_nu : Integer
                + Tours(num : int)
-               + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : Narrateur) : void
-               + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : Narrateur) : void
+               + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : Narrateur)
+               + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : Narrateur)
     }
 }
 
