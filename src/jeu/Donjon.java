@@ -298,7 +298,7 @@ public class Donjon {
     // CONNAITRE L'ID DE CHAQUE ENTITE
     protected void afficherIDentite() {
         for (Map.Entry<Integer, Entite> entry : getEntites().entrySet()) { //pour chaque case de notre dico d'entite
-            System.out.println(entry.getValue().getNom()+" --> " + entry.getKey());//le nom de l'entite
+            System.out.println("\t" + entry.getValue().getNom()+" --> " + entry.getKey());//le nom de l'entite
         }
     }
 

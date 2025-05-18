@@ -303,4 +303,12 @@ public abstract class Personnage implements Entite{
 
         return sb.toString();
     }
+
+    public int tailleInventaire(){
+        return this.m_inventaire.size();
+    }
+
+    public Equipement getEquipement(int position){
+        return this.m_inventaire.get(position-1);
+    }
 }

@@ -61,6 +61,8 @@ package personnages{
         - {static} afficherEquipement(armure : Armure, position : Integer) : String
         - {static} afficherEquipement(arme : Arme, position : Integer) : String
         + afficherInventaire() : String
+        + tailleInventaire() : Integer
+        + getEquipement() : Equipement
 
     }
 
@@ -173,7 +175,7 @@ package equipement {
 
 package "jeu" {
     class Donjon {
-        - m_num : Integer
+        - m_num : Integer <<final>>
         - m_nb_monstres : Integer
         - m_nb_personnages : Integer
         - m_longueur : Integer
@@ -181,10 +183,10 @@ package "jeu" {
         - m_entites : Hashtable<Integer, Entite>
         - m_personnages : Hashtable<Personnage, Integer>
         - m_monstres : Hashtable<Monstre, Integer>
-        - m_cases : Hashtable<String, Integer[]>
+        - m_cases : Hashtable<String, Integer[*]>
 
         + Donjon(num : Integer, longueur : Integer, largeur : Integer)
-        + Donjon(num : int)
+        + Donjon(num : Integer)
         - initDonjon1()
         - initDonjon2()
         - initDonjon3()
@@ -202,8 +204,8 @@ package "jeu" {
         - getNombreEntites() : Integer
         - existeCase(position : String) : Boolean
         - nommerCases()
-        + getCases() : Hashtable<String, Integer[]>
-        - ordreDeJeu() : ArrayList<Entite>
+        + getCases() : Hashtable<String, Integer[*]>
+        - ordreDeJeu() : Entite[*]
     }
 
     class Narrateur {
@@ -215,8 +217,8 @@ package "jeu" {
     }
 
     class Tours {
-               - m_nu : Integer
-               + Tours(num : int)
+               - m_nu : Integer <<final>>
+               + Tours(num : Integer)
                + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : Narrateur)
                + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : Narrateur)
     }

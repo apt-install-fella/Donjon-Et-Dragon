@@ -2,6 +2,7 @@ package jeu;
 
 import equipement.Arme;
 import equipement.Armure;
+import equipement.Equipement;
 import personnages.Monstre;
 import personnages.Personnage;
 
@@ -11,9 +12,9 @@ import java.util.Scanner;
 
 import personnages.Entite;
 
-//cette fonction devra etre appelée dans une boucle qui parcours tous les joueurs dans l'ordre
+//cette fonction devra être appelée dans une boucle qui parcourt tous les joueurs dans l'ordre
 //la liste des joueurs est disponible dans la classe donjon, donjon.afficher ordre
-//si nécéssaire une foncttion qui renvoit la liste peut etre crée pour faciliter le travail du main
+//si nécéssaire une fonction qui renvoit la liste peut être créée pour faciliter le travail du main
 
 
 public class Tours {
@@ -29,20 +30,20 @@ public class Tours {
 
 
         System.out.println("=====================================================================================");
-        System.out.println("donjon : " + donjon.getNumDonjons());
-        System.out.println("Tours : " + m_nu);
-        System.out.println("\n\t Les personnages et monstre joueront comme suit:");
+        System.out.println("Donjon : " + donjon.getNumDonjons());
+        System.out.println("Tour : " + m_nu);
+        System.out.println("\n\t Les personnages et monstres joueront comme suit :");
         donjon.affichageOrdre();
 
-        System.out.println("\nAller " + personnage.getNom() + ", a toi de jouer!");
+        System.out.println("\nAller " + personnage.getNom() + ", à toi de jouer !");
         System.out.println("=====================================================================================");
 
 
-        System.out.println("Voici l'id de tout le monde:");
+        System.out.println("Voici l'id de tout le monde :");
         donjon.afficherIDentite();
         System.out.println("\n");
         donjon.affichagePlateau();
-        System.out.println("les monstres sont suivis d'un M || les équipements sont représentés par des *\n\n");
+        System.out.println("Les monstres sont suivis d'un M || les équipements sont représentés par des *\n\n");
 
         System.out.println("=====================================================================================");
         int id = donjon.getId(personnage);
@@ -51,43 +52,53 @@ public class Tours {
 
 
         for (int i = 3; i > 0; i--) {
+            System.out.println(personnage.toStringDetails());
 
-            System.out.println(" vous avez " + i + "action(s), que choisissez vous? \n" +
-                    "[1] laisser le maître du jeu commenter l'action précédente\n" +
-                    "[2] commenter action précédente\n" +
+            System.out.println(" vous avez " + i + " action(s), que choisissez-vous? \n" +
+                    "[1] s'équiper\n" +
+                    "[2] se déplacer\n" +
                     "[3] attaquer\n" +
-                    "[4] se déplacer\n" +
-                    "[5] s'équiper");
+                    "[4] ramasser un équipement\n");
             String choix = scan.nextLine();
             switch (choix) {
                 case "1" -> {
-                    System.out.println("Laisser au "+narrateur.getPseudo()+" la parole? bien, que veut-il nous dire?");
+                    /*
+                    System.out.println("Laisser au "+narrateur.getPseudo()+" la parole ? Bien, qu'a-t-il à dire ?");
                     String nouveau = scan.nextLine();
                     narrateur.commenter(nouveau);
+                     */
+
+                    System.out.println("Vous souhaitez vous équiper, voici un rappel de votre inventaire :");
+                    System.out.println(personnage.afficherInventaire());
+                    int choixEquipement;
+                    do{
+                        System.out.println("Choisissez un nombre entre 1 et " + personnage.tailleInventaire());
+                        choixEquipement = scan.nextInt();
+                        scan.nextLine();
+                    }while(choixEquipement < 1 || choixEquipement > personnage.tailleInventaire());
+
+                    Equipement equipement = personnage.getEquipement(choixEquipement);
+
+                    if(equipement.getClasse().equals("Arme")){
+                        Arme arme = (Arme) equipement;
+                       personnage.equiper(arme);
+                        System.out.println("Vous avez équipé " + arme.toString());
+                    }
+                    else{
+                        Armure armure = (Armure) equipement;
+                        personnage.equiper(armure);
+                        System.out.println("Vous avez équipé " + armure.toString());
+                    }
 
                 }
                 case "2" -> {
-//le personnage peut dire des trucs?
+                    /*
+                    le personnage peut dire des trucs?
                     System.out.println(personnage.getNom() + " souhaite commenter : ");
                     String commentaire = scan.nextLine();
                     narrateur.commenter(commentaire);
-                }
-                case "3" -> {
-                    System.out.println("La meilleure defense est l'attaque, qui voulez-vous attaquer?(un id suffit)");
-                    String cible = scan.nextLine(); //donne id de la cible
-                    int decision = Integer.parseInt(cible); //on convert l'id en int
+                     */
 
-                    Entite attaque = donjon.getEntiteParId(decision); //je recupere la cible
-                    if (attaque != null) { //si la cible existe bien
-                        String attaquer=personnage.attaquer(attaque); //on l'attaque
-                        System.out.println(attaquer);
-
-                    }
-                    else {
-                        System.out.println("attaque impossible");
-                    }
-                }
-                case "4" -> {
                     int distance=personnage.getDistance();
                     String dis= String.valueOf(distance);
 
@@ -137,8 +148,24 @@ public class Tours {
 
                 }
 
-                case "5" -> {
-                    System.out.println("Vous optez pour une protection personnel");
+                case "3" -> {
+                    System.out.println("La meilleure défense est l'attaque, qui voulez-vous attaquer ? (un id suffit)");
+                    int decision = scan.nextInt(); //donne id de la cible
+                    scan.nextLine();
+
+                    Entite cible = donjon.getEntiteParId(decision); //je recupere la cible
+                    if (cible != null) { //si la cible existe bien
+                        String attaquer=personnage.attaquer(cible); //on l'attaque
+                        System.out.println(attaquer);
+
+                    }
+                    else {
+                        System.out.println("Attaque impossible");
+                    }
+                }
+
+                case "4" -> {
+                    System.out.println("Vous voulez ramassez l'équipement à vos pieds...");
                     int armeId;
 
                     for (Map.Entry<String, int[]> positions : donjon.getCases().entrySet()) { //on parcours le tab de caes
@@ -146,15 +173,15 @@ public class Tours {
                             armeId = positions.getValue()[1]; //on recup l'id de l'equiment dispo
                             if (armeId <= 0) continue;
 
-                            String arme = String.valueOf((armeId));//on recup le nom de cet equipement
-                            if (armeId>4 && armeId<12) { //si l'id est plus grand que 4 c'est une arme
-                                Arme newArm = new Arme(arme); //on cree cette arme
-                                personnage.equiper(newArm);//le perso s'equipe
-                                System.out.println("Le personnage " + personnage.getNom() + " s’équipe avec " + arme);
-                            } else if (armeId>0 && armeId<5) { //si l'id est plus petit que 5 c'est une armure
-                                Armure armure = new Armure(arme);  //on cree l'armure
-                                personnage.equiper(armure);//le perso s'equipe
-                                System.out.println("Le personnage " + personnage.getNom() + " s’équipe avec " + arme);
+                            String equipement = String.valueOf((armeId));     //on recup le nom de cet equipement
+                            if (armeId>4 && armeId<12) {                //si l'id est plus grand que 4 c'est une arme
+                                Arme arme = new Arme(equipement);           //on cree cette arme
+                                personnage.ajoutEquipement(arme);     //on l'ajoute à son inventaire
+                                System.out.println("Vous avez ramassé : " + arme.toString());
+                            } else if (armeId>0 && armeId<5) {          //si l'id est plus petit que 5 c'est une armure
+                                Armure armure = new Armure(equipement);       //on cree l'armure
+                                personnage.ajoutEquipement(armure);           //on l'ajoute à son inventaire
+                                System.out.println("Vous avez ramassé : " + armure.toString());
                             }
                         }
 
@@ -162,7 +189,7 @@ public class Tours {
                 }
 
                 default -> {
-                    System.out.println("mauvais choix, recommencer.");
+                    System.out.println("Mauvais choix, recommencez.");
                     i++;
                 }
             }
@@ -178,12 +205,12 @@ public class Tours {
 
 
         System.out.println("=====================================================================================");
-        System.out.println("donjon : " + donjon.getNumDonjons());
-        System.out.println("jeu.Tours : " + m_nu);
+        System.out.println("Donjon : " + donjon.getNumDonjons());
+        System.out.println("Tour : " + m_nu);
 
         donjon.affichageOrdre();
 
-        System.out.println("Le monstre "+monstre.getNom()+" est pret à jouer, préparer vous!");
+        System.out.println("Le monstre "+monstre.getNom()+" est prêt à jouer, préparez-vous !");
         System.out.println("=====================================================================================");
 
         monstre.toStringDetails();
@@ -193,48 +220,50 @@ public class Tours {
 
 
         donjon.affichagePlateau();
-        System.out.println("les monstres sont suivis d'un M|| les équipements sont représentés par des *\n\n");
+        System.out.println("Les monstres sont suivis d'un M|| les équipements sont représentés par des *\n\n");
 
         System.out.println("=====================================================================================");
         monstre.toStringDetails();
 
 
         for (int i = 3; i > 0; i--) {
+            System.out.println(monstre.toStringDetails());
 
-            System.out.println(" vous avez " + i + "action(s), que choisissez vous? \n " +
-                    "[1] laisser le maître du jeu commenter l'action précédente\n" +
-                    "[2] commenter action précédente\n" +
-                    "[3] attaquer\n" +
-                    "[4] se déplacer");
+            System.out.println(" vous avez " + i + " action(s), que choisissez-vous ? \n " +
+                    "[1] attaquer\n" +
+                    "[2] se déplacer");
             String choix = scan.nextLine();
             switch (choix) {
                 case "1" -> {
+                    /*
                     System.out.println("Attention, "+narrateur.getPseudo()+" a pris la parole. Merci de l'écouter.");
                     String nouveau = scan.nextLine();
                     narrateur.commenter(nouveau);
-                }
-                case "2" -> {
-//le personnage peut dire des trucs?
-                    System.out.println(monstre.getNom() + " souhaite commenter : ");
-                    String commentaire = scan.nextLine();
-                    narrateur.commenter(commentaire);
-                }
-                case "3" -> {
-                    System.out.println(monstre.getNom()+", qui va etre votre victime?(un id suffit)");
-                    String cible = scan.nextLine(); //donne id de la cible
-                    int decision = Integer.parseInt(cible); //on convert l'id en int
+                     */
 
-                    Entite attaque = donjon.getEntiteParId(decision); //je recupere la cible
-                    if (attaque != null) { //si la cible existe bien
-                        String attaquer=monstre.attaquer(attaque); //on l'attaque
+                    System.out.println(monstre.getNom()+", qui va être votre victime ? (un id suffit)");
+                    int decision = scan.nextInt(); //donne id de la cible
+                    scan.nextLine();
+
+                    Entite cible = donjon.getEntiteParId(decision); //je récupère la cible
+                    if (cible != null) { //si la cible existe bien
+                        String attaquer=monstre.attaquer(cible); //on l'attaque
                         System.out.println(attaquer);
 
                     }
                     else {
-                        System.out.println("attaque impossible");
+                        System.out.println("Attaque impossible");
                     }
+
                 }
-                case "4" -> {
+
+                case "2" -> {
+                    /*le personnage peut dire des trucs?
+                    System.out.println(monstre.getNom() + " souhaite commenter : ");
+                    String commentaire = scan.nextLine();
+                    narrateur.commenter(commentaire);
+                     */
+
                     int distance =monstre.getDistance();
                     String dis= String.valueOf(distance);
                     System.out.println("Une stratégie se met en place, quelle position est la plus adapté? pas plus de "+distance+" cases");
@@ -272,7 +301,6 @@ public class Tours {
                             break;
                     }
 
-
                     if (position.equals("invalide")) {
                         System.out.println("Direction invalide. Pas de déplacement.");
                     } else {
@@ -283,7 +311,7 @@ public class Tours {
                 }
 
                 default -> {
-                    System.out.println("mauvais choix, recommencer.");
+                    System.out.println("Mauvais choix, recommencez.");
                     i++;
                 }
             }
