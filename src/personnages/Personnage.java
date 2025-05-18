@@ -182,7 +182,10 @@ public abstract class Personnage implements Entite{
 
     @Override
     public int getClasseArmure(){
-        return m_armure.getClasseArmure();
+        if(m_armure != null){
+            return m_armure.getClasseArmure();
+        }
+        return 0;
     }
 
     @Override
