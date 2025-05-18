@@ -445,6 +445,9 @@ public class Main {
                 narrateur = new Narrateur();
             }
 
+            System.out.println(narrateur.getPseudo() + " veuillez présenter le contexte aux joueurs...");
+            scan.nextLine();
+
             System.out.println("Que le jeu commence ! Bonne chance\n");
 
             ArrayList<Entite> joueurs = new ArrayList<>(donjon.getOrdre());
