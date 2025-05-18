@@ -211,7 +211,6 @@ package jeu {
         + Narrateur(pseudo : String)
         + Narrateur()
         + getPseudo() : String
-        + commenter(phrase : String) : String
     }
 
     class Tours {

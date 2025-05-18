@@ -14,8 +14,4 @@ public class Narrateur {
         return m_pseudo;
     }
 
-    public String commenter(String phrase) {
-        return phrase;
-    }
-
 }
