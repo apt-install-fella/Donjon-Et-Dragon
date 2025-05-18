@@ -21,8 +21,8 @@ public class Donjon {
 
     //==========attributs====================
     private final int m_num;
-    private int m_nb_monstres;
-    private int m_nb_personnages;
+    int m_nb_monstres;
+    int m_nb_personnages;
     private int m_longueur;
     private int m_largeur;
     private Hashtable<Integer, Entite> m_entites;
@@ -59,7 +59,7 @@ public class Donjon {
                 initDonjon3();
                 break;
             default:
-                System.out.println("model de donjon inexistant");
+                System.out.println("Modèle de donjon inexistant.");
         }
     }
     //============================================================================
@@ -207,17 +207,14 @@ public class Donjon {
             case "arc court" -> 11;
             default -> 20; //nombre au hasard
         };
-        int[] val = null;
-
 
         for (Map.Entry<String, int[]> caseEntry : m_cases.entrySet()) {
             if (caseEntry.getKey().equals(position)) {
-                val = caseEntry.getValue();
-                break; // on a trouvé la bonne case, on sort de la boucle
+                if(id != 20){
+                    m_cases.put(position, new int[] {0, id});
+                }
+                break; // on a trouvé la bonne case et mis l'équipement, on sort de la boucle
             }
-        }
-        if (val != null && id != 20) {
-            val[1] = id; //je mets l'id de l'equipement dans la deuxieme case du dico des positions
         }
 
     }
@@ -237,7 +234,7 @@ public class Donjon {
             case 9 -> "arbalète légère";
             case 10 -> "fronde";
             case 11 -> "arc court";
-            default -> "l'equipement n'existe pas";
+            default -> "l'équipement n'existe pas";
         };
     }
 
@@ -298,7 +295,7 @@ public class Donjon {
     // CONNAITRE L'ID DE CHAQUE ENTITE
     protected void afficherIDentite() {
         for (Map.Entry<Integer, Entite> entry : getEntites().entrySet()) { //pour chaque case de notre dico d'entite
-            System.out.println(entry.getValue().getNom()+" --> " + entry.getKey());//le nom de l'entite
+            System.out.println("\t" + entry.getValue().getNom()+" --> " + entry.getKey());//le nom de l'entite
         }
     }
 
@@ -409,8 +406,9 @@ public class Donjon {
                 if (m_cases.containsKey(nouvelleCase)) { //si notre tableau de case a bien la case (on est pas aller trop haut par ex
                     int[] destination = m_cases.get(nouvelleCase); //on recup le tableau de cette nouvelle case
                     if (destination[0] == 0) { //aucun perso ou obstacle n'est dans cette case
-                        m_cases.put(nouvelleCase, valeurs); // on met le tableau de l'ancienne case ici
-                        m_cases.put(nomCase, new int[]{0, 0}); // libérer l'ancienne case
+                        destination[0] = entiteID;
+                        m_cases.put(nouvelleCase, destination); // on met le tableau de l'ancienne case ici
+                        m_cases.put(nomCase, new int[]{0, valeurs[1]}); // libérer l'ancienne case
 
 
                         retourne = (e.getNom() + " se déplace vers " + nouvelleCase);

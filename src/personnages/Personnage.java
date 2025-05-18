@@ -125,6 +125,10 @@ public abstract class Personnage implements Entite{
 
     @Override
     public int getDistance(){
+        if(this.m_vitesse <3){
+            return 1;
+        }
+
         return this.m_vitesse / 3;
     }
 
@@ -182,7 +186,10 @@ public abstract class Personnage implements Entite{
 
     @Override
     public int getClasseArmure(){
-        return m_armure.getClasseArmure();
+        if(m_armure != null){
+            return m_armure.getClasseArmure();
+        }
+        return 0;
     }
 
     @Override
@@ -302,5 +309,13 @@ public abstract class Personnage implements Entite{
         sb.append("\n");
 
         return sb.toString();
+    }
+
+    public int tailleInventaire(){
+        return this.m_inventaire.size();
+    }
+
+    public Equipement getEquipement(int position){
+        return this.m_inventaire.get(position-1);
     }
 }

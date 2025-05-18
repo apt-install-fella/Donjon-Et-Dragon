@@ -1,13 +1,8 @@
 import equipement.*;
-import jeu.Donjon;
-import jeu.Narrateur;
-import jeu.Tours;
+import jeu.*;
 import personnages.*;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -118,6 +113,35 @@ public class Main {
 
             System.out.println("Personnage créé ! Voici un récapitulatif :");
             System.out.println(perso.toString());
+
+            System.out.println("Vous pouvez désormais équiper armure et/ou arme.");
+            String veutEquiper;
+            do {
+                int choixEquip;
+                do {
+                    System.out.println(perso.afficherInventaire());
+                    choixEquip = scan.nextInt();
+                    scan.nextLine();
+                } while (choixEquip < 1 || choixEquip > perso.tailleInventaire());
+
+                Equipement equip = perso.getEquipement(choixEquip);
+
+                if (equip.getClasse().equals("Arme")) {
+                    Arme arme = (Arme) equip;
+                    perso.equiper(arme);
+                    System.out.println("Vous avez équipé " + arme.toString());
+                } else {
+                    Armure armure = (Armure) equip;
+                    perso.equiper(armure);
+                    System.out.println("Vous avez équipé " + armure.toString());
+                }
+
+                System.out.println("Voulez-vous vous équiper avec autre chose ? (o/n)");
+                veutEquiper = scan.nextLine();
+
+            }while(!veutEquiper.equalsIgnoreCase("n"));
+            System.out.println();
+
             personnages.add(perso);
 
             //Vérification si les joueurs veulent créer un autre personnage
@@ -130,6 +154,7 @@ public class Main {
 
 
         Donjon donjon;
+        boolean finPartie = false;
 
         //Numéro de donjon (on quitte si les joueurs ne réussissent pas un donjon)
         for (int i = 1; i < 4; i++) {
@@ -168,6 +193,7 @@ public class Main {
                         boolean continuer = true;
 
                         while (continuer) {
+                            donjon.affichagePlateau();
                             System.out.println("A quelle position voulez-vous placer cet obstacle (ex : A2 --> colonne/ligne) ?");
                             String position = scan.nextLine();
                             boolean ajout = donjon.ajoutObstacle(position);
@@ -210,7 +236,7 @@ public class Main {
                                     System.out.print("\t[5] " + arme5.toString());
                                     System.out.print("\t[6] " + arme6.toString());
                                     System.out.print("\t[7] " + arme7.toString());
-                                    System.out.print("\t(choix entre 1 et 7)");
+                                    System.out.println("\t(choix entre 1 et 7)");
 
                                     choixArme = scan.nextInt();
                                     scan.nextLine();
@@ -241,6 +267,7 @@ public class Main {
                                         armeChoisie = arme7;
                                 }
 
+                                donjon.affichagePlateau();
                                 System.out.println("Où voulez-vous placer cet arme ? (ex : A2)");
                                 String position = scan.nextLine();
 
@@ -259,7 +286,7 @@ public class Main {
                                     System.out.print("\t[2] " + armure2.toString());
                                     System.out.print("\t[3] " + armure3.toString());
                                     System.out.print("\t[4] " + armure4.toString());
-                                    System.out.print("\t(choix entre 1 et 4)");
+                                    System.out.println("\t(choix entre 1 et 4)");
 
                                     choixArmure = scan.nextInt();
                                     scan.nextLine();
@@ -281,6 +308,7 @@ public class Main {
                                         armureChoisie = armure4;
                                 }
 
+                                donjon.affichagePlateau();
                                 System.out.println("Où voulez-vous placer cet armure ? (ex : A2)");
                                 String position = scan.nextLine();
 
@@ -300,11 +328,17 @@ public class Main {
 
                 for (Personnage perso : personnages) {
                     donjon.ajoutPersonnage(perso);
+                    String retour = "";
+                    String pos;
 
-                    System.out.println("Positionnons " + perso.getNom() + ". Où voulez-vous le positionner (ex : A2) ? Attention aux obstacles !");
-                    donjon.affichagePlateau();
-                    String pos = scan.nextLine();
-                    donjon.positionner(perso, pos);
+                    do {
+                        System.out.println("Positionnons " + perso.getNom() + ". Où voulez-vous le positionner (ex : A2) ? Attention aux obstacles !");
+                        donjon.affichagePlateau();
+                        pos = scan.nextLine();
+                        retour = donjon.positionner(perso, pos);
+                        System.out.println(retour);
+                        System.out.println();
+                    }while(!Objects.equals(retour, perso.getNom() + " a été positionné avec succès dans " + pos));
                 }
 
 
@@ -329,23 +363,23 @@ public class Main {
                     int PV = scan.nextInt();
                     scan.nextLine();
 
-                    System.out.println("Entrez la classe d'armure de " + nom + " : ");
+                    System.out.println("Entrez la classe d'armure du " + nom + " : ");
                     int classeArmure = scan.nextInt();
                     scan.nextLine();
 
-                    System.out.println("Entrez l'initiative de " + nom + " : ");
+                    System.out.println("Entrez l'initiative du " + nom + " : ");
                     int initiative = scan.nextInt();
                     scan.nextLine();
 
-                    System.out.println("Entrez la vitesse de " + nom + " : ");
+                    System.out.println("Entrez la vitesse du " + nom + " : ");
                     int vitesse = scan.nextInt();
                     scan.nextLine();
 
-                    System.out.println("Entrez la force de " + nom + " : ");
+                    System.out.println("Entrez la force du " + nom + " : ");
                     int force = scan.nextInt();
                     scan.nextLine();
 
-                    System.out.println("Entrez la dextérité de " + nom + " : ");
+                    System.out.println("Entrez la dextérité du " + nom + " : ");
                     int dexterite = scan.nextInt();
                     scan.nextLine();
 
@@ -366,12 +400,19 @@ public class Main {
 
 
                     donjon.ajoutMonstre(monstre);
+                    String retour;
+                    String pos;
 
-                    System.out.println();
-                    System.out.println("Positionnons ce monstre ! \nOù voulez-vous le positionner (ex : A2) ? Attention aux obstacles !");
-                    donjon.affichagePlateau();
-                    String pos = scan.nextLine();
-                    donjon.positionner(monstre, pos);
+                    do {
+                        System.out.println();
+                        System.out.println("Positionnons ce monstre ! \nOù voulez-vous le positionner (ex : A2) ? Attention aux obstacles !");
+                        donjon.affichagePlateau();
+                        pos = scan.nextLine();
+                        retour = donjon.positionner(monstre, pos);
+                        System.out.println(retour);
+                        System.out.println();
+                    }while(!Objects.equals(retour, monstre.getNom() + " a été positionné avec succès dans " + pos));
+
 
                     System.out.println("Monstre créé ! Voici un récapitulatif :");
                     System.out.println(monstre.toString());
@@ -392,10 +433,10 @@ public class Main {
 
                 ///////////GESTION DES TOURS/////////
             Narrateur narrateur;
-            System.out.println("\n\nOups, et vous Maitre du jeu, nous vous avons presque oublié. Voulez vous un pseudo? (o/n)");
+            System.out.println("\n\nOups, et vous, Maitre du jeu, nous vous avons presque oublié. Voulez-vous un pseudo ? (o/n)");
             choix = scan.nextLine();
             if (choix.equalsIgnoreCase("o")) {
-                System.out.println("Quel sera ce pseudo?");
+                System.out.println("Quel sera ce pseudo ?");
                 String pseudo = scan.nextLine();
                 narrateur = new Narrateur(pseudo);
             }
@@ -404,11 +445,16 @@ public class Main {
                 narrateur = new Narrateur();
             }
 
-            System.out.println("Que le jeu commence! bonne chance\n");
+            System.out.println(narrateur.getPseudo() + " veuillez présenter le contexte aux joueurs...");
+            scan.nextLine();
+
+            System.out.println("Que le jeu commence ! Bonne chance\n");
 
             ArrayList<Entite> joueurs = new ArrayList<>(donjon.getOrdre());
 
-            while (true) {
+            boolean suite = true;
+
+            while (suite) {
                 int tour=1;
                 for (Entite entite : joueurs) {
                     Tours tours= new Tours(tour);
@@ -444,18 +490,29 @@ public class Main {
                         int fin=donjon.finDonjon(e.getKey());
 
                         if (fin==0){
-                            System.out.println("oh non! "+e.getKey().getNom()+"est mort! Les monstres on gagné...");
+                            System.out.println("Oh non ! "+e.getKey().getNom()+" est mort ! Les monstres ont gagné...");
                             System.out.println("GAME OVER");
+                            suite = false;
+                            finPartie = true;
                             break;
                         } else if (fin==1) {
-                            System.out.println("Le dernier monstre a été abattu, votre équipe a reussi ce donjon!");
+                            System.out.println("Le dernier monstre a été abattu, votre équipe a réussi ce donjon!");
                             System.out.println("VICTOIRE");
+                            suite = false;
                             break;
                         }
                         else {
-                            System.out.println("On continu!");
+                            System.out.println("On continue !");
                         }
 
+                    }
+
+                    if(finPartie){
+                        return;
+                    }
+
+                    if(!suite){
+                        break;
                     }
 
                 }
@@ -463,5 +520,8 @@ public class Main {
             }
 
         }
+
+        System.out.println("Partie terminée ! Si vous souhaitez en recommencer une, merci de relancer le jeu.");
+
     }
 }
