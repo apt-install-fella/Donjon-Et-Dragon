@@ -1,7 +1,5 @@
 import equipement.*;
-import jeu.Donjon;
-import jeu.Narrateur;
-import jeu.Tours;
+import jeu.*;
 import personnages.*;
 
 import java.util.*;
@@ -127,6 +125,7 @@ public class Main {
 
 
         Donjon donjon;
+        boolean finPartie = false;
 
         //Numéro de donjon (on quitte si les joueurs ne réussissent pas un donjon)
         for (int i = 1; i < 4; i++) {
@@ -421,7 +420,9 @@ public class Main {
 
             ArrayList<Entite> joueurs = new ArrayList<>(donjon.getOrdre());
 
-            while (true) {
+            boolean suite = true;
+
+            while (suite) {
                 int tour=1;
                 for (Entite entite : joueurs) {
                     Tours tours= new Tours(tour);
@@ -459,16 +460,27 @@ public class Main {
                         if (fin==0){
                             System.out.println("Oh non ! "+e.getKey().getNom()+" est mort ! Les monstres ont gagné...");
                             System.out.println("GAME OVER");
+                            suite = false;
+                            finPartie = true;
                             break;
                         } else if (fin==1) {
                             System.out.println("Le dernier monstre a été abattu, votre équipe a réussi ce donjon!");
                             System.out.println("VICTOIRE");
+                            suite = false;
                             break;
                         }
                         else {
                             System.out.println("On continue !");
                         }
 
+                    }
+
+                    if(finPartie){
+                        return;
+                    }
+
+                    if(!suite){
+                        break;
                     }
 
                 }

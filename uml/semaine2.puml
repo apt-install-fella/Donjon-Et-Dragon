@@ -176,8 +176,8 @@ package equipement {
 package "jeu" {
     class Donjon {
         - m_num : Integer <<final>>
-        - m_nb_monstres : Integer
-        - m_nb_personnages : Integer
+        ~ m_nb_monstres : Integer
+        ~ m_nb_personnages : Integer
         - m_longueur : Integer
         - m_largeur : Integer
         - m_entites : Hashtable<Integer, Entite>

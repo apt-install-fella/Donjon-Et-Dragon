@@ -21,8 +21,8 @@ public class Donjon {
 
     //==========attributs====================
     private final int m_num;
-    private int m_nb_monstres;
-    private int m_nb_personnages;
+    int m_nb_monstres;
+    int m_nb_personnages;
     private int m_longueur;
     private int m_largeur;
     private Hashtable<Integer, Entite> m_entites;
@@ -59,7 +59,7 @@ public class Donjon {
                 initDonjon3();
                 break;
             default:
-                System.out.println("model de donjon inexistant");
+                System.out.println("Modèle de donjon inexistant.");
         }
     }
     //============================================================================
@@ -237,7 +237,7 @@ public class Donjon {
             case 9 -> "arbalète légère";
             case 10 -> "fronde";
             case 11 -> "arc court";
-            default -> "l'equipement n'existe pas";
+            default -> "l'équipement n'existe pas";
         };
     }
 

@@ -62,12 +62,6 @@ public class Tours {
             String choix = scan.nextLine();
             switch (choix) {
                 case "1" -> {
-                    /*
-                    System.out.println("Laisser au "+narrateur.getPseudo()+" la parole ? Bien, qu'a-t-il à dire ?");
-                    String nouveau = scan.nextLine();
-                    narrateur.commenter(nouveau);
-                     */
-
                     System.out.println("Vous souhaitez vous équiper, voici un rappel de votre inventaire :");
                     System.out.println(personnage.afficherInventaire());
                     int choixEquipement;
@@ -92,13 +86,6 @@ public class Tours {
 
                 }
                 case "2" -> {
-                    /*
-                    le personnage peut dire des trucs?
-                    System.out.println(personnage.getNom() + " souhaite commenter : ");
-                    String commentaire = scan.nextLine();
-                    narrateur.commenter(commentaire);
-                     */
-
                     int distance=personnage.getDistance();
                     String dis= String.valueOf(distance);
 
@@ -157,7 +144,12 @@ public class Tours {
                     if (cible != null) { //si la cible existe bien
                         String attaquer=personnage.attaquer(cible); //on l'attaque
                         System.out.println(attaquer);
-
+                        if(!cible.estVivant()){
+                            donjon.m_nb_monstres--;
+                            if(donjon.m_nb_monstres <=0){
+                                return;
+                            }
+                        }
                     }
                     else {
                         System.out.println("Attaque impossible");
@@ -193,6 +185,25 @@ public class Tours {
                     i++;
                 }
             }
+
+            donjon.affichagePlateau(); //j'affiche le plateau apres chaque choix
+
+            System.out.println(personnage.getNom() + ", voulez-vous commenter l'action précédente ? (o/n)");
+            String action = scan.nextLine();
+
+            if(action.equalsIgnoreCase("o")) {
+                System.out.println("Ecrivez votre commentaire...");
+                String commentaire = scan.nextLine();
+            }
+            else {
+                System.out.println(narrateur.getPseudo() + " voulez-vous ajouter quelque chose ?");
+                action = scan.nextLine();
+                if(action.equalsIgnoreCase("o")) {
+                    System.out.println("Ecrivez votre commentaire...");
+                    String commentaire = scan.nextLine();
+                }
+            }
+            System.out.println();
 
         }
 
@@ -249,6 +260,12 @@ public class Tours {
                     if (cible != null) { //si la cible existe bien
                         String attaquer=monstre.attaquer(cible); //on l'attaque
                         System.out.println(attaquer);
+                        if(!cible.estVivant()){
+                            donjon.m_nb_personnages--;
+                            if(donjon.m_nb_personnages <=0){
+                                return;
+                            }
+                        }
 
                     }
                     else {
@@ -316,6 +333,24 @@ public class Tours {
                 }
             }
             donjon.affichagePlateau(); //j'affiche le plateau apres chaque choix
+
+            System.out.println(monstre.getNom() + ", voulez-vous commenter l'action précédente ? (o/n)");
+            String action = scan.nextLine();
+
+            if(action.equalsIgnoreCase("o")) {
+                System.out.println("Ecrivez votre commentaire...");
+                String commentaire = scan.nextLine();
+            }
+            else {
+                System.out.println(narrateur.getPseudo() + " voulez-vous ajouter quelque chose ?");
+                action = scan.nextLine();
+                if(action.equalsIgnoreCase("o")) {
+                    System.out.println("Ecrivez votre commentaire...");
+                    String commentaire = scan.nextLine();
+                }
+            }
+            System.out.println();
+
         }
         //on retourne fin pour savoir si ce tour a conduit vers la fin d'un donjon ou pas
 
