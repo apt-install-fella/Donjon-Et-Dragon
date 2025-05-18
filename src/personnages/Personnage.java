@@ -125,6 +125,10 @@ public abstract class Personnage implements Entite{
 
     @Override
     public int getDistance(){
+        if(this.m_vitesse <3){
+            return 1;
+        }
+
         return this.m_vitesse / 3;
     }
 

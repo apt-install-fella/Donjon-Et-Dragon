@@ -283,7 +283,7 @@ public class Tours {
 
                     int distance =monstre.getDistance();
                     String dis= String.valueOf(distance);
-                    System.out.println("Une stratégie se met en place, quelle position est la plus adapté? pas plus de "+distance+" cases");
+                    System.out.println("Une stratégie se met en place, quelle position est la plus adaptée ? Pas plus de "+distance+" cases");
                     System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche | [6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
                     String direction= scan.nextLine();
                     String position;
