@@ -229,25 +229,87 @@ Personnage "*" o--> "1\n - m_race" Race : est
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède
 Personnage "1" *--> "1\n - m_arme" Arme : équipe
 Personnage "1" *--> "1\n - m_armure" Armure : équipe
+Personnage ..> Armure : <<uses>>
+Personnage ..> Armure : <<call>>
+Personnage ..> Arme : <<uses>>
+Personnage ..> Arme : <<call>>
+Personnage ..> Equipement : <<uses>>
+Personnage ..> Equipement : <<call>>
+Personnage ..> Entite : <<uses>>
+Personnage ..> Entite : <<call>>
 
-Donjon "1" *--> "1\n -m_entite" Entite : contient
+Monstre ..> Entite : <<uses>>
+Monstre ..> Entite : <<call>>
+
+Clerc ..> Arme : <<instanciate>>
+Clerc ..> Armure : <<instanciate>>
+Clerc ..> Equipement : <<uses>>
+
+Guerrier ..> Arme : <<instanciate>>
+Guerrier ..> Armure : <<instanciate>>
+Guerrier ..> Equipement : <<uses>>
+
+Magicien ..> Arme : <<instanciate>>
+Magicien ..> Armure : <<instanciate>>
+Magicien ..> Equipement : <<uses>>
+
+Roublard ..> Arme : <<instanciate>>
+Roublard ..> Armure : <<instanciate>>
+Roublard ..> Equipement : <<uses>>
+
+
+
+Donjon "*" *--> "1..*\n -m_entite" Entite : contient
+Donjon "*" *--> "1..*\n -m_personnages" Personnage : contient
+Donjon "*" *--> "1..*\n -m_monstres" Monstre : contient
+
+Donjon ..> Arme : <<instanciate>>
+Donjon ..> Armure : <<instanciate>>
 Donjon ..> Equipement : <<uses>>
+Donjon ..> Equipement : <<call>>
+Donjon ..> Personnage : <<uses>>
+Donjon ..> Personnage : <<call>>
+Donjon ..> Monstre : <<uses>>
+Donjon ..> Entite : <<uses>>
+Donjon ..> Entite : <<call>>
+Donjon ..> Entite : <<instanciate>>
 
+
+Main ..> Personnage : <<call>>
 Main ..> Clerc : <<instanciate>>
 Main ..> Guerrier : <<instanciate>>
 Main ..> Magicien : <<instanciate>>
 Main ..> Roublard : <<instanciate>>
 Main ..> Monstre : <<instanciate>>
 Main ..> Donjon : <<instanciate>>
+Main ..> Donjon : <<call>>
 Main ..> Tours : <<instanciate>>
+Main ..> Tours : <<call>>
 Main ..> Narrateur : <<instanciate>>
+Main ..> Equipement : <<uses>>
+Main ..> Equipement : <<instanciate>>
+Main ..> Equipement : <<call>>
+Main ..> Armure : <<uses>>
+Main ..> Arme : <<uses>>
+Main ..> Armure : <<instanciate>>
+Main ..> Arme : <<instanciate>>
 
 
 
-Tours ..> Narrateur : reçoit en paramètre
-Tours ..> Donjon : reçoit en paramètre
-
-
+Tours ..> Narrateur : <<uses>>
+Tours ..> Narrateur : <<call>>
+Tours ..> Donjon : <<uses>>
+Tours ..> Donjon : <<call>
+Tours ..> Personnage : <<uses>>
+Tours ..> Monstre : <<uses>>
+Tours ..> Personnage : <<call>>
+Tours ..> Monstre : <<call>>
+Tours ..> Equipement : <<instanciate>>
+Tours ..> Equipement : <<call>>
+Tours ..> Arme : <<instanciate>>
+Tours ..> Arme : <<call>>
+Tours ..> Armure : <<instanciate>>
+Tours ..> Armure : <<call>>
 
 
 @enduml
