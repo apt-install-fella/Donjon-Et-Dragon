@@ -7,6 +7,7 @@ import personnages.Monstre;
 import personnages.Personnage;
 
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -160,12 +161,12 @@ public class Tours {
                     System.out.println("Vous voulez ramassez l'équipement à vos pieds...");
                     int armeId;
 
-                    for (Map.Entry<String, int[]> positions : donjon.getCases().entrySet()) { //on parcours le tab de caes
+                    for (Map.Entry<String, int[]> positions : donjon.getCases().entrySet()) { //on parcourt le tab de cases
                         if (positions.getValue()[0] == id) { //si dans cette case on a le perso
-                            armeId = positions.getValue()[1]; //on recup l'id de l'equiment dispo
-                            if (armeId <= 0) continue;
+                            armeId = donjon.getCases().get(positions.getKey())[1]; //on recup l'id de l'equiment dispo
+                            if (armeId <= 0) break;
 
-                            String equipement = String.valueOf((armeId));     //on recup le nom de cet equipement
+                            String equipement = donjon.getEquipementParId(armeId);     //on recup le nom de cet equipement
                             if (armeId>4 && armeId<12) {                //si l'id est plus grand que 4 c'est une arme
                                 Arme arme = new Arme(equipement);           //on cree cette arme
                                 personnage.ajoutEquipement(arme);     //on l'ajoute à son inventaire
@@ -175,8 +176,11 @@ public class Tours {
                                 personnage.ajoutEquipement(armure);           //on l'ajoute à son inventaire
                                 System.out.println("Vous avez ramassé : " + armure.toString());
                             }
-                        }
 
+                            //On retire l'équipement
+                            donjon.getCases().get(positions.getKey())[1] = 0;
+                            break;
+                        }
                     }
                 }
 

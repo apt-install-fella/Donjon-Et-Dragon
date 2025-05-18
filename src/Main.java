@@ -488,5 +488,8 @@ public class Main {
             }
 
         }
+
+        System.out.println("Partie terminée ! Si vous souhaitez en recommencer une, merci de relancer le jeu.");
+
     }
 }
