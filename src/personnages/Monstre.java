@@ -101,39 +101,43 @@ public class Monstre implements Entite {
     */
     @Override
     public String attaquer(Entite cible){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Lancé d'un dé à 20 faces...\n");
-        int jetAttaque = jetDes(1, 20);
-        sb.append("Le jet de dés donne : ").append(jetAttaque).append("\n");
+        try {
+            int classeArmureCible = cible.getClasseArmure();
 
+            StringBuilder sb = new StringBuilder();
+            sb.append("Lancé d'un dé à 20 faces...\n");
+            int jetAttaque = jetDes(1, 20);
+            sb.append("Le jet de dés donne : ").append(jetAttaque).append("\n");
 
-        //Ajout des bonus en fonction du type d'attaque
-        if(this.m_porteeAttaque != 1){
-            sb.append("L'attaque de ").append(this.getNom()).append(" est de : ").append(jetAttaque).append(" + ").append(this.m_dexterite).append(" (dextérité) = ");
-            jetAttaque += this.m_dexterite;
-            sb.append(jetAttaque).append("\n");
-        }
-        else{
-            sb.append("L'attaque de ").append(this.getNom()).append(" est de : ").append(jetAttaque).append(" + ").append(this.m_force).append(" (force) = ");
-            jetAttaque += this.m_force;
-            sb.append(jetAttaque).append("\n");
-        }
+            if(this.m_porteeAttaque != 1){
+                sb.append("L'attaque de ").append(this.getNom()).append(" est de : ").append(jetAttaque).append(" + ").append(this.m_dexterite).append(" (dextérité) = ");
+                jetAttaque += this.m_dexterite;
+                sb.append(jetAttaque).append("\n");
+            }
+            else{
+                sb.append("L'attaque de ").append(this.getNom()).append(" est de : ").append(jetAttaque).append(" + ").append(this.m_force).append(" (force) = ");
+                jetAttaque += this.m_force;
+                sb.append(jetAttaque).append("\n");
+            }
 
-        //On vérifie si cela perce l'armure ou non
-        if(jetAttaque <= cible.getClasseArmure()){
-            sb.append("L'attaque n'est pas assez puissante pour percer l'armure de ").append(cible.getNom()).append(" (").append(cible.getClasseArmure()).append(")...\n");
-        }
-        else{
-            sb.append("L'attaque perce l'armure de ").append(cible.getNom()).append(" (").append(cible.getClasseArmure()).append(") !\n");
-            sb.append("Lancé d'un dé à 4 faces...\n");
-            int degats = this.jetDesAttaque();
-            sb.append("Le ").append(this.getNom()).append(" inflige ").append(degats).append(" dégâts à ").append(cible.getNom()).append(" !\n");
-            cible.recevoirDegats(degats);
-            sb.append("Il reste ").append(cible.getPV()).append(" PV à ").append(cible.getNom()).append(".\n");
-        }
+            if(jetAttaque <= classeArmureCible){
+                sb.append("L'attaque n'est pas assez puissante pour percer l'armure de ").append(cible.getNom()).append(" (").append(classeArmureCible).append(")...\n");
+            }
+            else{
+                sb.append("L'attaque perce l'armure de ").append(cible.getNom()).append(" (").append(classeArmureCible).append(") !\n");
+                sb.append("Lancé d'un dé à 4 faces...\n");
+                int degats = this.jetDesAttaque();
+                sb.append("Le ").append(this.getNom()).append(" inflige ").append(degats).append(" dégâts à ").append(cible.getNom()).append(" !\n");
+                cible.recevoirDegats(degats);
+                sb.append("Il reste ").append(cible.getPV()).append(" PV à ").append(cible.getNom()).append(".\n");
+            }
 
-        return sb.toString();
+            return sb.toString();
+        } catch (NullPointerException e) {
+            return "Erreur : la cible " + cible.getNom() + " n'a pas d'armure définie, attaque impossible.";
+        }
     }
+
 
     //Utilisé pour l'affichage du récap rapide
     @Override

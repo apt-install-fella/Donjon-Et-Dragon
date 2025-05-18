@@ -169,6 +169,60 @@ package equipement {
 
 }
 
+
+
+package "jeu" {
+    class Donjon {
+        - m_num : Integer
+        - m_nb_monstres : Integer
+        - m_nb_personnages : Integer
+        - m_longueur : Integer
+        - m_largeur : Integer
+        - m_entites : Hashtable<Integer, Entite>
+        - m_personnages : Hashtable<Personnage, Integer>
+        - m_monstres : Hashtable<Monstre, Integer>
+        - m_cases : Hashtable<String, Integer[]>
+
+        + Donjon(num : Integer, longueur : Integer, largeur : Integer)
+        + Donjon(num : int)
+        - initDonjon1()
+        - initDonjon2()
+        - initDonjon3()
+        + ajoutPersonnage(e : Personnage)
+        + ajoutMonstre(e : Monstre)
+        + getListePersonnages() : Hashtable<Personnage, Integer>
+        + getListeMonstres() : Hashtable<Monstre, Integer>
+        + ajoutObstacle(position : String) : Boolean
+        + ajoutEquipement(equip : Equipement, position : String)
+        + getEquipementParId(id : int) : String
+        + getId(entite : Entite) : Integer
+        + positionner(e : Entite, position : String) : String
+        + afficherIDentite()
+        - getEntites() : Hashtable<Integer, Entite>
+        - getNombreEntites() : Integer
+        - existeCase(position : String) : Boolean
+        - nommerCases()
+        + getCases() : Hashtable<String, Integer[]>
+        - ordreDeJeu() : ArrayList<Entite>
+    }
+
+    class Narrateur {
+            - m_pseudo : String
+            + Narrateur(pseudo : String)
+            + Narrateur()
+            + getPseudo() : String
+            + commenter(phrase : String) : String
+    }
+
+    class Tours {
+               - m_nu : Integer
+               + Tours(num : int)
+               + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : Narrateur)
+               + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : Narrateur)
+    }
+}
+
+
 Personnage "*" o--> "1\n - m_race" Race : est
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède
 Personnage "1" *--> "1\n - m_arme" Arme : équipe
@@ -183,39 +237,14 @@ Main ..> Magicien : <<instanciate>>
 Main ..> Roublard : <<instanciate>>
 Main ..> Monstre : <<instanciate>>
 Main ..> Donjon : <<instanciate>>
-
-
-class Donjon {
-    - m_num : int
-    - m_nb_joueurs : int
-    - m_nb_montres : int
-    - m_longueur : int
-    - m_largeur : int
-    - m_cases : Hashtable<String, int[][]>
-    - entites : Hashtable<int, Entite>
+Main ..> Tours : <<instanciate>>
+Main ..> Narrateur : <<instanciate>>
 
 
 
+Tours ..> Narrateur : reçoit en paramètre
+Tours ..> Donjon : reçoit en paramètre
 
-    +«Create» Donjon(num : int, joueurs : int, montres : int, longueur : int, largeurnom :int)
-    +«Create» Donjon(num : int, joueurs : int, montres : int)
-    +«Create» Donjon(num : int,joueurs : int, montres : int, longueur : int)
-
-    +ajoutEntite(Entite e) : void
-    +ordreDeJeu() : StringBuilder
-    +nommerCases() : void
-    +remplirPlateau() : void
-    +seDeplacer(entiteID : int, direction : String) : String
-    +Affichage_plateau() : void
-    +Affichage_ordre() : void
-    +Affichage_deplacement(entiteID : int, direction : String) : void
-
-
-
-
-
-
-}
 
 
 
