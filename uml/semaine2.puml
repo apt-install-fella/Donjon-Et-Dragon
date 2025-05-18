@@ -10,6 +10,8 @@ class Main
     + {static} main( args:String[*] )
 }
 
+class String{}
+
 package personnages{
     interface Entite <<interface>>
     {
@@ -37,7 +39,6 @@ package personnages{
         - m_initiative : Integer
         - m_armure : Armure
         - m_arme : Arme
-        - m_inventaire : Equipement[*]
 
         ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*], classe : String)
         - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
@@ -66,7 +67,7 @@ package personnages{
 
     }
 
-    enum Race <<enumeration>>
+    enum Race <<enumerate>>
     {
         HUMAIN
         NAIN
@@ -173,17 +174,14 @@ package equipement {
 
 
 
-package "jeu" {
+package jeu {
     class Donjon {
         - m_num : Integer <<final>>
         ~ m_nb_monstres : Integer
         ~ m_nb_personnages : Integer
         - m_longueur : Integer
         - m_largeur : Integer
-        - m_entites : Hashtable<Integer, Entite>
-        - m_personnages : Hashtable<Personnage, Integer>
-        - m_monstres : Hashtable<Monstre, Integer>
-        - m_cases : Hashtable<String, Integer[*]>
+        - m_cases : String[*]
 
         + Donjon(num : Integer, longueur : Integer, largeur : Integer)
         + Donjon(num : Integer)
@@ -192,35 +190,35 @@ package "jeu" {
         - initDonjon3()
         + ajoutPersonnage(e : Personnage)
         + ajoutMonstre(e : Monstre)
-        + getListePersonnages() : Hashtable<Personnage, Integer>
-        + getListeMonstres() : Hashtable<Monstre, Integer>
+        + getListePersonnages() : Personnage[*]
+        + getListeMonstres() : Monstre[*]
         + ajoutObstacle(position : String) : Boolean
         + ajoutEquipement(equip : Equipement, position : String)
         + getEquipementParId(id : int) : String
         + getId(entite : Entite) : Integer
         + positionner(e : Entite, position : String) : String
         + afficherIDentite()
-        - getEntites() : Hashtable<Integer, Entite>
+        - getEntites() : Hashtable<Integer, Entite
         - getNombreEntites() : Integer
         - existeCase(position : String) : Boolean
         - nommerCases()
-        + getCases() : Hashtable<String, Integer[*]>
+        + getCases() : String[*]
         - ordreDeJeu() : Entite[*]
     }
 
     class Narrateur {
-            - m_pseudo : String
-            + Narrateur(pseudo : String)
-            + Narrateur()
-            + getPseudo() : String
-            + commenter(phrase : String) : String
+        - m_pseudo : String
+        + Narrateur(pseudo : String)
+        + Narrateur()
+        + getPseudo() : String
+        + commenter(phrase : String) : String
     }
 
     class Tours {
-               - m_nu : Integer <<final>>
-               + Tours(num : Integer)
-               + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : Narrateur)
-               + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : Narrateur)
+       - m_nu : Integer <<final>>
+       + Tours(num : Integer)
+       + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : Narrateur)
+       + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : Narrateur)
     }
 }
 
