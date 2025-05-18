@@ -113,6 +113,35 @@ public class Main {
 
             System.out.println("Personnage créé ! Voici un récapitulatif :");
             System.out.println(perso.toString());
+
+            System.out.println("Vous pouvez désormais équiper armure et/ou arme.");
+            String veutEquiper;
+            do {
+                int choixEquip;
+                do {
+                    System.out.println(perso.afficherInventaire());
+                    choixEquip = scan.nextInt();
+                    scan.nextLine();
+                } while (choixEquip < 1 || choixEquip > perso.tailleInventaire());
+
+                Equipement equip = perso.getEquipement(choixEquip);
+
+                if (equip.getClasse().equals("Arme")) {
+                    Arme arme = (Arme) equip;
+                    perso.equiper(arme);
+                    System.out.println("Vous avez équipé " + arme.toString());
+                } else {
+                    Armure armure = (Armure) equip;
+                    perso.equiper(armure);
+                    System.out.println("Vous avez équipé " + armure.toString());
+                }
+
+                System.out.println("Voulez-vous vous équiper avec autre chose ? (o/n)");
+                veutEquiper = scan.nextLine();
+
+            }while(!veutEquiper.equalsIgnoreCase("n"));
+            System.out.println();
+
             personnages.add(perso);
 
             //Vérification si les joueurs veulent créer un autre personnage
