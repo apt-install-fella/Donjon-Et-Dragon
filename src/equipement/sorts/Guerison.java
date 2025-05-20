@@ -2,7 +2,7 @@ package equipement.sorts;
 
 import java.util.Random;
 
-public class Guerison extends Sort{
+public class Guerison{
     private final int m_nbLancers;
     private final int m_nbFaces;
 
@@ -28,8 +28,7 @@ public class Guerison extends Sort{
         - Sort Guerison :
             créer l'action dans Tours
         - Sort BoogieWoogie :
-            créer méthode dans Donjon echnagerPlace(int entite1, int entite2)    --> on passe leur id en argument pour les trouver et les échanger de case
-
+            integrer à magicien
 
 
      */

@@ -93,6 +93,8 @@ package personnages{
     {
         + <<create>> Magicien(nom : String, race : Race)
         - {static} initInventaire() : Equipement[*]
+        + guerir(personnage : Personnage)
+        + echanger(idEntite1 : Integer, idEntite2 : Integer, donjon : Donjon) : String
     }
 
     class Roublard extends Personnage
@@ -172,12 +174,7 @@ package equipement {
 
     package sorts
     {
-        abstract class Sort <<abstract>>
-        {
-
-        }
-
-        class Guerison extends Sort
+        class Guerison
         {
             - m_nbLancers : Integer
             - m_nbFaces : Integer
@@ -186,12 +183,13 @@ package equipement {
             + guerir() : Integer
         }
 
-        class BoogieWoogie extends Sort
+        class BoogieWoogie
         {
             + <<create>> BoogieWoogie()
+            + echangerPersos(idEntite1: Integer, idEntite2 : Integer) : String
         }
 
-        class ArmeMagique extends Sort
+        class ArmeMagique
         {
             + <<create>> ArmeMagique()
         }
@@ -231,6 +229,7 @@ package jeu {
         - nommerCases()
         + getCases() : String[*]
         - ordreDeJeu() : Entite[*]
+        + echangerPlaces(idEntite1 : Integer, idEntite2 : Integer) : String
     }
 
     class MaitreDuJeu {
@@ -248,6 +247,7 @@ package jeu {
     }
 }
 
+BoogieWoogie ..> Donjon : <<call>>
 
 Personnage "*" o--> "1\n - m_race" Race : est
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède
@@ -271,6 +271,10 @@ Guerrier ..> Equipement : <<uses>>
 Magicien ..> Arme : <<instanciate>>
 Magicien ..> Armure : <<instanciate>>
 Magicien ..> Equipement : <<uses>>
+Magicien "1" *--> "1\n- m_guerison" Guerison : > peut lancer
+Magicien "1" *--> "1\n- m_boogieWoogie" BoogieWoogie : > peut lancer
+Magicien "1" *--> "1\n- m_armeMagique" ArmeMagique : > peut lancer
+Magicien ..> Donjon : <<uses>>
 
 Roublard ..> Arme : <<instanciate>>
 Roublard ..> Armure : <<instanciate>>

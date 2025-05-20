@@ -2,7 +2,6 @@ package personnages;
 
 import equipement.*;
 import equipement.sorts.Guerison;
-import equipement.sorts.Sort;
 
 import java.util.ArrayList;
 
