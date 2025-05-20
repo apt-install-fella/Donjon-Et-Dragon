@@ -226,6 +226,7 @@ public class Main {
                                 Arme arme5 = new Arme("arbalète légère");
                                 Arme arme6 = new Arme("fronde");
                                 Arme arme7 = new Arme("arc court");
+                                Arme arme8 = new Arme("épée à deux mains");
                                 int choixArme;
                                 do {
                                     System.out.println("Choisissez une arme :");
@@ -236,11 +237,12 @@ public class Main {
                                     System.out.print("\t[5] " + arme5.toString());
                                     System.out.print("\t[6] " + arme6.toString());
                                     System.out.print("\t[7] " + arme7.toString());
-                                    System.out.println("\t(choix entre 1 et 7)");
+                                    System.out.print("\t[8] " + arme8.toString());
+                                    System.out.println("\t(choix entre 1 et 8)");
 
                                     choixArme = scan.nextInt();
                                     scan.nextLine();
-                                } while (choixArme < 1 || choixArme > 7);
+                                } while (choixArme < 1 || choixArme > 8);
 
                                 Arme armeChoisie;
 
@@ -263,12 +265,15 @@ public class Main {
                                     case 6:
                                         armeChoisie = arme6;
                                         break;
-                                    default:
+                                    case 7:
                                         armeChoisie = arme7;
+                                        break;
+                                    default:
+                                        armeChoisie = arme8;
                                 }
 
                                 donjon.affichagePlateau();
-                                System.out.println("Où voulez-vous placer cet arme ? (ex : A2)");
+                                System.out.println("Où voulez-vous placer cette arme ? (ex : A2)");
                                 String position = scan.nextLine();
 
                                 donjon.ajoutEquipement(armeChoisie, position);
