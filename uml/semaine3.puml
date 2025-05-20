@@ -168,6 +168,29 @@ package equipement {
 
     }
 
+    package sorts
+    {
+        abstract class Sort <<abstract>>
+        {
+
+        }
+
+        class Guerison extends Sort
+        {
+
+        }
+
+        class BoogieWoogie extends Sort
+        {
+
+        }
+
+        class ArmeMagique extends Sort
+        {
+
+        }
+    }
+
 }
 
 
