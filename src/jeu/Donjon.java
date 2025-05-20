@@ -16,7 +16,7 @@ import personnages.Entite;
 
 
 public class Donjon {
-    //LONGEUR C'EST LES CHIFFRES (LIGNES)
+    //LONGUEUR C'EST LES CHIFFRES (LIGNES)
     //LARGEUR C'EST LES LETTRES (COLONNES)
 
     //==========attributs====================
@@ -205,6 +205,7 @@ public class Donjon {
             case "arbalète légère" -> 9;
             case "fronde" -> 10;
             case "arc court" -> 11;
+            case "épée à deux mains" -> 12;
             default -> 20; //nombre au hasard
         };
 
@@ -234,6 +235,7 @@ public class Donjon {
             case 9 -> "arbalète légère";
             case 10 -> "fronde";
             case 11 -> "arc court";
+            case 12 -> "épée à deux mains";
             default -> "l'équipement n'existe pas";
         };
     }
