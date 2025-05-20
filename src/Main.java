@@ -439,17 +439,17 @@ public class Main {
 
 
                 ///////////GESTION DES TOURS/////////
-            Narrateur narrateur;
+            MaitreDuJeu narrateur;
             System.out.println("\n\nOups, et vous, Maitre du jeu, nous vous avons presque oublié. Voulez-vous un pseudo ? (o/n)");
             choix = scan.nextLine();
             if (choix.equalsIgnoreCase("o")) {
                 System.out.println("Quel sera ce pseudo ?");
                 String pseudo = scan.nextLine();
-                narrateur = new Narrateur(pseudo);
+                narrateur = new MaitreDuJeu(pseudo);
             }
             else {
                 System.out.println("Vous restez donc 'Maitre du jeu'");
-                narrateur = new Narrateur();
+                narrateur = new MaitreDuJeu();
             }
 
             System.out.println(narrateur.getPseudo() + " veuillez présenter le contexte aux joueurs...");
