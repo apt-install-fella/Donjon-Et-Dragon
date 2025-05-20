@@ -315,7 +315,7 @@ public class Main {
                                 }
 
                                 donjon.affichagePlateau();
-                                System.out.println("Où voulez-vous placer cet armure ? (ex : A2)");
+                                System.out.println("Où voulez-vous placer cette armure ? (ex : A2)");
                                 String position = scan.nextLine();
 
                                 donjon.ajoutEquipement(armureChoisie, position);
