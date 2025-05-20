@@ -62,6 +62,7 @@ package personnages{
         + afficherInventaire() : String
         + tailleInventaire() : Integer
         + getEquipement() : Equipement
+        + seFaireGuerir(pv : Integer)
 
     }
 
@@ -85,6 +86,7 @@ package personnages{
     {
         + <<create>> Clerc(nom : String, race : Race)
         - {static} initInventaire() : Equipement[*]
+        + guerir(personnage : Personnage)
     }
 
     class Magicien extends Personnage
@@ -177,17 +179,21 @@ package equipement {
 
         class Guerison extends Sort
         {
+            - m_nbLancers : Integer
+            - m_nbFaces : Integer
 
+            + <<create>> Guerison()
+            + guerir() : Integer
         }
 
         class BoogieWoogie extends Sort
         {
-
+            + <<create>> BoogieWoogie()
         }
 
         class ArmeMagique extends Sort
         {
-
+            + <<create>> ArmeMagique()
         }
     }
 
@@ -256,6 +262,7 @@ Monstre ..> Entite : <<call>>
 Clerc ..> Arme : <<instanciate>>
 Clerc ..> Armure : <<instanciate>>
 Clerc ..> Equipement : <<uses>>
+Clerc "*" *--> "1\n- m_sort" Guerison : > possède
 
 Guerrier ..> Arme : <<instanciate>>
 Guerrier ..> Armure : <<instanciate>>

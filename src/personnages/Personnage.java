@@ -318,4 +318,11 @@ public abstract class Personnage implements Entite{
     public Equipement getEquipement(int position){
         return this.m_inventaire.get(position-1);
     }
+
+    public void seFaireGuerir(int pv){
+        this.m_PV = pv;
+        if(this.m_PV > this.m_MAX_PV){
+            this.m_PV = this.m_MAX_PV;
+        }
+    }
 }
