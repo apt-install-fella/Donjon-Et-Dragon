@@ -7,7 +7,6 @@ import personnages.Monstre;
 import personnages.Personnage;
 
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -26,7 +25,7 @@ public class Tours {
 
     }
 
-    public void ajouterTourPersonnage(Personnage personnage, Donjon donjon, Narrateur narrateur){
+    public void ajouterTourPersonnage(Personnage personnage, Donjon donjon, MaitreDuJeu narrateur){
         Scanner scan = new Scanner(System.in);
 
 
@@ -90,12 +89,19 @@ public class Tours {
                     int distance=personnage.getDistance();
                     String dis= String.valueOf(distance);
 
-                    System.out.println("Vous souhaitez changer de position, dites en plus, où voulez-vous aller ? Le déplacement sera de " + dis + " cases");
-                    System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche | [6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
-                    String direction= scan.nextLine();
+                    System.out.println("Vous souhaitez changer de position, dites en plus.");
+                    System.out.println("Attention! Le déplacement sera de maximum " + dis + " cases");
+                    System.out.println("De combien de case souhaitez-vous vous déplacer ?");
+                    int parcourir = scan.nextInt();
+                    scan.nextLine();
+                    System.out.println("Tres bien, vers où allez-vous?");
+                    System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche |" +"\n"+
+                            "[6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
+                    String vers= scan.nextLine();
+
                     String position;
 
-                    switch (direction) {
+                    switch (vers) {
                         case "1":
                             position = "haut";
                             break;
@@ -126,10 +132,12 @@ public class Tours {
                     }
 
 
+
+
                     if (position.equals("invalide")) {
                         System.out.println("Direction invalide. Pas de déplacement.");
                     } else {
-                        String deplacement = donjon.seDeplacer(id, position);
+                        String deplacement = donjon.seDeplacer(id, position,parcourir);
                         donjon.affichagePlateau();
                         System.out.println(deplacement);
                     }
@@ -215,7 +223,7 @@ public class Tours {
 
 
 
-    public void ajouterTourMonstre(Monstre monstre, Donjon donjon, Narrateur narrateur){
+    public void ajouterTourMonstre(Monstre monstre, Donjon donjon, MaitreDuJeu narrateur){
         Scanner scan = new Scanner(System.in);
 
 
@@ -244,7 +252,7 @@ public class Tours {
         for (int i = 3; i > 0; i--) {
             System.out.println(monstre.toStringDetails());
 
-            System.out.println(" vous avez " + i + " action(s), que choisissez-vous ? \n " +
+            System.out.println(" vous avez " + i + " action(s), que choisissez-vous ? \n" +
                     "[1] attaquer\n" +
                     "[2] se déplacer");
             String choix = scan.nextLine();
@@ -287,12 +295,16 @@ public class Tours {
 
                     int distance =monstre.getDistance();
                     String dis= String.valueOf(distance);
-                    System.out.println("Une stratégie se met en place, quelle position est la plus adaptée ? Pas plus de "+distance+" cases");
+                    System.out.println("Une stratégie se met en place, Combien de cases seront parcourues? Pas plus de "+distance+" cases");
+                    int parcourir = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println("Tres bien, vers où allez-vous?");
                     System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche | [6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
-                    String direction= scan.nextLine();
+                    String vers= scan.nextLine();
                     String position;
 
-                    switch (direction) {
+                    switch (vers) {
                         case "1":
                             position = "haut";
                             break;
@@ -325,7 +337,7 @@ public class Tours {
                     if (position.equals("invalide")) {
                         System.out.println("Direction invalide. Pas de déplacement.");
                     } else {
-                        String deplacement = donjon.seDeplacer(id, position);
+                        String deplacement = donjon.seDeplacer(id, position, parcourir);
                         System.out.println(deplacement);
                     }
 

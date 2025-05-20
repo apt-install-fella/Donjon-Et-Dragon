@@ -187,10 +187,10 @@ public class Donjon {
                 return true;
             }
         }
-        return false; //si l'operation n'a pas eu lieu, position introuvable, on return faux
+        return false; //si l'opération n'a pas eu lieu, position introuvable, on return faux
     }
 
-    //AJOUT D'UN EQUIPEMENT
+    //AJOUT D'UN ÉQUIPEMENT
     public void ajoutEquipement(Equipement equip, String position) {
         int id = switch (equip.getNom()) {
             // Armures légères
@@ -220,7 +220,7 @@ public class Donjon {
     }
 
 
-    //servira pour cree un equipement
+    //servira pour cree un équipement
     public String getEquipementParId(int id) {
         return switch (id) {
             case 1 -> "armure d'écailles";
@@ -346,7 +346,8 @@ public class Donjon {
 
 
     // Déplacement d'une entité
-    public String seDeplacer(int entiteID, String direction) {
+    //Cette fct prend "une entite", une direction et une distance de deplacement
+    public String seDeplacer(int entiteID, String direction, int nb_case) {
         Entite e = m_entites.get(entiteID);//je recupere l'entit eselon son id
         String retourne; //pour les phrases a l'affichage
 
@@ -366,35 +367,38 @@ public class Donjon {
                 Entite joueur = m_entites.get(entiteID); //recup entite
 
                 int distance = joueur.getDistance();
+                if (nb_case>distance) {
+                    return "Déplacement impossible, vous ne pouvez aller si loin.";
+                }
                 // Calcul direction
                 switch (direction.toLowerCase()) {
                     case "haut":
-                        numero -= distance;
+                        numero -= nb_case;
                         break;
                     case "bas":
-                        numero += distance;
+                        numero += nb_case;
                         break;
                     case "gauche":
-                        lettre -= distance;
+                        lettre -= nb_case;
                         break;
                     case "droite":
-                        lettre += distance;
+                        lettre += nb_case;
                         break;
                     case "diagonale haut gauche":
-                        lettre -= distance;
-                        numero -= distance;
+                        lettre -= nb_case;
+                        numero -= nb_case;
                         break;
                     case "diagonale haut droite":
-                        lettre += distance;
-                        numero -= distance;
+                        lettre += nb_case;
+                        numero -= nb_case;
                         break;
                     case "diagonale bas gauche":
-                        lettre -= distance;
-                        numero += distance;
+                        lettre -= nb_case;
+                        numero += nb_case;
                         break;
                     case "diagonale bas droite":
-                        lettre += distance;
-                        numero += distance;
+                        lettre += nb_case;
+                        numero += nb_case;
                         break;
                     default:
                         return "Direction invalide";
@@ -425,6 +429,8 @@ public class Donjon {
 
         return ("Entité non trouvée dans le donjon.");
     }
+
+
 
     public int finDonjon(Personnage perso) {
         if (!perso.estVivant()) {
@@ -534,9 +540,7 @@ public class Donjon {
         return ordreDeJeu();
     }
 
-    public void affichageDeplacement(int entiteID, String direction) {
-        System.out.println(seDeplacer(entiteID, direction));
-    }
+
 
     public int getNumDonjons() {
         return m_num;
