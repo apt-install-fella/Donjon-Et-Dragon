@@ -548,6 +548,20 @@ public class Donjon {
         return m_num;
     }
 
+    public boolean deplacer(int id, String position) {
+        boolean reussi=false;
+        for (Map.Entry<String, int[]> entry : m_cases.entrySet()) {
+            if (entry.getValue()[0] == id) {
+                entry.getValue()[0] = 0; //vider l'ancienne case
+            }
+            if (entry.getKey().equals(position)) {
+                entry.getValue()[0] = id; //dans la position je met l'id
+                reussi=true;
+            }
+        }
+        return reussi;
+    }
+
 
 
 

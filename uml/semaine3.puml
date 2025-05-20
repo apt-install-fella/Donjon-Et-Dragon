@@ -192,7 +192,7 @@ package jeu {
         + getListeMonstres() : Monstre[*]
         + ajoutObstacle(position : String) : Boolean
         + ajoutEquipement(equip : Equipement, position : String)
-        + getEquipementParId(id : int) : String
+        + getEquipementParId(id : Integer) : String
         + getId(entite : Entite) : Integer
         + positionner(e : Entite, position : String) : String
         + afficherIDentite()
@@ -202,6 +202,7 @@ package jeu {
         - nommerCases()
         + getCases() : String[*]
         - ordreDeJeu() : Entite[*]
+        + deplacer(id : Integer, position : String) : Boolean
     }
 
     class MaitreDuJeu {
@@ -209,6 +210,8 @@ package jeu {
         + MaitreDuJeu(pseudo : String)
         + MaitreDuJeu()
         + getPseudo() : String
+        + deplace(id : Integer, position : String) : String
+        + ajoutObstacle(position : String) : String
     }
 
     class Tours {
