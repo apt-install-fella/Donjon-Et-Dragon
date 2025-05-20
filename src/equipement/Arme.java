@@ -52,6 +52,14 @@ public class Arme extends Equipement {
                 this.m_diminutionVitesse = 0;
                 this.m_augmentationForce = 0;
                 break;
+            case "épée à deux mains":
+                this.m_nbLancers = 2;
+                this.m_nbFaces = 6;
+                this.m_portee = 1;
+                this.m_type = "de guerre au corps-à-corps";
+                this.m_diminutionVitesse = 2;
+                this.m_augmentationForce = 4;
+                break;
             default:
                 this.m_nbLancers = 0;
                 this.m_nbFaces = 0;
