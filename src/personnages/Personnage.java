@@ -69,6 +69,10 @@ public abstract class Personnage implements Entite{
         return m_nom;
     }
 
+    public String getClasse(){
+        return m_classe;
+    }
+
     /* PRECONDITION
     L'argument arme ne doit pas être null
                     doit être contenu dans l'inventaire

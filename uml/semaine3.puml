@@ -41,6 +41,7 @@ package personnages{
         ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*], classe : String)
         - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
         + getNom() : String
+        + getClasse() : String
         + equiper(arme : Arme)
         + equiper(armure : Armure)
         + recevoirDegats(degats : Integer)
@@ -333,6 +334,8 @@ Tours ..> Arme : <<instanciate>>
 Tours ..> Arme : <<call>>
 Tours ..> Armure : <<instanciate>>
 Tours ..> Armure : <<call>>
+Tours ..> Magicien : <<call>>
+Tours ..> Clerc : <<call>>
 
 
 @enduml
