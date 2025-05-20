@@ -1,0 +1,297 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam style strictuml
+hide empty members
+
+class Main
+{
+    + {static} main( args:String[*] )
+}
+
+package personnages{
+    interface Entite <<interface>>
+    {
+        + {abstract} recevoirDegats(degats : Integer)
+        + {abstract} estVivant() : Boolean
+        + {abstract} attaquer(Entite cible) : String
+        + {abstract} getClasseArmure() : Integer
+        + {abstract} getNom() : String
+        + {abstract} getPV() : Integer
+        + {abstract} toString() : String
+        + {abstract} toStringDetails() : String
+        + {abstract} getInitiative() : Integer
+    }
+
+    abstract class Personnage <<abstract>> implements Entite
+    {
+        - m_nom : String
+        - m_race : Race
+        - m_classe : String
+        - m_MAX_PV : Integer
+        - m_PV : Integer
+        - m_force : Integer
+        - m_dexterite : Integer
+        - m_vitesse : Integer
+        - m_initiative : Integer
+        - m_armure : Armure
+        - m_arme : Arme
+
+        ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*], classe : String)
+        - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
+        + getNom() : String
+        + equiper(arme : Arme)
+        + equiper(armure : Armure)
+        + recevoirDegats(degats : Integer)
+        + estVivant() : Boolean
+        + getDistance() : Integer
+        + getInitiative() : Integer
+        + attaquer(cible : Entite) : String
+        + getClasseArmure() : Integer
+        + getPV() : Integer
+        + toString() : String
+        + toStringDetails() : String
+        - {static} afficherEquipement(arme : Arme) : String
+        - {static} afficherEquipement(armure : Armure) : String
+        + resetPV()
+        + ajoutEquipement(arme : Arme)
+        + ajoutEquipement(armure : Armure)
+        - {static} afficherEquipement(armure : Armure, position : Integer) : String
+        - {static} afficherEquipement(arme : Arme, position : Integer) : String
+        + afficherInventaire() : String
+        + tailleInventaire() : Integer
+        + getEquipement() : Equipement
+
+    }
+
+    enum Race <<enumerate>>
+    {
+        HUMAIN
+        NAIN
+        ELFE
+        HALFELIN
+
+        + toString() : String
+    }
+
+    class Guerrier extends Personnage
+    {
+        + <<create>> Guerrier(nom : String, race : Race)
+        - {static} initInventaire() : Equipement[*]
+    }
+
+    class Clerc extends Personnage
+    {
+        + <<create>> Clerc(nom : String, race : Race)
+        - {static} initInventaire() : Equipement[*]
+    }
+
+    class Magicien extends Personnage
+    {
+        + <<create>> Magicien(nom : String, race : Race)
+        - {static} initInventaire() : Equipement[*]
+    }
+
+    class Roublard extends Personnage
+    {
+        + <<create>> Roublard(nom : String, race : Race)
+        - {static} initInventaire() : Equipement[*]
+    }
+
+    class Monstre implements Entite
+    {
+        - m_id : Integer
+        - m_espece : String
+        - m_MAX_PV : Integer
+        - m_PV : Integer
+        - m_force : Integer
+        - m_dexterite : Integer
+        - m_classeArmure : Integer
+        - m_initiative : Integer
+        - m_vitesse : Integer
+        - m_porteeAttaque : Integer
+        - m_nbLancers : Integer
+        - m_nbFaces : Integer
+
+        + <<create>> Monstre(ID : Integer, espece : String, PV : Integer, porteeAttaque : Integer, classeArmure : Integer, initiative : Integer, vitesse : Integer, force : Integer, dexterite : Integer, nbLancers : Integer, nbFaces : Integer)
+        - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
+        - jetDesAttaque() : Integer
+        + getNom() : String
+        + getClasseArmure() : Integer
+        + recevoirDegats(degats : Integer)
+        + estVivant() : Boolean
+        + getPV() : Integer
+        + getInitiative() : Integer
+        + attaquer(cible : Entite) : String
+        + toString() : String
+        + toStringDetails() : String
+    }
+}
+
+package equipement {
+    abstract class Equipement <<abstract>>
+    {
+        # m_nom : String
+        - m_classe : String
+        # m_type : String
+        # m_diminutionForce : Integer
+        # m_augmentationForce : Integer
+
+        ~ <<create>> Equipement(nom : String, classe : String)
+        + getDiminutionVitesse() : Integer
+        + getAugmentationForce() : Integer
+        + getType() : String
+        + getClasse() : String
+        + getNom() : String
+        + {abstract} toString() : String
+    }
+
+    class Armure extends Equipement
+    {
+        - m_classe : Integer
+
+        + <<create>> Armure(nom : String)
+        + getClasseArmure() : Integer
+        + toString() : String
+    }
+
+    class Arme extends Equipement
+    {
+        - m_nbLancers : Integer
+        - m_nbFaces : Integer
+        - m_nbPortee : Integer
+
+        + <<create>> Arme(nom : String)
+        + jetDes() : Integer
+        + toString() : String
+
+    }
+
+}
+
+
+
+package jeu {
+    class Donjon {
+        - m_num : Integer
+        ~ m_nb_monstres : Integer
+        ~ m_nb_personnages : Integer
+        - m_longueur : Integer
+        - m_largeur : Integer
+        - m_cases : String[*]
+
+        + Donjon(num : Integer, longueur : Integer, largeur : Integer)
+        + Donjon(num : Integer)
+        - initDonjon1()
+        - initDonjon2()
+        - initDonjon3()
+        + ajoutPersonnage(e : Personnage)
+        + ajoutMonstre(e : Monstre)
+        + getListePersonnages() : Personnage[*]
+        + getListeMonstres() : Monstre[*]
+        + ajoutObstacle(position : String) : Boolean
+        + ajoutEquipement(equip : Equipement, position : String)
+        + getEquipementParId(id : int) : String
+        + getId(entite : Entite) : Integer
+        + positionner(e : Entite, position : String) : String
+        + afficherIDentite()
+        - getEntites() : Hashtable<Integer, Entite
+        - getNombreEntites() : Integer
+        - existeCase(position : String) : Boolean
+        - nommerCases()
+        + getCases() : String[*]
+        - ordreDeJeu() : Entite[*]
+    }
+
+    class Narrateur {
+        - m_pseudo : String
+        + Narrateur(pseudo : String)
+        + Narrateur()
+        + getPseudo() : String
+    }
+
+    class Tours {
+       - m_nu : Integer
+       + Tours(num : Integer)
+       + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : Narrateur)
+       + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : Narrateur)
+    }
+}
+
+
+Personnage "*" o--> "1\n - m_race" Race : est
+Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède
+Personnage "1" *--> "1\n - m_arme" Arme : équipe
+Personnage "1" *--> "1\n - m_armure" Armure : équipe
+Personnage ..> Entite : <<uses>>
+Personnage ..> Entite : <<call>>
+
+Monstre ..> Entite : <<uses>>
+Monstre ..> Entite : <<call>>
+
+Clerc ..> Arme : <<instanciate>>
+Clerc ..> Armure : <<instanciate>>
+Clerc ..> Equipement : <<uses>>
+
+Guerrier ..> Arme : <<instanciate>>
+Guerrier ..> Armure : <<instanciate>>
+Guerrier ..> Equipement : <<uses>>
+
+Magicien ..> Arme : <<instanciate>>
+Magicien ..> Armure : <<instanciate>>
+Magicien ..> Equipement : <<uses>>
+
+Roublard ..> Arme : <<instanciate>>
+Roublard ..> Armure : <<instanciate>>
+Roublard ..> Equipement : <<uses>>
+
+
+
+Donjon "*" *--> "1..*\n -m_entite" Entite : contient
+Donjon "*" *--> "1..*\n -m_personnages" Personnage : contient
+Donjon "*" *--> "1..*\n -m_monstres" Monstre : contient
+Donjon ..> Arme : <<instanciate>>
+Donjon ..> Armure : <<instanciate>>
+Donjon ..> Equipement : <<uses>>
+Donjon ..> Equipement : <<call>>
+
+
+Main ..> Personnage : <<call>>
+Main ..> Clerc : <<instanciate>>
+Main ..> Guerrier : <<instanciate>>
+Main ..> Magicien : <<instanciate>>
+Main ..> Roublard : <<instanciate>>
+Main ..> Monstre : <<instanciate>>
+Main ..> Donjon : <<instanciate>>
+Main ..> Donjon : <<call>>
+Main ..> Tours : <<instanciate>>
+Main ..> Tours : <<call>>
+Main ..> Narrateur : <<instanciate>>
+Main ..> Equipement : <<uses>>
+Main ..> Equipement : <<instanciate>>
+Main ..> Equipement : <<call>>
+Main ..> Armure : <<uses>>
+Main ..> Arme : <<uses>>
+Main ..> Armure : <<instanciate>>
+Main ..> Arme : <<instanciate>>
+
+
+
+Tours ..> Narrateur : <<uses>>
+Tours ..> Narrateur : <<call>>
+Tours ..> Donjon : <<uses>>
+Tours ..> Donjon : <<call>
+Tours ..> Personnage : <<uses>>
+Tours ..> Monstre : <<uses>>
+Tours ..> Personnage : <<call>>
+Tours ..> Monstre : <<call>>
+Tours ..> Equipement : <<instanciate>>
+Tours ..> Equipement : <<call>>
+Tours ..> Arme : <<instanciate>>
+Tours ..> Arme : <<call>>
+Tours ..> Armure : <<instanciate>>
+Tours ..> Armure : <<call>>
+
+
+@enduml
