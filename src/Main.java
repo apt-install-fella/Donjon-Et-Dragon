@@ -277,6 +277,7 @@ public class Main {
                                 String position = scan.nextLine();
 
                                 donjon.ajoutEquipement(armeChoisie, position);
+                                System.out.println("Arme placée avec succès !");
 
                             } else if (arme.equals("2")) {
                                 Armure armure1 = new Armure("armure d'écailles");
@@ -318,6 +319,7 @@ public class Main {
                                 String position = scan.nextLine();
 
                                 donjon.ajoutEquipement(armureChoisie, position);
+                                System.out.println("Armure placée avec succès !");
 
                             } else if (arme.equals("n")) {
                                 continuer = false;
