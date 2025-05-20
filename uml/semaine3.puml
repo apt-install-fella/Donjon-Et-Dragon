@@ -165,10 +165,15 @@ package equipement {
         - m_nbLancers : Integer
         - m_nbFaces : Integer
         - m_nbPortee : Integer
+        - m_bonusAttaque : Integer
+        - m_bonusDegats : Integer
 
         + <<create>> Arme(nom : String)
-        + jetDes() : Integer
+        - jetDes() : Integer
         + toString() : String
+        + getBonusAttaque() : Integer
+        + jetDegats() : Integer
+        + updateBonus()
 
     }
 
@@ -192,6 +197,7 @@ package equipement {
         class ArmeMagique
         {
             + <<create>> ArmeMagique()
+            + ameliorer(arme : Arme)
         }
     }
 
@@ -248,6 +254,7 @@ package jeu {
 }
 
 BoogieWoogie ..> Donjon : <<call>>
+ArmeMagique ..> Arme : <<call>>
 
 Personnage "*" o--> "1\n - m_race" Race : est
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède

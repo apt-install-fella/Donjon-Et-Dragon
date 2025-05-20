@@ -21,19 +21,4 @@ public class Guerison{
 
         return somme;
     }
-
-    /*
-    TODO :
-        - Implementer dans personnages les sorts
-        - Sort Guerison :
-            créer l'action dans Tours
-        - Sort BoogieWoogie :
-            integrer à magicien
-
-
-     */
-
-
-
-
 }

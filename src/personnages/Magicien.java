@@ -33,4 +33,8 @@ public class Magicien extends Personnage {
         return m_boogieWoogie.echangerPersos(idEntite1, idEntite2, donjon);
     }
 
+    public void ameliorer(Arme arme){
+        this.m_armeMagique.ameliorer(arme);
+    }
+
 }
