@@ -6,9 +6,13 @@ public class Arme extends Equipement {
     private final int m_nbLancers;
     private final int m_nbFaces;
     private final int m_portee;
+    private int m_bonusAttaque;
+    private int m_bonusDegats;
 
     public Arme(String nom){
         super(nom, "Arme");
+        this.m_bonusAttaque = 0;
+        this.m_bonusDegats = 0;
 
         //Initialiser le type, la portée et le type/nombre de dés et les désaventages
         switch (nom){
@@ -21,7 +25,7 @@ public class Arme extends Equipement {
                 this.m_augmentationForce = 0;
                 break;
             case "épée longue": case "rapière":
-                m_type = "de guerre au corps-à-corps";
+                this.m_type = "de guerre au corps-à-corps";
                 this.m_nbLancers = 1;
                 this.m_nbFaces = 8;
                 this.m_portee = 1;
@@ -70,7 +74,7 @@ public class Arme extends Equipement {
         }
     }
 
-     public int jetDes(){
+     private int jetDes(){
         Random random = new Random();
         int somme = 0;
 
@@ -87,4 +91,18 @@ public class Arme extends Equipement {
 
         return sb.toString();
     }
+
+    public int getBonusAttaque() {
+        return this.m_bonusAttaque;
+    }
+
+    public int jetDegats(){
+        return jetDes() + this.m_bonusDegats;
+    }
+
+    public void updateBonus(){
+        this.m_bonusAttaque++;
+        this.m_bonusDegats++;
+    }
+
 }

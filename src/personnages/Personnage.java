@@ -69,6 +69,10 @@ public abstract class Personnage implements Entite{
         return m_nom;
     }
 
+    public String getClasse(){
+        return m_classe;
+    }
+
     /* PRECONDITION
     L'argument arme ne doit pas être null
                     doit être contenu dans l'inventaire
@@ -150,7 +154,7 @@ public abstract class Personnage implements Entite{
         }
         StringBuilder sb = new StringBuilder();
         sb.append("Lancé d'un dé à 20 faces...\n");
-        int jetAttaque = jetDes(1, 20);
+        int jetAttaque = jetDes(1, 20) + m_arme.getBonusAttaque();
         sb.append("Vous avez fait : ").append(jetAttaque).append("\n");
 
         //Ajout des bonus en fonction du type de l'arme
@@ -174,7 +178,7 @@ public abstract class Personnage implements Entite{
         else{
             sb.append("Votre attaque perce l'armure du ").append(cible.getNom()).append(" (").append(cible.getClasseArmure()).append(") !\n");
             sb.append("Lancé d'un dé à 4 faces...\n");
-            int degats = m_arme.jetDes();
+            int degats = m_arme.jetDegats();
             sb.append("Vous infligez ").append(degats).append(" dégâts au ").append(cible.getNom()).append("\n");
             cible.recevoirDegats(degats);
             sb.append("Il reste ").append(cible.getPV()).append(" PV au ").append(cible.getNom()).append(".\n");
@@ -317,5 +321,16 @@ public abstract class Personnage implements Entite{
 
     public Equipement getEquipement(int position){
         return this.m_inventaire.get(position-1);
+    }
+
+    public void seFaireGuerir(int pv){
+        this.m_PV += pv;
+        if(this.m_PV > this.m_MAX_PV){
+            this.m_PV = this.m_MAX_PV;
+        }
+    }
+
+    public Arme getArmeEquipee(){
+        return m_arme;
     }
 }

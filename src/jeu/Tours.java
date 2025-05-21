@@ -3,14 +3,11 @@ package jeu;
 import equipement.Arme;
 import equipement.Armure;
 import equipement.Equipement;
-import personnages.Monstre;
-import personnages.Personnage;
+import personnages.*;
 
 
 import java.util.Map;
 import java.util.Scanner;
-
-import personnages.Entite;
 
 //cette fonction devra être appelée dans une boucle qui parcourt tous les joueurs dans l'ordre
 //la liste des joueurs est disponible dans la classe donjon, donjon.afficher ordre
@@ -54,171 +51,427 @@ public class Tours {
         for (int i = 3; i > 0; i--) {
             System.out.println(personnage.toStringDetails());
 
-            System.out.println(" vous avez " + i + " action(s), que choisissez-vous? \n" +
-                    "[1] s'équiper\n" +
-                    "[2] se déplacer\n" +
-                    "[3] attaquer\n" +
-                    "[4] ramasser un équipement\n");
-            String choix = scan.nextLine();
-            switch (choix) {
-                case "1" -> {
-                    System.out.println("Vous souhaitez vous équiper, voici un rappel de votre inventaire :");
-                    System.out.println(personnage.afficherInventaire());
-                    int choixEquipement;
-                    do{
-                        System.out.println("Choisissez un nombre entre 1 et " + personnage.tailleInventaire());
-                        choixEquipement = scan.nextInt();
+            if (personnage.getClasse().equals("Magicien") || personnage.getClasse().equals("Clerc")) {
+                System.out.println(" vous avez " + i + " action(s), que choisissez-vous? \n" +
+                        "[1] s'équiper\n" +
+                        "[2] se déplacer\n" +
+                        "[3] attaquer\n" +
+                        "[4] ramasser un équipement\n" +
+                        "[5] lancer un sort");
+                String choix = scan.nextLine();
+
+                switch (choix) {
+                    case "1" -> {
+                        System.out.println("Vous souhaitez vous équiper, voici un rappel de votre inventaire :");
+                        System.out.println(personnage.afficherInventaire());
+                        int choixEquipement;
+                        do {
+                            System.out.println("Choisissez un nombre entre 1 et " + personnage.tailleInventaire());
+                            choixEquipement = scan.nextInt();
+                            scan.nextLine();
+                        } while (choixEquipement < 1 || choixEquipement > personnage.tailleInventaire());
+
+                        Equipement equipement = personnage.getEquipement(choixEquipement);
+
+                        if (equipement.getClasse().equals("Arme")) {
+                            Arme arme = (Arme) equipement;
+                            personnage.equiper(arme);
+                            System.out.println("Vous avez équipé " + arme.toString());
+                        } else {
+                            Armure armure = (Armure) equipement;
+                            personnage.equiper(armure);
+                            System.out.println("Vous avez équipé " + armure.toString());
+                        }
+
+                    }
+                    case "2" -> {
+                        int distance = personnage.getDistance();
+                        String dis = String.valueOf(distance);
+
+                        System.out.println("Vous souhaitez changer de position, dites en plus.");
+                        System.out.println("Attention! Le déplacement sera de maximum " + dis + " cases");
+                        System.out.println("De combien de case souhaitez-vous vous déplacer ?");
+                        int parcourir = scan.nextInt();
                         scan.nextLine();
-                    }while(choixEquipement < 1 || choixEquipement > personnage.tailleInventaire());
+                        System.out.println("Tres bien, vers où allez-vous?");
+                        System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche |" + "\n" +
+                                "[6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
+                        String vers = scan.nextLine();
 
-                    Equipement equipement = personnage.getEquipement(choixEquipement);
+                        String position;
 
-                    if(equipement.getClasse().equals("Arme")){
-                        Arme arme = (Arme) equipement;
-                       personnage.equiper(arme);
-                        System.out.println("Vous avez équipé " + arme.toString());
-                    }
-                    else{
-                        Armure armure = (Armure) equipement;
-                        personnage.equiper(armure);
-                        System.out.println("Vous avez équipé " + armure.toString());
-                    }
+                        switch (vers) {
+                            case "1":
+                                position = "haut";
+                                break;
+                            case "2":
+                                position = "bas";
+                                break;
+                            case "3":
+                                position = "gauche";
+                                break;
+                            case "4":
+                                position = "droite";
+                                break;
+                            case "5":
+                                position = "diagonale haut gauche";
+                                break;
+                            case "6":
+                                position = "diagonale haut droite";
+                                break;
+                            case "7":
+                                position = "diagonale bas gauche";
+                                break;
+                            case "8":
+                                position = "diagonale bas droite";
+                                break;
+                            default:
+                                position = "invalide";
+                                break;
+                        }
 
-                }
-                case "2" -> {
-                    int distance=personnage.getDistance();
-                    String dis= String.valueOf(distance);
 
-                    System.out.println("Vous souhaitez changer de position, dites en plus.");
-                    System.out.println("Attention! Le déplacement sera de maximum " + dis + " cases");
-                    System.out.println("De combien de case souhaitez-vous vous déplacer ?");
-                    int parcourir = scan.nextInt();
-                    scan.nextLine();
-                    System.out.println("Tres bien, vers où allez-vous?");
-                    System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche |" +"\n"+
-                            "[6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
-                    String vers= scan.nextLine();
+                        if (position.equals("invalide")) {
+                            System.out.println("Direction invalide. Pas de déplacement.");
+                        } else {
+                            String deplacement = donjon.seDeplacer(id, position, parcourir);
+                            donjon.affichagePlateau();
+                            System.out.println(deplacement);
+                        }
 
-                    String position;
-
-                    switch (vers) {
-                        case "1":
-                            position = "haut";
-                            break;
-                        case "2":
-                            position = "bas";
-                            break;
-                        case "3":
-                            position = "gauche";
-                            break;
-                        case "4":
-                            position = "droite";
-                            break;
-                        case "5":
-                            position = "diagonale haut gauche";
-                            break;
-                        case "6":
-                            position = "diagonale haut droite";
-                            break;
-                        case "7":
-                            position = "diagonale bas gauche";
-                            break;
-                        case "8":
-                            position = "diagonale bas droite";
-                            break;
-                        default:
-                            position = "invalide";
-                            break;
                     }
 
+                    case "3" -> {
+                        System.out.println("La meilleure défense est l'attaque, qui voulez-vous attaquer ? (un id suffit)");
+                        int decision = scan.nextInt(); //donne id de la cible
+                        scan.nextLine();
 
-
-
-                    if (position.equals("invalide")) {
-                        System.out.println("Direction invalide. Pas de déplacement.");
-                    } else {
-                        String deplacement = donjon.seDeplacer(id, position,parcourir);
-                        donjon.affichagePlateau();
-                        System.out.println(deplacement);
+                        Entite cible = donjon.getEntiteParId(decision); //je recupere la cible
+                        if (cible != null) { //si la cible existe bien
+                            String attaquer = personnage.attaquer(cible); //on l'attaque
+                            System.out.println(attaquer);
+                            if (!cible.estVivant()) {
+                                donjon.m_nb_monstres--;
+                                if (donjon.m_nb_monstres <= 0) {
+                                    return;
+                                }
+                            }
+                        } else {
+                            System.out.println("Attaque impossible");
+                        }
                     }
 
-                }
+                    case "4" -> {
+                        System.out.println("Vous voulez ramassez l'équipement à vos pieds...");
+                        int armeId;
 
-                case "3" -> {
-                    System.out.println("La meilleure défense est l'attaque, qui voulez-vous attaquer ? (un id suffit)");
-                    int decision = scan.nextInt(); //donne id de la cible
-                    scan.nextLine();
+                        for (Map.Entry<String, int[]> positions : donjon.getCases().entrySet()) { //on parcourt le tab de cases
+                            if (positions.getValue()[0] == id) { //si dans cette case on a le perso
+                                armeId = donjon.getCases().get(positions.getKey())[1]; //on recup l'id de l'equiment dispo
+                                if (armeId <= 0) break;
 
-                    Entite cible = donjon.getEntiteParId(decision); //je recupere la cible
-                    if (cible != null) { //si la cible existe bien
-                        String attaquer=personnage.attaquer(cible); //on l'attaque
-                        System.out.println(attaquer);
-                        if(!cible.estVivant()){
-                            donjon.m_nb_monstres--;
-                            if(donjon.m_nb_monstres <=0){
-                                return;
+                                String equipement = donjon.getEquipementParId(armeId);     //on recup le nom de cet equipement
+                                if (armeId > 4 && armeId < 12) {                //si l'id est plus grand que 4 c'est une arme
+                                    Arme arme = new Arme(equipement);           //on cree cette arme
+                                    personnage.ajoutEquipement(arme);     //on l'ajoute à son inventaire
+                                    System.out.println("Vous avez ramassé : " + arme.toString());
+                                } else if (armeId > 0 && armeId < 5) {          //si l'id est plus petit que 5 c'est une armure
+                                    Armure armure = new Armure(equipement);       //on cree l'armure
+                                    personnage.ajoutEquipement(armure);           //on l'ajoute à son inventaire
+                                    System.out.println("Vous avez ramassé : " + armure.toString());
+                                }
+
+                                //On retire l'équipement
+                                donjon.getCases().get(positions.getKey())[1] = 0;
+                                break;
                             }
                         }
                     }
-                    else {
-                        System.out.println("Attaque impossible");
-                    }
-                }
 
-                case "4" -> {
-                    System.out.println("Vous voulez ramassez l'équipement à vos pieds...");
-                    int armeId;
+                    case "5" -> {
+                        System.out.println("Vous voulez lancer un sort... Voici vos possibilités :");
 
-                    for (Map.Entry<String, int[]> positions : donjon.getCases().entrySet()) { //on parcourt le tab de cases
-                        if (positions.getValue()[0] == id) { //si dans cette case on a le perso
-                            armeId = donjon.getCases().get(positions.getKey())[1]; //on recup l'id de l'equiment dispo
-                            if (armeId <= 0) break;
+                        if(personnage.getClasse().equals("Clerc")){
+                            System.out.println("\t[1] guérir vous même ou un autre joueur");
+                            Clerc clerc = (Clerc) personnage;
+                            int idPers;
+                            do {
+                                System.out.println("Qui voulez vous guérir ? Choisissez un id entre 1 et " + donjon.m_nb_personnages);
+                                idPers = scan.nextInt();
+                                scan.nextLine();
+                            }while(idPers <1 || idPers > donjon.m_nb_personnages);
 
-                            String equipement = donjon.getEquipementParId(armeId);     //on recup le nom de cet equipement
-                            if (armeId>4 && armeId<12) {                //si l'id est plus grand que 4 c'est une arme
-                                Arme arme = new Arme(equipement);           //on cree cette arme
-                                personnage.ajoutEquipement(arme);     //on l'ajoute à son inventaire
-                                System.out.println("Vous avez ramassé : " + arme.toString());
-                            } else if (armeId>0 && armeId<5) {          //si l'id est plus petit que 5 c'est une armure
-                                Armure armure = new Armure(equipement);       //on cree l'armure
-                                personnage.ajoutEquipement(armure);           //on l'ajoute à son inventaire
-                                System.out.println("Vous avez ramassé : " + armure.toString());
+                            clerc.guerir((Personnage) donjon.getEntiteParId(idPers));
+
+                        }
+                        else{
+                            int choixSort;
+
+                            do {
+                                System.out.println("\t[1] guérir vous même ou un autre joueur\t[2] échanger de place deux entités (Monstre ou Personnage)\t[3] améliorer une arme de n'importe quel joueur (y compris vous)");
+                                choixSort = scan.nextInt();
+                                scan.nextLine();
+                            }while(choixSort <1 || choixSort > 3);
+
+                            Magicien mage = (Magicien) personnage;
+
+                            switch (choixSort) {
+                                case 1:
+                                    int idPers;
+                                    do {
+                                        System.out.println("Qui voulez-vous guérir ? Choisissez un id entre 1 et " + donjon.m_nb_personnages);
+                                        idPers = scan.nextInt();
+                                        scan.nextLine();
+                                    }while(idPers <1 || idPers > donjon.m_nb_personnages);
+
+                                    mage.guerir((Personnage) donjon.getEntiteParId(idPers));
+                                    break;
+                                case 2:
+                                    int id1;
+                                    int id2;
+                                    int nbEntites = donjon.m_nb_personnages + donjon.m_nb_monstres;
+
+                                    do{
+                                        System.out.println("Vous souhaitez échanger deux personnages de place.\nChoisissez deux id (en appuyant sur entrée après la première) entre 1 et " + nbEntites);
+                                        id1 = scan.nextInt();
+                                        scan.nextLine();
+                                        id2 = scan.nextInt();
+                                        scan.nextLine();
+                                    }while((id1 <1 || id1 > nbEntites) && (id2 <1 || id2 > nbEntites) && id1 != id2);
+
+                                    System.out.println(mage.echanger(id1, id2, donjon));
+                                    break;
+                                default:
+                                    int idPersonnage;
+                                    do {
+                                        System.out.println("A qui voulez-vous améliorer une arme ? Choisissez un id entre 1 et " + donjon.m_nb_personnages);
+                                        idPersonnage = scan.nextInt();
+                                        scan.nextLine();
+                                    }while(idPersonnage <1 || idPersonnage > donjon.m_nb_personnages);
+
+                                    Personnage pers = (Personnage) donjon.getEntiteParId(idPersonnage);
+
+                                    System.out.println("Voici l'inventaire de " + pers.getNom());
+                                    System.out.println(pers.afficherInventaire());
+
+                                    System.out.println("Voulez-vous améliorer l'arme que porte " + pers.getNom() + " ou une arme de son inventaire ? (1/2)");
+                                    String choixAmel = scan.nextLine();
+                                    Arme arme;
+
+                                    if(choixAmel.equalsIgnoreCase("1")){
+                                        arme = pers.getArmeEquipee();
+                                    }
+                                    else {
+                                        Equipement equipement;
+
+                                        do {
+                                            int choixArme;
+                                            do {
+                                                System.out.println("Choissisez une arme à améliorer entre 1 et " + pers.tailleInventaire());
+                                                choixArme = scan.nextInt();
+                                                scan.nextLine();
+                                            } while (choixArme < 1 || choixArme > pers.tailleInventaire());
+
+                                            equipement = pers.getEquipement(choixArme);
+                                        } while (equipement.getClasse().equals("Armure"));
+
+                                        arme = (Arme) equipement;
+                                    }
+                                    System.out.println("Amélioration de : " + arme.toString());
+                                    mage.ameliorer(arme);
                             }
 
-                            //On retire l'équipement
-                            donjon.getCases().get(positions.getKey())[1] = 0;
-                            break;
                         }
+
+                    }
+
+                    default -> {
+                        System.out.println("Mauvais choix, recommencez.");
+                        i++;
                     }
                 }
 
-                default -> {
-                    System.out.println("Mauvais choix, recommencez.");
-                    i++;
-                }
-            }
+                donjon.affichagePlateau(); //j'affiche le plateau apres chaque choix
 
-            donjon.affichagePlateau(); //j'affiche le plateau apres chaque choix
+                System.out.println(personnage.getNom() + ", voulez-vous commenter l'action précédente ? (o/n)");
+                String action = scan.nextLine();
 
-            System.out.println(personnage.getNom() + ", voulez-vous commenter l'action précédente ? (o/n)");
-            String action = scan.nextLine();
-
-            if(action.equalsIgnoreCase("o")) {
-                System.out.println("Ecrivez votre commentaire...");
-                String commentaire = scan.nextLine();
-            }
-            else {
-                System.out.println(narrateur.getPseudo() + " voulez-vous ajouter quelque chose ?");
-                action = scan.nextLine();
-                if(action.equalsIgnoreCase("o")) {
+                if (action.equalsIgnoreCase("o")) {
                     System.out.println("Ecrivez votre commentaire...");
                     String commentaire = scan.nextLine();
+                } else {
+                    System.out.println(narrateur.getPseudo() + ", voulez-vous ajouter quelque chose ?");
+                    action = scan.nextLine();
+                    if (action.equalsIgnoreCase("o")) {
+                        System.out.println("Ecrivez votre commentaire...");
+                        String commentaire = scan.nextLine();
+                    }
                 }
+                System.out.println();
+
             }
-            System.out.println();
 
+            else{
+                    System.out.println(" vous avez " + i + " action(s), que choisissez-vous? \n" +
+                            "[1] s'équiper\n" +
+                            "[2] se déplacer\n" +
+                            "[3] attaquer\n" +
+                            "[4] ramasser un équipement\n");
+                    String choix = scan.nextLine();
+                    switch (choix) {
+                        case "1" -> {
+                            System.out.println("Vous souhaitez vous équiper, voici un rappel de votre inventaire :");
+                            System.out.println(personnage.afficherInventaire());
+                            int choixEquipement;
+                            do {
+                                System.out.println("Choisissez un nombre entre 1 et " + personnage.tailleInventaire());
+                                choixEquipement = scan.nextInt();
+                                scan.nextLine();
+                            } while (choixEquipement < 1 || choixEquipement > personnage.tailleInventaire());
+
+                            Equipement equipement = personnage.getEquipement(choixEquipement);
+
+                            if (equipement.getClasse().equals("Arme")) {
+                                Arme arme = (Arme) equipement;
+                                personnage.equiper(arme);
+                                System.out.println("Vous avez équipé " + arme.toString());
+                            } else {
+                                Armure armure = (Armure) equipement;
+                                personnage.equiper(armure);
+                                System.out.println("Vous avez équipé " + armure.toString());
+                            }
+
+                        }
+                        case "2" -> {
+                            int distance = personnage.getDistance();
+                            String dis = String.valueOf(distance);
+
+                            System.out.println("Vous souhaitez changer de position, dites en plus.");
+                            System.out.println("Attention! Le déplacement sera de maximum " + dis + " cases");
+                            System.out.println("De combien de case souhaitez-vous vous déplacer ?");
+                            int parcourir = scan.nextInt();
+                            scan.nextLine();
+                            System.out.println("Tres bien, vers où allez-vous?");
+                            System.out.println("[1] haut | [2] bas | [3] gauche | [4] droite | [5] diagonale haut gauche |" + "\n" +
+                                    "[6] diagonale haut droite | [7] diagonale bas gauche | [8] diagonale bas droite");
+                            String vers = scan.nextLine();
+
+                            String position;
+
+                            switch (vers) {
+                                case "1":
+                                    position = "haut";
+                                    break;
+                                case "2":
+                                    position = "bas";
+                                    break;
+                                case "3":
+                                    position = "gauche";
+                                    break;
+                                case "4":
+                                    position = "droite";
+                                    break;
+                                case "5":
+                                    position = "diagonale haut gauche";
+                                    break;
+                                case "6":
+                                    position = "diagonale haut droite";
+                                    break;
+                                case "7":
+                                    position = "diagonale bas gauche";
+                                    break;
+                                case "8":
+                                    position = "diagonale bas droite";
+                                    break;
+                                default:
+                                    position = "invalide";
+                                    break;
+                            }
+
+
+                            if (position.equals("invalide")) {
+                                System.out.println("Direction invalide. Pas de déplacement.");
+                            } else {
+                                String deplacement = donjon.seDeplacer(id, position, parcourir);
+                                donjon.affichagePlateau();
+                                System.out.println(deplacement);
+                            }
+
+                        }
+
+                        case "3" -> {
+                            System.out.println("La meilleure défense est l'attaque, qui voulez-vous attaquer ? (un id suffit)");
+                            int decision = scan.nextInt(); //donne id de la cible
+                            scan.nextLine();
+
+                            Entite cible = donjon.getEntiteParId(decision); //je recupere la cible
+                            if (cible != null) { //si la cible existe bien
+                                String attaquer = personnage.attaquer(cible); //on l'attaque
+                                System.out.println(attaquer);
+                                if (!cible.estVivant()) {
+                                    donjon.m_nb_monstres--;
+                                    if (donjon.m_nb_monstres <= 0) {
+                                        return;
+                                    }
+                                }
+                            } else {
+                                System.out.println("Attaque impossible");
+                            }
+                        }
+
+                        case "4" -> {
+                            System.out.println("Vous voulez ramassez l'équipement à vos pieds...");
+                            int armeId;
+
+                            for (Map.Entry<String, int[]> positions : donjon.getCases().entrySet()) { //on parcourt le tab de cases
+                                if (positions.getValue()[0] == id) { //si dans cette case on a le perso
+                                    armeId = donjon.getCases().get(positions.getKey())[1]; //on recup l'id de l'equiment dispo
+                                    if (armeId <= 0) break;
+
+                                    String equipement = donjon.getEquipementParId(armeId);     //on recup le nom de cet equipement
+                                    if (armeId > 4 && armeId < 12) {                //si l'id est plus grand que 4 c'est une arme
+                                        Arme arme = new Arme(equipement);           //on cree cette arme
+                                        personnage.ajoutEquipement(arme);     //on l'ajoute à son inventaire
+                                        System.out.println("Vous avez ramassé : " + arme.toString());
+                                    } else if (armeId > 0 && armeId < 5) {          //si l'id est plus petit que 5 c'est une armure
+                                        Armure armure = new Armure(equipement);       //on cree l'armure
+                                        personnage.ajoutEquipement(armure);           //on l'ajoute à son inventaire
+                                        System.out.println("Vous avez ramassé : " + armure.toString());
+                                    }
+
+                                    //On retire l'équipement
+                                    donjon.getCases().get(positions.getKey())[1] = 0;
+                                    break;
+                                }
+                            }
+                        }
+
+                        default -> {
+                            System.out.println("Mauvais choix, recommencez.");
+                            i++;
+                        }
+                    }
+
+                    donjon.affichagePlateau(); //j'affiche le plateau apres chaque choix
+
+                    System.out.println(personnage.getNom() + ", voulez-vous commenter l'action précédente ? (o/n)");
+                    String action = scan.nextLine();
+
+                    if (action.equalsIgnoreCase("o")) {
+                        System.out.println("Ecrivez votre commentaire...");
+                        String commentaire = scan.nextLine();
+                    } else {
+                        System.out.println(narrateur.getPseudo() + ", voulez-vous ajouter quelque chose ?");
+                        action = scan.nextLine();
+                        if (action.equalsIgnoreCase("o")) {
+                            System.out.println("Ecrivez votre commentaire...");
+                            String commentaire = scan.nextLine();
+                        }
+                    }
+                    System.out.println();
+
+            }
         }
-
     }
 
 
@@ -358,7 +611,7 @@ public class Tours {
                 String commentaire = scan.nextLine();
             }
             else {
-                System.out.println(narrateur.getPseudo() + " voulez-vous ajouter quelque chose ?");
+                System.out.println(narrateur.getPseudo() + ", voulez-vous ajouter quelque chose ?");
                 action = scan.nextLine();
                 if(action.equalsIgnoreCase("o")) {
                     System.out.println("Ecrivez votre commentaire...");
