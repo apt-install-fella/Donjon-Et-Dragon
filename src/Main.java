@@ -430,7 +430,7 @@ public class Main {
                     nbMonstres++;
                 } while (choix.equalsIgnoreCase("o"));
 
-                System.out.println("Maître du jeu, vous avez créé " + (nbMonstres - 1) + " monstres avec succès !");
+                System.out.println("Maître du jeu, vous avez créé " + (nbMonstres - 1) + " monstre(s) avec succès !");
 
                 //Jeu
                 System.out.println("Le donjon et les personnages/monstres sont créés, que le donjon commence !");

@@ -208,7 +208,7 @@ public class Tours {
                             int choixSort;
 
                             do {
-                                System.out.println("\t[1] guérir vous même ou un autre joueur\t[2] échanger de place deux enités (Monstre ou Personnage)\t[3] améliorer une arme de n'importe quel joueur (y compris vous)");
+                                System.out.println("\t[1] guérir vous même ou un autre joueur\t[2] échanger de place deux entités (Monstre ou Personnage)\t[3] améliorer une arme de n'importe quel joueur (y compris vous)");
                                 choixSort = scan.nextInt();
                                 scan.nextLine();
                             }while(choixSort <1 || choixSort > 3);
@@ -291,7 +291,7 @@ public class Tours {
                     System.out.println("Ecrivez votre commentaire...");
                     String commentaire = scan.nextLine();
                 } else {
-                    System.out.println(narrateur.getPseudo() + " voulez-vous ajouter quelque chose ?");
+                    System.out.println(narrateur.getPseudo() + ", voulez-vous ajouter quelque chose ?");
                     action = scan.nextLine();
                     if (action.equalsIgnoreCase("o")) {
                         System.out.println("Ecrivez votre commentaire...");
@@ -452,7 +452,7 @@ public class Tours {
                         System.out.println("Ecrivez votre commentaire...");
                         String commentaire = scan.nextLine();
                     } else {
-                        System.out.println(narrateur.getPseudo() + " voulez-vous ajouter quelque chose ?");
+                        System.out.println(narrateur.getPseudo() + ", voulez-vous ajouter quelque chose ?");
                         action = scan.nextLine();
                         if (action.equalsIgnoreCase("o")) {
                             System.out.println("Ecrivez votre commentaire...");
@@ -602,7 +602,7 @@ public class Tours {
                 String commentaire = scan.nextLine();
             }
             else {
-                System.out.println(narrateur.getPseudo() + " voulez-vous ajouter quelque chose ?");
+                System.out.println(narrateur.getPseudo() + ", voulez-vous ajouter quelque chose ?");
                 action = scan.nextLine();
                 if(action.equalsIgnoreCase("o")) {
                     System.out.println("Ecrivez votre commentaire...");

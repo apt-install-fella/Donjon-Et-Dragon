@@ -324,7 +324,7 @@ public abstract class Personnage implements Entite{
     }
 
     public void seFaireGuerir(int pv){
-        this.m_PV = pv;
+        this.m_PV += pv;
         if(this.m_PV > this.m_MAX_PV){
             this.m_PV = this.m_MAX_PV;
         }

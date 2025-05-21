@@ -433,42 +433,40 @@ public class Donjon {
     }
 
     public String echangerPlaces(int idEntite1, int idEntite2) {
-        //Récupération des entités
-        Entite entite1 = m_entites.get(idEntite1);
-        Entite entite2 = m_entites.get(idEntite2);
+        String nomCase1 = "";
+        int[] valeurs1 = new int[2];
+        String nomCase2 = "";
+        int[] valeurs2 = new int[2];
+        boolean trouve1 = false;
+        boolean trouve2 = false;
 
-        if(entite1 != null && entite2 != null) {
-            String nomCase1 = "";
-            int[] valeurs1 = null;
-            String nomCase2 = "";
-            int[] valeurs2 = null;
+        for (Map.Entry<String, int[]> entry : m_cases.entrySet()) { //Parcours de toutes les cases
+            String nomCase = entry.getKey();
+            int[] valeurs = entry.getValue(); //le tableau des ID et equip
 
-            for (Map.Entry<String, int[]> entry : m_cases.entrySet()) { //Parcours de toutes les cases
-                String nomCase = entry.getKey();
-                int[] valeurs = entry.getValue(); //le tableau des ID et equip
-
-                if (valeurs[0] == idEntite1) { //quand on trouve notre premier perso dans la map
-                    nomCase1 = nomCase;
-                    valeurs1 = valeurs;
-                }
-
-                if(valeurs[1] == idEntite2) {
-                    nomCase2 = nomCase;
-                    valeurs2 = valeurs;
-                }
+            if (valeurs[0] == idEntite1) { //quand on trouve notre premier perso dans la map
+                nomCase1 = nomCase;
+                valeurs1[0] = valeurs[0];
+                valeurs1[1] = valeurs[1];
+                trouve1 = true;
             }
 
-            if(valeurs1 != null && valeurs2 != null) {
-                m_cases.put(nomCase1, new int[]{idEntite2, valeurs1[1]});
-                m_cases.put(nomCase2, new int[]{idEntite2, valeurs2[1]});
-                return "Changement effectué !";
+            if(valeurs[0] == idEntite2) {
+                nomCase2 = nomCase;
+                valeurs2[0] = valeurs[0];
+                valeurs2[1] = valeurs[1];
+                trouve2 = true;
             }
+        }
 
-            return "Personnage(s) non trouvé(s)";
+        if(trouve1 && trouve2) {
+            m_cases.put(nomCase1, new int[]{idEntite2, valeurs1[1]});
+            m_cases.put(nomCase2, new int[]{idEntite1, valeurs2[1]});
+            return "Changement effectué !";
         }
-        else{
-            return "Il faut indiquer 2 id...";
-        }
+
+        return "Personnage(s) non trouvé(s)";
+
     }
 
     public int finDonjon(Personnage perso) {
