@@ -15,19 +15,19 @@ package personnages{
     {
         + {abstract} recevoirDegats(degats : Integer)
         + {abstract} estVivant() : Boolean
-        + {abstract} attaquer(Entite cible) : String
+        + {abstract} attaquer(cible : Entite) : String
         + {abstract} getClasseArmure() : Integer
         + {abstract} getNom() : String
         + {abstract} getPV() : Integer
         + {abstract} toString() : String
         + {abstract} toStringDetails() : String
         + {abstract} getInitiative() : Integer
+        + {abstract} getDistance() : Integer
     }
 
     abstract class Personnage <<abstract>> implements Entite
     {
         - m_nom : String
-        - m_race : Race
         - m_classe : String
         - m_MAX_PV : Integer
         - m_PV : Integer
@@ -35,12 +35,11 @@ package personnages{
         - m_dexterite : Integer
         - m_vitesse : Integer
         - m_initiative : Integer
-        - m_armure : Armure
-        - m_arme : Arme
 
         ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*], classe : String)
         - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
         + getNom() : String
+        + getClasse() : String
         + equiper(arme : Arme)
         + equiper(armure : Armure)
         + recevoirDegats(degats : Integer)
@@ -61,7 +60,9 @@ package personnages{
         - {static} afficherEquipement(arme : Arme, position : Integer) : String
         + afficherInventaire() : String
         + tailleInventaire() : Integer
-        + getEquipement() : Equipement
+        + getEquipement(position : Integer) : Equipement
+        + seFaireGuerir(pv : Integer)
+        + getArmeEquipee() : Arme
 
     }
 
@@ -85,12 +86,16 @@ package personnages{
     {
         + <<create>> Clerc(nom : String, race : Race)
         - {static} initInventaire() : Equipement[*]
+        + guerir(personnage : Personnage)
     }
 
     class Magicien extends Personnage
     {
         + <<create>> Magicien(nom : String, race : Race)
         - {static} initInventaire() : Equipement[*]
+        + guerir(personnage : Personnage)
+        + echanger(idEntite1 : Integer, idEntite2 : Integer, donjon : Donjon) : String
+        + ameliorer(arme : Arme)
     }
 
     class Roublard extends Personnage
@@ -123,6 +128,7 @@ package personnages{
         + estVivant() : Boolean
         + getPV() : Integer
         + getInitiative() : Integer
+        + getDistance() : Integer
         + attaquer(cible : Entite) : String
         + toString() : String
         + toStringDetails() : String
@@ -161,11 +167,40 @@ package equipement {
         - m_nbLancers : Integer
         - m_nbFaces : Integer
         - m_nbPortee : Integer
+        - m_bonusAttaque : Integer
+        - m_bonusDegats : Integer
 
         + <<create>> Arme(nom : String)
-        + jetDes() : Integer
+        - jetDes() : Integer
         + toString() : String
+        + getBonusAttaque() : Integer
+        + jetDegats() : Integer
+        + updateBonus()
 
+    }
+
+    package sorts
+    {
+        class Guerison
+        {
+            - m_nbLancers : Integer
+            - m_nbFaces : Integer
+
+            + <<create>> Guerison()
+            + guerir() : Integer
+        }
+
+        class BoogieWoogie
+        {
+            + <<create>> BoogieWoogie()
+            + echangerPersos(idEntite1: Integer, idEntite2 : Integer, donjon : Donjon) : String
+        }
+
+        class ArmeMagique
+        {
+            + <<create>> ArmeMagique()
+            + ameliorer(arme : Arme)
+        }
     }
 
 }
@@ -209,6 +244,7 @@ package jeu {
         + getOrdre() : Entite[*]
         + getNumDonjon() : Integer
         + deplacer(id : Integer, position : String) : Boolean
+        + echangerPlaces(idEntite1 : Integer, idEntite2 : Integer) : String
     }
 
     class MaitreDuJeu {
@@ -232,6 +268,8 @@ package jeu {
     }
 }
 
+BoogieWoogie ..> Donjon : <<call>>
+ArmeMagique ..> Arme : <<call>>
 
 Personnage "*" o--> "1\n - m_race" Race : est
 Personnage "*" o--> "1..*\n - m_inventaire" Equipement : possède
@@ -246,6 +284,7 @@ Monstre ..> Entite : <<call>>
 Clerc ..> Arme : <<instanciate>>
 Clerc ..> Armure : <<instanciate>>
 Clerc ..> Equipement : <<uses>>
+Clerc "*" *--> "1\n- m_sort" Guerison : > possède
 
 Guerrier ..> Arme : <<instanciate>>
 Guerrier ..> Armure : <<instanciate>>
@@ -254,6 +293,10 @@ Guerrier ..> Equipement : <<uses>>
 Magicien ..> Arme : <<instanciate>>
 Magicien ..> Armure : <<instanciate>>
 Magicien ..> Equipement : <<uses>>
+Magicien "1" *--> "1\n- m_guerison" Guerison : > peut lancer
+Magicien "1" *--> "1\n- m_boogieWoogie" BoogieWoogie : > peut lancer
+Magicien "1" *--> "1\n- m_armeMagique" ArmeMagique : > peut lancer
+Magicien ..> Donjon : <<uses>>
 
 Roublard ..> Arme : <<instanciate>>
 Roublard ..> Armure : <<instanciate>>
@@ -305,6 +348,8 @@ Tours ..> Arme : <<instanciate>>
 Tours ..> Arme : <<call>>
 Tours ..> Armure : <<instanciate>>
 Tours ..> Armure : <<call>>
+Tours ..> Magicien : <<call>>
+Tours ..> Clerc : <<call>>
 
 MaitreDuJeu "*" o..> "1\n- m_donjon" Donjon : > a un
 
