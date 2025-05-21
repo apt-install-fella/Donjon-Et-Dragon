@@ -219,7 +219,7 @@ public class Tours {
                                 case 1:
                                     int idPers;
                                     do {
-                                        System.out.println("Qui voulez vous guérir ? Choisissez un id entre 1 et " + donjon.m_nb_personnages);
+                                        System.out.println("Qui voulez-vous guérir ? Choisissez un id entre 1 et " + donjon.m_nb_personnages);
                                         idPers = scan.nextInt();
                                         scan.nextLine();
                                     }while(idPers <1 || idPers > donjon.m_nb_personnages);
