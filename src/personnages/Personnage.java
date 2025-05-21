@@ -329,4 +329,8 @@ public abstract class Personnage implements Entite{
             this.m_PV = this.m_MAX_PV;
         }
     }
+
+    public Arme getArmeEquipee(){
+        return m_arme;
+    }
 }

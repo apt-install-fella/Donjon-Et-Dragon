@@ -254,21 +254,30 @@ public class Tours {
                                     System.out.println("Voici l'inventaire de " + pers.getNom());
                                     System.out.println(pers.afficherInventaire());
 
-                                    Equipement equipement;
+                                    System.out.println("Voulez-vous améliorer l'arme que porte " + pers.getNom() + " ou une arme de son inventaire ? (1/2)");
+                                    String choixAmel = scan.nextLine();
+                                    Arme arme;
 
-                                    do {
-                                        int choixArme;
+                                    if(choixAmel.equalsIgnoreCase("1")){
+                                        arme = pers.getArmeEquipee();
+                                    }
+                                    else {
+                                        Equipement equipement;
+
                                         do {
-                                            System.out.println("Choissisez une arme à améliorer entre 1 et " + pers.tailleInventaire());
-                                            choixArme = scan.nextInt();
-                                            scan.nextLine();
-                                        } while (choixArme < 1 || choixArme > pers.tailleInventaire());
+                                            int choixArme;
+                                            do {
+                                                System.out.println("Choissisez une arme à améliorer entre 1 et " + pers.tailleInventaire());
+                                                choixArme = scan.nextInt();
+                                                scan.nextLine();
+                                            } while (choixArme < 1 || choixArme > pers.tailleInventaire());
 
-                                        equipement = pers.getEquipement(choixArme);
-                                    }while(equipement.getClasse().equals("Armure"));
+                                            equipement = pers.getEquipement(choixArme);
+                                        } while (equipement.getClasse().equals("Armure"));
 
-                                    Arme arme = (Arme) equipement;
-
+                                        arme = (Arme) equipement;
+                                    }
+                                    System.out.println("Amélioration de : " + arme.toString());
                                     mage.ameliorer(arme);
                             }
 

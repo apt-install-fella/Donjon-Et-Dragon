@@ -64,6 +64,7 @@ package personnages{
         + tailleInventaire() : Integer
         + getEquipement() : Equipement
         + seFaireGuerir(pv : Integer)
+        + getArmeEquipee() : Arme
 
     }
 
