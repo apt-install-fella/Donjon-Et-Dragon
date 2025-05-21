@@ -15,19 +15,19 @@ package personnages{
     {
         + {abstract} recevoirDegats(degats : Integer)
         + {abstract} estVivant() : Boolean
-        + {abstract} attaquer(Entite cible) : String
+        + {abstract} attaquer(cible : Entite) : String
         + {abstract} getClasseArmure() : Integer
         + {abstract} getNom() : String
         + {abstract} getPV() : Integer
         + {abstract} toString() : String
         + {abstract} toStringDetails() : String
         + {abstract} getInitiative() : Integer
+        + {abstract} getDistance() : Integer
     }
 
     abstract class Personnage <<abstract>> implements Entite
     {
         - m_nom : String
-        - m_race : Race
         - m_classe : String
         - m_MAX_PV : Integer
         - m_PV : Integer
@@ -35,8 +35,6 @@ package personnages{
         - m_dexterite : Integer
         - m_vitesse : Integer
         - m_initiative : Integer
-        - m_armure : Armure
-        - m_arme : Arme
 
         ~ <<create>> Personnage(nom : String, race : Race, pv : Integer, inventaire : Equipement[*], classe : String)
         - {static} jetDes(nbLancers : Integer, nbFaces : Integer) : Integer
@@ -62,7 +60,7 @@ package personnages{
         - {static} afficherEquipement(arme : Arme, position : Integer) : String
         + afficherInventaire() : String
         + tailleInventaire() : Integer
-        + getEquipement() : Equipement
+        + getEquipement(position : Integer) : Equipement
         + seFaireGuerir(pv : Integer)
         + getArmeEquipee() : Arme
 
@@ -97,6 +95,7 @@ package personnages{
         - {static} initInventaire() : Equipement[*]
         + guerir(personnage : Personnage)
         + echanger(idEntite1 : Integer, idEntite2 : Integer, donjon : Donjon) : String
+        + ameliorer(arme : Arme)
     }
 
     class Roublard extends Personnage
@@ -129,6 +128,7 @@ package personnages{
         + estVivant() : Boolean
         + getPV() : Integer
         + getInitiative() : Integer
+        + getDistance() : Integer
         + attaquer(cible : Entite) : String
         + toString() : String
         + toStringDetails() : String
@@ -193,7 +193,7 @@ package equipement {
         class BoogieWoogie
         {
             + <<create>> BoogieWoogie()
-            + echangerPersos(idEntite1: Integer, idEntite2 : Integer) : String
+            + echangerPersos(idEntite1: Integer, idEntite2 : Integer, donjon : Donjon) : String
         }
 
         class ArmeMagique
