@@ -22,6 +22,51 @@ public class Tours {
 
     }
 
+    private void ameliorerScenario(MaitreDuJeu narrateur, Donjon donjon) {
+        Scanner scan = new Scanner(System.in);
+
+
+        System.out.println("Attendez "+narrateur.getPseudo()+" ! Voulez vous agir pour améliorer le sénario? (o/n)");
+        String action = scan.nextLine();
+        if(action.equalsIgnoreCase("o")) {
+            System.out.println("Vous pouvez:\n[1]Déplacer un monstre ou un personnage.\n[2]Infliger des dégats à quiconque.\n[3]Ajouter des obstacles dans le donjon.");
+            String decision= scan.nextLine();
+            switch (decision) {
+                case "1" ->{
+                    System.out.println("Qui voulez-vous déplacer? un id suffit");
+                    int choisie = scan.nextInt();
+                    System.out.println("Et quelle sera la nouvelle position?");
+                    scan.nextLine();
+                    String position=scan.nextLine();
+                    String phrase=narrateur.deplace(choisie, position);
+                    System.out.println(phrase);
+                }
+                case "2" ->{
+                    System.out.println("Qui va subir un malheureux incident ? un id suffit");
+                    int choisie = scan.nextInt();
+                    Entite e = donjon.getEntiteParId(choisie);
+                    System.out.println("Nous avons aussi besion d'un nombre de face de dés ainsi que leur nombre");
+                    System.out.println("Nombre de faces :");
+                    int faces = scan.nextInt();
+                    System.out.println("Nombre de dés :");
+                    int des = scan.nextInt();
+                    String phrase=narrateur.infligerDegats(e,des,faces);
+                    System.out.println(phrase);
+                }
+                case "3" ->{
+                    System.out.println("Une modification du donjon s'impose.\nOù placons nous ce nouvel obstacle? ex:A2");
+                    String placer = scan.nextLine();
+                    narrateur.ajoutObstacle(placer);
+                }
+                default -> {
+                    System.out.println("Action non reconnue, tant pis, passons au prochain tour.");
+                }
+            }
+
+        }
+
+    }
+
     public void ajouterTourPersonnage(Personnage personnage, Donjon donjon, MaitreDuJeu narrateur){
         Scanner scan = new Scanner(System.in);
 
@@ -37,7 +82,7 @@ public class Tours {
 
 
         System.out.println("Voici l'id de tout le monde :");
-        donjon.afficherIDentite();
+        donjon.afficherIDentites();
         System.out.println("\n");
         donjon.affichagePlateau();
         System.out.println("Les monstres sont suivis d'un M || les équipements sont représentés par des *\n\n");
@@ -471,7 +516,7 @@ public class Tours {
                     System.out.println();
 
             }
-        }
+            ameliorerScenario(narrateur,donjon);        }
     }
 
 
@@ -492,7 +537,7 @@ public class Tours {
         monstre.toStringDetails();
         int id = donjon.getId(monstre);
 
-        donjon.afficherIDentite();
+        donjon.afficherIDentites();
 
 
         donjon.affichagePlateau();
@@ -511,11 +556,6 @@ public class Tours {
             String choix = scan.nextLine();
             switch (choix) {
                 case "1" -> {
-                    /*
-                    System.out.println("Attention, "+narrateur.getPseudo()+" a pris la parole. Merci de l'écouter.");
-                    String nouveau = scan.nextLine();
-                    narrateur.commenter(nouveau);
-                     */
 
                     System.out.println(monstre.getNom()+", qui va être votre victime ? (un id suffit)");
                     int decision = scan.nextInt(); //donne id de la cible
@@ -540,11 +580,6 @@ public class Tours {
                 }
 
                 case "2" -> {
-                    /*le personnage peut dire des trucs?
-                    System.out.println(monstre.getNom() + " souhaite commenter : ");
-                    String commentaire = scan.nextLine();
-                    narrateur.commenter(commentaire);
-                     */
 
                     int distance =monstre.getDistance();
                     String dis= String.valueOf(distance);
@@ -620,8 +655,9 @@ public class Tours {
             }
             System.out.println();
 
+            ameliorerScenario(narrateur,donjon);
+
         }
-        //on retourne fin pour savoir si ce tour a conduit vers la fin d'un donjon ou pas
 
     }
 
