@@ -234,10 +234,10 @@ package jeu {
         + positionner(e : Entite, position : String) : String
         ~ afficherIDentites()
         - getEntites() : Hashtable<Integer, Entite>
-        ~ getCases() : Hashtable<String, int[]>
+        ~ getCases() : Hashtable<String, Integer[*]>
         - nommerCases()
         - ordreDeJeu() : Entite[*]
-        + seDeplacer(entiteID : int, direction : String, nb_case : int) : String
+        + seDeplacer(entiteID : Integer, direction : String, nb_case : Integer) : String
         + finDonjon(perso : Personnage) : Integer
         + affichagePlateau()
         + affichageOrdre()
@@ -256,7 +256,7 @@ package jeu {
         + getPseudo() : String
         + deplace(id : Integer, position : String) : String
         + ajoutObstacle(position : String) : String
-        + infligerDegats(entite : Entite, nbLancers : int, nbFaces : int) : String
+        + infligerDegats(entite : Entite, nbLancers : Integer, nbFaces : Integer) : String
     }
 
     class Tours {
