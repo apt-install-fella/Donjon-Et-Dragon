@@ -181,8 +181,8 @@ package jeu {
         - m_largeur : Integer
         - m_cases : String[*]
 
-        + Donjon(num : Integer, longueur : Integer, largeur : Integer)
-        + Donjon(num : Integer)
+        + <<create>> Donjon(num : Integer, longueur : Integer, largeur : Integer)
+        + <<create>> Donjon(num : Integer)
         - initDonjon1()
         - initDonjon2()
         - initDonjon3()
@@ -194,29 +194,39 @@ package jeu {
         + ajoutEquipement(equip : Equipement, position : String)
         + getEquipementParId(id : Integer) : String
         + getId(entite : Entite) : Integer
-        + positionner(e : Entite, position : String) : String
-        + afficherIDentite()
-        - getEntites() : Hashtable<Integer, Entite
-        - getNombreEntites() : Integer
+        ~ getEntiteParId(id : Integer) Entite
         - existeCase(position : String) : Boolean
+        + positionner(e : Entite, position : String) : String
+        ~ afficherIDentites()
+        - getEntites() : Hashtable<Integer, Entite>
+        ~ getCases() : Hashtable<String, int[]>
         - nommerCases()
-        + getCases() : String[*]
         - ordreDeJeu() : Entite[*]
+        + seDeplacer(entiteID : int, direction : String, nb_case : int) : String
+        + finDonjon(perso : Personnage) : Integer
+        + affichagePlateau()
+        + affichageOrdre()
+        + getOrdre() : Entite[*]
+        + getNumDonjon() : Integer
         + deplacer(id : Integer, position : String) : Boolean
     }
 
     class MaitreDuJeu {
         - m_pseudo : String
-        + MaitreDuJeu(pseudo : String)
-        + MaitreDuJeu()
+        - m_donjon : Donjon
+
+        + <<create>> MaitreDuJeu(pseudo : String, donjon : Donjon)
+        + <<create>> MaitreDuJeu(donjon : Donjon)
         + getPseudo() : String
         + deplace(id : Integer, position : String) : String
         + ajoutObstacle(position : String) : String
+        + infligerDegats(entite : Entite, nbLancers : int, nbFaces : int) : String
     }
 
     class Tours {
        - m_nu : Integer
-       + Tours(num : Integer)
+       + <<create>> Tours(num : Integer)
+       - ameliorerScenario(narrateur : MaitreDuJeu , donjon : Donjon)
        + ajouterTourPersonnage(personnage : Personnage, donjon : Donjon, narrateur : MaitreDuJeu)
        + ajouterTourMonstre(monstre : Monstre, donjon : Donjon, narrateur : MaitreDuJeu)
     }
@@ -295,6 +305,9 @@ Tours ..> Arme : <<instanciate>>
 Tours ..> Arme : <<call>>
 Tours ..> Armure : <<instanciate>>
 Tours ..> Armure : <<call>>
+
+MaitreDuJeu "*" o..> "1\n- m_donjon" Donjon : > a un
+
 
 
 @enduml

@@ -4,6 +4,7 @@ import personnages.Entite;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Random;
 
 public class MaitreDuJeu {
     private String m_pseudo;
@@ -13,8 +14,9 @@ public class MaitreDuJeu {
         this.m_pseudo = pseudo;
         this.m_donjon = donjon;
     }
-    public MaitreDuJeu() {
+    public MaitreDuJeu(Donjon donjon) {
         this.m_pseudo = "Maitre du jeu";
+        this.m_donjon = donjon;
     }
 
     public String getPseudo() {
@@ -36,5 +38,17 @@ public class MaitreDuJeu {
     }
 
 
+    public String infligerDegats(Entite entite, int nbLancers, int nbFaces) {
+
+            Random random = new Random();
+            int somme = 0;
+
+            for(int i=0; i<nbLancers; i++){
+                somme += 1 + random.nextInt(nbFaces);
+            }
+
+        entite.recevoirDegats(somme);
+        return (entite.getNom())+" est une entité un peu trop forte, mais un malheureux incident fait qu'elle perde "+somme+" dégats.\nQuel dommage...";
+    }
 
 }

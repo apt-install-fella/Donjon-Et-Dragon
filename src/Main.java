@@ -445,11 +445,11 @@ public class Main {
             if (choix.equalsIgnoreCase("o")) {
                 System.out.println("Quel sera ce pseudo ?");
                 String pseudo = scan.nextLine();
-                narrateur = new MaitreDuJeu(pseudo);
+                narrateur = new MaitreDuJeu(pseudo, donjon);
             }
             else {
                 System.out.println("Vous restez donc 'Maitre du jeu'");
-                narrateur = new MaitreDuJeu();
+                narrateur = new MaitreDuJeu(donjon);
             }
 
             System.out.println(narrateur.getPseudo() + " veuillez présenter le contexte aux joueurs...");
@@ -507,9 +507,6 @@ public class Main {
                             System.out.println("VICTOIRE");
                             suite = false;
                             break;
-                        }
-                        else {
-                            System.out.println("On continue !");
                         }
 
                     }

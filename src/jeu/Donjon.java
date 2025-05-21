@@ -295,16 +295,13 @@ public class Donjon {
 
 
     // CONNAITRE L'ID DE CHAQUE ENTITE
-    protected void afficherIDentite() {
+    protected void afficherIDentites() {
         for (Map.Entry<Integer, Entite> entry : getEntites().entrySet()) { //pour chaque case de notre dico d'entite
             System.out.println("\t" + entry.getValue().getNom()+" --> " + entry.getKey());//le nom de l'entite
         }
     }
 
 
-    private int getNombreEntites() {
-        return m_entites.size();
-    }
 
     private Hashtable<Integer, Entite> getEntites() {
         return m_entites;
@@ -545,6 +542,7 @@ public class Donjon {
 
 
     public int getNumDonjons() {
+
         return m_num;
     }
 
