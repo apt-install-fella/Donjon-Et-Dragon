@@ -7,7 +7,7 @@ hide empty members
 
 class Main
 {
-    + {static} main( args:String[*] )
+    + {static} main(args : String[*])
 }
 
 package personnages{
@@ -214,7 +214,9 @@ package jeu {
         ~ m_nb_personnages : Integer
         - m_longueur : Integer
         - m_largeur : Integer
-        - m_cases : String[*]
+        - m_personnages : Integer[*]
+        - m_monstres : Integer[*]
+        - m_cases : Integer[*]
 
         + <<create>> Donjon(num : Integer, longueur : Integer, largeur : Integer)
         + <<create>> Donjon(num : Integer)
@@ -229,12 +231,12 @@ package jeu {
         + ajoutEquipement(equip : Equipement, position : String)
         + getEquipementParId(id : Integer) : String
         + getId(entite : Entite) : Integer
-        ~ getEntiteParId(id : Integer) Entite
+        ~ getEntiteParId(id : Integer) : Entite
         - existeCase(position : String) : Boolean
         + positionner(e : Entite, position : String) : String
         ~ afficherIDentites()
-        - getEntites() : Hashtable<Integer, Entite>
-        ~ getCases() : Hashtable<String, Integer[*]>
+        - getEntites() : Entite[*]
+        ~ getCases() : Integer[*]
         - nommerCases()
         - ordreDeJeu() : Entite[*]
         + seDeplacer(entiteID : Integer, direction : String, nb_case : Integer) : String
@@ -305,13 +307,12 @@ Roublard ..> Equipement : <<uses>>
 
 
 Donjon "*" *--> "1..*\n -m_entite" Entite : contient
-Donjon "*" *--> "1..*\n -m_personnages" Personnage : contient
-Donjon "*" *--> "1..*\n -m_monstres" Monstre : contient
 Donjon ..> Arme : <<instanciate>>
 Donjon ..> Armure : <<instanciate>>
 Donjon ..> Equipement : <<uses>>
 Donjon ..> Equipement : <<call>>
-
+Donjon ..> Personnage : <<uses>>
+Donjon ..> Monstre : <<uses>>
 
 Main ..> Personnage : <<call>>
 Main ..> Clerc : <<instanciate>>
@@ -352,7 +353,5 @@ Tours ..> Magicien : <<call>>
 Tours ..> Clerc : <<call>>
 
 MaitreDuJeu "*" o..> "1\n- m_donjon" Donjon : > a un
-
-
 
 @enduml
