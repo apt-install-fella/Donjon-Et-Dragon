@@ -26,35 +26,35 @@ public class Tours {
         Scanner scan = new Scanner(System.in);
 
 
-        System.out.println("Attendez "+narrateur.getPseudo()+" ! Voulez vous agir pour améliorer le sénario? (o/n)");
+        System.out.println("Attendez "+narrateur.getPseudo()+" ! Voulez vous agir pour améliorer le scénario ? (o/n)");
         String action = scan.nextLine();
         if(action.equalsIgnoreCase("o")) {
-            System.out.println("Vous pouvez:\n[1]Déplacer un monstre ou un personnage.\n[2]Infliger des dégats à quiconque.\n[3]Ajouter des obstacles dans le donjon.");
+            System.out.println("Vous pouvez:\n[1] Déplacer un monstre ou un personnage.\n[2] Infliger des dégats à quiconque.\n[3] Ajouter des obstacles dans le donjon.");
             String decision= scan.nextLine();
             switch (decision) {
                 case "1" ->{
-                    System.out.println("Qui voulez-vous déplacer? un id suffit");
+                    System.out.println("Qui voulez-vous déplacer ? Un id suffit.");
                     int choisie = scan.nextInt();
-                    System.out.println("Et quelle sera la nouvelle position?");
+                    System.out.println("Et quelle sera la nouvelle position ?");
                     scan.nextLine();
                     String position=scan.nextLine();
                     String phrase=narrateur.deplace(choisie, position);
                     System.out.println(phrase);
                 }
                 case "2" ->{
-                    System.out.println("Qui va subir un malheureux incident ? un id suffit");
+                    System.out.println("Qui va subir un malheureux incident ? Un id suffit");
                     int choisie = scan.nextInt();
                     Entite e = donjon.getEntiteParId(choisie);
-                    System.out.println("Nous avons aussi besion d'un nombre de face de dés ainsi que leur nombre");
-                    System.out.println("Nombre de faces :");
-                    int faces = scan.nextInt();
+                    System.out.println("Nous avons aussi besoin d'un nombre de face de dés ainsi que leur nombre");
                     System.out.println("Nombre de dés :");
                     int des = scan.nextInt();
+                    System.out.println("Nombre de faces :");
+                    int faces = scan.nextInt();
                     String phrase=narrateur.infligerDegats(e,des,faces);
                     System.out.println(phrase);
                 }
                 case "3" ->{
-                    System.out.println("Une modification du donjon s'impose.\nOù placons nous ce nouvel obstacle? ex:A2");
+                    System.out.println("Une modification du donjon s'impose.\nOù plaçons nous ce nouvel obstacle ? (ex : A2)");
                     String placer = scan.nextLine();
                     narrateur.ajoutObstacle(placer);
                 }
@@ -62,6 +62,8 @@ public class Tours {
                     System.out.println("Action non reconnue, tant pis, passons au prochain tour.");
                 }
             }
+
+            donjon.affichagePlateau(); //j'affiche le plateau apres chaque choix
 
         }
 

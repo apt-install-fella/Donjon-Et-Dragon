@@ -14,9 +14,15 @@ public class MaitreDuJeu {
         this.m_pseudo = pseudo;
         this.m_donjon = donjon;
     }
-    public MaitreDuJeu(Donjon donjon) {
+
+    public MaitreDuJeu(String pseudo) {
+        this.m_pseudo = pseudo;
+        this.m_donjon = null;
+    }
+
+    public MaitreDuJeu() {
         this.m_pseudo = "Maitre du jeu";
-        this.m_donjon = donjon;
+        this.m_donjon = null;
     }
 
     public String getPseudo() {
@@ -32,9 +38,8 @@ public class MaitreDuJeu {
         return "Impossible de déplacer le personnage";
     }
 
-    public String ajoutObstacle(String position) {
+    public void ajoutObstacle(String position) {
         m_donjon.ajoutObstacle(position);
-        return "Un obstacle est ajouté à l'emplacement : " + position;
     }
 
 
@@ -48,7 +53,7 @@ public class MaitreDuJeu {
             }
 
         entite.recevoirDegats(somme);
-        return (entite.getNom())+" est une entité un peu trop forte, mais un malheureux incident fait qu'elle perde "+somme+" dégats.\nQuel dommage...";
+        return (entite.getNom())+" est une entité un peu trop forte, mais un malheureux incident fait qu'elle perd "+somme+" dégâts.\nQuel dommage...";
     }
 
 }

@@ -152,6 +152,18 @@ public class Main {
 
         System.out.println(nbPersonnages - 1 + " personnages créé(s) avec succès !");
 
+        MaitreDuJeu narrateur;
+        System.out.println("\n\nOups, et vous, Maitre du jeu, nous vous avons presque oublié. Voulez-vous un pseudo ? (o/n)");
+        choix = scan.nextLine();
+        if (choix.equalsIgnoreCase("o")) {
+            System.out.println("Quel sera ce pseudo ?");
+            String pseudo = scan.nextLine();
+            narrateur = new MaitreDuJeu(pseudo);
+        }
+        else {
+            System.out.println("Vous restez donc 'Maitre du jeu'");
+            narrateur = new MaitreDuJeu();
+        }
 
         Donjon donjon;
         boolean finPartie = false;
@@ -331,7 +343,7 @@ public class Main {
                 }
 
                 //Ajout des personnages au donjon
-                System.out.println("Maître du jeu, vous allez désormais placer les joueurs sur le plateau...");
+                System.out.println(narrateur.getPseudo() + ", vous allez désormais placer les joueurs sur le plateau...");
 
                 for (Personnage perso : personnages) {
                     donjon.ajoutPersonnage(perso);
@@ -351,7 +363,7 @@ public class Main {
 
                 //Création des monstres
                 System.out.println();
-                System.out.println("Maître du jeu, créez les monstres qui terrifieront les joueurs !");
+                System.out.println(narrateur.getPseudo() + ", créez les monstres qui terrifieront les joueurs !");
                 int nbMonstres = 1;
                 Hashtable<String, Integer> espece = new Hashtable<>();          //Sert pour l'id du monstre
 
@@ -430,7 +442,7 @@ public class Main {
                     nbMonstres++;
                 } while (choix.equalsIgnoreCase("o"));
 
-                System.out.println("Maître du jeu, vous avez créé " + (nbMonstres - 1) + " monstre(s) avec succès !");
+                System.out.println(narrateur.getPseudo() + ", vous avez créé " + (nbMonstres - 1) + " monstre(s) avec succès !");
 
                 //Jeu
                 System.out.println("Le donjon et les personnages/monstres sont créés, que le donjon commence !");
@@ -439,89 +451,78 @@ public class Main {
 
 
                 ///////////GESTION DES TOURS/////////
-            MaitreDuJeu narrateur;
-            System.out.println("\n\nOups, et vous, Maitre du jeu, nous vous avons presque oublié. Voulez-vous un pseudo ? (o/n)");
-            choix = scan.nextLine();
-            if (choix.equalsIgnoreCase("o")) {
-                System.out.println("Quel sera ce pseudo ?");
-                String pseudo = scan.nextLine();
-                narrateur = new MaitreDuJeu(pseudo, donjon);
-            }
-            else {
-                System.out.println("Vous restez donc 'Maitre du jeu'");
-                narrateur = new MaitreDuJeu(donjon);
-            }
+                narrateur = new MaitreDuJeu(narrateur.getPseudo(), donjon);
 
-            System.out.println(narrateur.getPseudo() + " veuillez présenter le contexte aux joueurs...");
-            scan.nextLine();
+                System.out.println(narrateur.getPseudo() + " veuillez présenter le contexte aux joueurs...");
+                scan.nextLine();
 
-            System.out.println("Que le jeu commence ! Bonne chance\n");
+                System.out.println("Que le jeu commence ! Bonne chance\n");
 
-            ArrayList<Entite> joueurs = new ArrayList<>(donjon.getOrdre());
+                ArrayList<Entite> joueurs = new ArrayList<>(donjon.getOrdre());
 
-            boolean suite = true;
+                boolean suite = true;
 
-            while (suite) {
-                int tour=1;
-                for (Entite entite : joueurs) {
-                    Tours tours= new Tours(tour);
-                    int id=donjon.getId(entite);
-                    boolean estUnPerso=false;
-                    Personnage perso=null;
-                    Monstre monstre=null;
-                    Hashtable<Personnage,Integer> persos = new Hashtable<>(donjon.getListePersonnages());//je recup la liste des persos du donjon
-                    Hashtable<Monstre,Integer> mons = new Hashtable<>(donjon.getListeMonstres());
-                    for (Map.Entry<Personnage, Integer> e : persos.entrySet()) {//pour chaque perso de cette liste
-                        if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
-                            estUnPerso=true;
-                            perso = e.getKey();
+                while (suite) {
+                    int tour=1;
+                    for (Entite entite : joueurs) {
+                        Tours tours= new Tours(tour);
+                        int id=donjon.getId(entite);
+                        boolean estUnPerso=false;
+                        Personnage perso=null;
+                        Monstre monstre=null;
+                        Hashtable<Personnage,Integer> persos = new Hashtable<>(donjon.getListePersonnages());//je recup la liste des persos du donjon
+                        Hashtable<Monstre,Integer> mons = new Hashtable<>(donjon.getListeMonstres());
+                        for (Map.Entry<Personnage, Integer> e : persos.entrySet()) {//pour chaque perso de cette liste
+                            if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
+                                estUnPerso=true;
+                                perso = e.getKey();
+                            }
+
+                        }
+                        for (Map.Entry<Monstre, Integer> e : mons.entrySet()) {//pour chaque perso de cette liste
+                            if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
+                                estUnPerso=false;
+                                monstre = e.getKey();
+                            }
+
                         }
 
-                    }
-                    for (Map.Entry<Monstre, Integer> e : mons.entrySet()) {//pour chaque perso de cette liste
-                        if (e.getValue() == id) { //si l'id renseigné est le meme que celui du perso
-                            estUnPerso=false;
-                            monstre = e.getKey();
+                        if (estUnPerso) {
+                            tours.ajouterTourPersonnage(perso, donjon, narrateur);
+                        }
+                        else {
+                            tours.ajouterTourMonstre(monstre, donjon, narrateur);
                         }
 
-                    }
+                        for (Map.Entry<Personnage, Integer> e : persos.entrySet()) {//pour chaque perso de cette liste
+                            int fin=donjon.finDonjon(e.getKey());
 
-                    if (estUnPerso) {
-                        tours.ajouterTourPersonnage(perso, donjon, narrateur);
-                    }
-                    else {
-                        tours.ajouterTourMonstre(monstre, donjon, narrateur);
-                    }
+                            if (fin==0){
+                                System.out.println("Oh non ! "+e.getKey().getNom()+" est mort ! Les monstres ont gagné...");
+                                System.out.println("GAME OVER");
+                                suite = false;
+                                finPartie = true;
+                                break;
+                            } else if (fin==1) {
+                                System.out.println("Le dernier monstre a été abattu, votre équipe a réussi ce donjon!");
+                                System.out.println("VICTOIRE");
+                                suite = false;
+                                break;
+                            }
 
-                    for (Map.Entry<Personnage, Integer> e : persos.entrySet()) {//pour chaque perso de cette liste
-                        int fin=donjon.finDonjon(e.getKey());
+                        }
 
-                        if (fin==0){
-                            System.out.println("Oh non ! "+e.getKey().getNom()+" est mort ! Les monstres ont gagné...");
-                            System.out.println("GAME OVER");
-                            suite = false;
-                            finPartie = true;
+                        if(finPartie){
+                            return;
+                        }
+
+                        if(!suite){
                             break;
-                        } else if (fin==1) {
-                            System.out.println("Le dernier monstre a été abattu, votre équipe a réussi ce donjon!");
-                            System.out.println("VICTOIRE");
-                            suite = false;
-                            break;
                         }
 
                     }
-
-                    if(finPartie){
-                        return;
-                    }
-
-                    if(!suite){
-                        break;
-                    }
-
+                    tour=tour+1;
                 }
-                tour=tour+1;
-            }
 
         }
 
