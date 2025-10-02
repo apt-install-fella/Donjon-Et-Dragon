@@ -8,8 +8,11 @@ Intelligi IDE
 langage: java
 
 ## Appercus 
-add image
-add image
+ <img src="Assets/Capture_d_écran_du_2025-10-02_09-25-49.png " />
+ ---------------------------------------------------------
+ <img src= "Assets/Capture_d_écran_du_2025-10-02_09-33-56.png"
+>
+
 
 ## Comment jouer
 - Avoir un JDK (Pour java) moderne
