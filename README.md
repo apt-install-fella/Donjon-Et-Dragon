@@ -3,17 +3,25 @@
 On souhaite développer une application pour **un nouveau un jeu D&D**.
 C'est un jeu de rôle de Medieval Fantasy où les joueurs incarnent des personnages affrontant des monstres dans plusieurs donjons successifs.
 
+## Logiciels utilisés
+Intelligi IDE
+langage: java
+
+## Appercus 
+add image
+add image
+
+## Comment jouer
+- Avoir un JDK (Pour java) moderne
+- Compiler le main : javac Main.java
+- Lancer le jeu : Java Main
+
+
 ## Organisation
 
-- Travail en **binôme** au sein d'un même groupe de TP
-- Le travail doit être réalisé sur un fork du projet dans le groupe <nom_etudiant_1>-<nom_etudiant_2> que vous aurez créé
+- Travail en **binôme**
 - Durée : 5 semaines
-- Nombre de séances :
-   - 8h encadrées en groupe de TD
-   - 12h encadrées, en groupe TP
-   - 10h tutorées, en promo complète
-   - travail non-encadré (SAé libre)
-- Sujet dévoilé en deux phases :
+- Sujet en deux phases :
   - Phase 1 dévoilée **Lundi 5 mai** sur les deux premières semaines
   - Phase 2 dévoilée le **Lundi 19 mai**
 
@@ -313,18 +321,3 @@ Seront évalués :
   - respect des conventions UML
 - Code
   - cohérence avec l'UML
-
-## Quelques consignes
-
-Veillez :
-
-- à respecter les [P21 Guidelines](https://git.unistra.fr/p21/p21/-/blob/main/guidelines.pdf?ref_type=heads)
-- à la bonne conception du code : il doit être lisible et facile à corriger, à réutiliser, à modifier et à étendre.
-
-## Quelques conseils
-
-- N'essayez pas d'implémenter toutes les fonctionnalités en une seule fois. Commencez par un programme simple mais fonctionnel et intégrez progressivement les fonctionnalités.
-- Il s'agit d'une version très simplifiée de jeu.Donjon et Dragon. Il peut être tentant d'améliorer le projet et d'intégrer beaucoup de fonctionnalités et règles du jeu originel. Cependant cela ne vous permettra pas d'augmenter votre note. Ne négligez pas le projet de base ni les projets des autres modules. Vous aurez tout le loisir d'améliorer le projet durant votre été.
-- Faites des commits réguliers sur vos branches de travail.
-- Concevez votre code de façon à ce qu'il soit facile à modifier et à étendre avec de nouvelles fonctionnalités, notamment en prévision de la phase 2.
-- La qualité de la conception et du code produit est plus importante que le nombre de fonctionnalités intégrées.
