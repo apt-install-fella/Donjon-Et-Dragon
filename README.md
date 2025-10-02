@@ -4,20 +4,28 @@ On souhaite développer une application pour **un nouveau un jeu D&D**.
 C'est un jeu de rôle de Medieval Fantasy où les joueurs incarnent des personnages affrontant des monstres dans plusieurs donjons successifs.
 
 ## Logiciels utilisés
-Intelligi IDE
-langage: java
+IntelliJ IDEA
+<br>
+- langage: java
 
 ## Appercus 
  <img src="Assets/Capture_d_écran_du_2025-10-02_09-25-49.png " />
- ---------------------------------------------------------
- <img src= "Assets/Capture_d_écran_du_2025-10-02_09-33-56.png"
->
+ 
+  ---
+
+ <img src= "Assets/Capture_d_écran_du_2025-10-02_09-33-56.png" />
 
 
 ## Comment jouer
 - Avoir un JDK (Pour java) moderne
 - Compiler le main : javac Main.java
 - Lancer le jeu : Java Main
+---
+ou bien:
+  - Ouvrir le projet avec IntelliJ IDEA
+  - Aller sur le fichier Main.Java
+  - Appuyer sur le triangle en haut à gauche "Run"
+  - Un terminal s'ouvre : Il est possible de l'agrendir pour mieux voir la partie
 
 
 ## Organisation
@@ -314,13 +322,3 @@ La structure du dépôt git doit être la suivante :
     ├──...
 ```
 
-## Rendus évalués
-
-#### 1er rendu : 18 mai
-
-Seront évalués :
-
-- Diagramme de classes complet de la phase 1
-  - respect des conventions UML
-- Code
-  - cohérence avec l'UML
