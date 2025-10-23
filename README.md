@@ -1,4 +1,4 @@
-# DOOnjon&Dragon Project
+# ⚔️DOOnjon&Dragon Project🐉
 
 On souhaite développer une application pour **un nouveau un jeu D&D**.
 C'est un jeu de rôle de Medieval Fantasy où les joueurs incarnent des personnages affrontant des monstres dans plusieurs donjons successifs.
@@ -6,9 +6,14 @@ C'est un jeu de rôle de Medieval Fantasy où les joueurs incarnent des personna
 ## Logiciels utilisés
 IntelliJ IDEA
 <br>
-- langage: java
+ - Langage: **java☕**   
 
-## Appercus 
+<p align="left">
+    <img src="https://skillicons.dev/icons?i=java" />
+</p>
+
+
+## 🖼️ Appercus 
  <img src="Assets/Capture_d_écran_du_2025-10-02_09-25-49.png " />
  
   ---
@@ -16,7 +21,7 @@ IntelliJ IDEA
  <img src= "Assets/Capture_d_écran_du_2025-10-02_09-33-56.png" />
 
 
-## Comment jouer
+## 🎮 Comment jouer
 - Avoir un JDK (Pour java) moderne
 - Compiler le main : javac Main.java
 - Lancer le jeu : Java Main
@@ -28,7 +33,7 @@ ou bien:
   - Un terminal s'ouvre : Il est possible de l'agrendir pour mieux voir la partie
 
 
-## Organisation
+## 🗓️ Organisation
 
 - Travail en **binôme**
 - Durée : 5 semaines
@@ -36,11 +41,11 @@ ou bien:
   - Phase 1 dévoilée **Lundi 5 mai** sur les deux premières semaines
   - Phase 2 dévoilée le **Lundi 19 mai**
 
-## Calendrier
+##  📅 Calendrier
 
 - Lundi **5 mai** : début du projet
 - Dimanche **18 mai** : rendu intermédiaire
-- Lundi 19 mai : début de la phase 2
+- Lundi **19 mai** : début de la phase 2
 - Dimanche **8 Juin** à minuit : rendu final
 - De Mercredi **11** à Vendredi **13 juin** : soutenances
 
@@ -48,7 +53,7 @@ De plus, il y aura un rendu hebdomadaire avant chaque **dimanche, minuit**.
 
 
 
-## Le jeu
+## 🎲 Le jeu
 
 Il s'agit d'un jeu avec plusieurs joueurs face à des monstres contrôlés par le maître du jeu, qui se joue **au tour par tour**. Les joueurs incarnant les personnages doivent éliminer les monstres de trois donjons successifs. Un autre joueur est Maître du Jeu et a pour rôle de narrer l'histoire et expliquer le contexte aux joueurs. Si un seul joueur est éliminé par un monstre dans un des donjons, l'équipe a perdu.
 
@@ -56,7 +61,7 @@ Il s'agit d'un jeu avec plusieurs joueurs face à des monstres contrôlés par l
  Par exemple, 3d4 désigne le jet de 3 dés à 4 faces.
 
 
-### Les personnages
+### 🧝‍♀️ Les personnages
 
 Chaque joueur à l'exception du Maître du Jeu incarne un personnage.
 Chaque personnage est défini par:
@@ -141,7 +146,7 @@ Au début d'une partie, chaque joueur crée son personnage de la façon suivante
   - 3 points
   - l'augmentation déterminée par la race du personnage
 
-### Les monstres
+### 🐉 Les monstres
 
 *« Wait a minute!\
 Did you hear that ? That... that sound?\
@@ -172,7 +177,7 @@ En revanche un monstre ne possède pas d'équipement.
 
 
 
-### Déroulement d'un donjon
+### 🏰 Déroulement d'un donjon
 #### Mise en Place
 *«Vous entrez dans une pièce sombre et vous retrouvez face à face à ...»*
 
@@ -292,33 +297,7 @@ Caelynn il vous reste 2 actions que souhaitez vous faire ?
 
 Il n'est pas nécessaire de reproduire le visuel tel quel mais toutes les informations doivent être présentes.
 
-### Fin du jeu
+### 🏁 Fin du jeu
 
 À la fin du jeu, un écran affiche "Vous avez perdu" ou "Vous avez gagné" et indique la cause de la défaite ou de la victoire.
-## Rendus hebdomadaires
-
-Votre projet doit être un fork de ce dépôt dans un groupe ayant pour nom `<nom_etudiant_1>-<nom_etudiant_2>`.
-Votre enseignant en TP et le responsable du module doivent être ajoutés comme Reporter à votre projet.
-
-Vous devez effectuer un rendu par semaine au plus tard le dimanche soir à minuit : la régularité des rendus sera prise en compte dans l'évaluation.
-Un rendu est une branche qui a pour nom `rendu<numéro-rendu>`.
-Le dernier rendu sera évalué en tant que rendu final.
-
-Chaque rendu doit contenir :
-
-- un programme qui compile dont les sources sont dans le répertoire `src/`,
-- un diagramme de classes à jour placé dans le répertoire `uml/` ayant pour nom `semaine<numero>.puml`,
-
-La structure du dépôt git doit être la suivante :
-```bash
-.
-├── README.md
-├── .gitignore
-├── src/
-    ├── Main.java
-    ├── ...
-├── uml/
-    ├── semaine1.puml
-    ├──...
-```
 
