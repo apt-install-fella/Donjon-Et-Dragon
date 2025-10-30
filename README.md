@@ -38,8 +38,8 @@ ou bien:
 - Travail en **binôme**
 - Durée : 5 semaines
 - Sujet en deux phases :
-  - Phase 1 dévoilée **Lundi 5 mai** sur les deux premières semaines
-  - Phase 2 dévoilée le **Lundi 19 mai**
+  - Phase 1 **Lundi 5 mai** version 1 du jeu
+  - Phase 2 **Lundi 19 mai** ajout de finctionalités
 
 ##  📅 Calendrier
 
@@ -47,7 +47,6 @@ ou bien:
 - Dimanche **18 mai** : rendu intermédiaire
 - Lundi **19 mai** : début de la phase 2
 - Dimanche **8 Juin** à minuit : rendu final
-- De Mercredi **11** à Vendredi **13 juin** : soutenances
 
 De plus, il y aura un rendu hebdomadaire avant chaque **dimanche, minuit**.
 
@@ -59,7 +58,8 @@ Il s'agit d'un jeu avec plusieurs joueurs face à des monstres contrôlés par l
 
  Le jeu se base sur des jets de dés désignés par <nombre de dés>d<nombre de faces des dés>.
  Par exemple, 3d4 désigne le jet de 3 dés à 4 faces.
-
+ 
+---
 
 ### 🧝‍♀️ Les personnages
 
@@ -145,6 +145,8 @@ Au début d'une partie, chaque joueur crée son personnage de la façon suivante
   - 4d4
   - 3 points
   - l'augmentation déterminée par la race du personnage
+  - 
+---
 
 ### 🐉 Les monstres
 
@@ -175,7 +177,7 @@ Un monstre est défini par:
 
 En revanche un monstre ne possède pas d'équipement.
 
-
+---
 
 ### 🏰 Déroulement d'un donjon
 #### Mise en Place
@@ -226,76 +228,8 @@ Un donjon se termine lorsqu'un joueur est tué (défaite) ou lorsque tous les mo
 
 En cas de victoire, les personnages regagnent l'intégralité de leur vie et passent au donjon suivant.
 
-### Exemple d'affichage
+---
 
-```console
-********************************************************************************
-jeu.Donjon 2:
-                                    Caelynn (Elfe magicienne)              
-
-********************************************************************************
-Tour 3:
-   And   Andry (Naine Clerc, 15/16)
-   X(    Demogorgon (25/45)
-   Dar   Darvin (Humain Guerrier, 13/20)
--> Cae   Caelynn (Elfe Magicienne, 10/12)
-   X^    Dragon bleu (35/50)
-   Alt   Alton (Halfelin Roublard, 14/16)
-
-      A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W
-   *-----------------------------------------------------------------------*
-1  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-2  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-3  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-4  |  .  .  .  .  X^ .  .  .  .  .  *  .  .  .  .  .  .  .  .  .  .  .  .  |
-5  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-6  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-7  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  *  .  .  .  .  .  .  |
-8  |  .  .  .  .  .  .  .  .  . [ ] .  .  .  .  .  .  .  .  .  .  .  .  .  |
-9  |  .  .  .  .  .  .  .  .  . [ ][ ] .  .  .  .  .  .  .  .  .  .  .  .  |
-10 |  .  .  .  .  .  .  .  .  .  . [ ] . Alt .  .  .  .  .  .  .  .  .  .  |
-11 |  .  .  .  .  .  .  .  .  .  . [ ] .  .  .  .  .  .  .  .  .  .  .  .  |
-12 |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-13 |  .  .  .  .  .  .  .  .  .  .  . Cae .  .  .  .  .  .  .  .  .  .  .  |
-14 |  .  .  .  .  .  .  .  .  .  .  . And .  .  .  X( .  .  .  *  .  .  .  |
-15 |  .  .  .  .  *  .  .  .  .  *  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-16 |  .  .  .  .  .  .  .  .  .  .  .  .  . Dar .  .  .  .  .  .  .  .  .  |
-17 |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-18 |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-   *-----------------------------------------------------------------------*
-    * Equipement   |   [ ] Obstacle  |
-
-Caelynn
-  Vie : 10/12
-  Armure: aucune
-  Arme: fronde (degat: 1d4, portee: 6)
-  Inventaire: [1] baton
-  Force: 8
-  Dextérité: 16
-  Vitesse: 12
-
-Caelynn il vous reste 2 actions que souhaitez vous faire ?
-  - laisser le maître du jeu commenter l'action précédente (mj <texte>)
-  - commenter action précédente (com <texte>)
-  - attaquer (att <Case>)
-  - se déplacer (dep <Case>)
-  - s'équiper (equ <numero equipement>)
-```
-
-```
-  $ att P14
-  Lancer un dé de 20 (appuyer sur n'importe quelle touche)
-  $
-  Vous avez fait 13
-  Votre attaque est de 13+16(Dextérité)=29.
-  Votre attaque perce l'armure du Demogorgon (18).
-  Lancer un dé de 4 pour infliger des dégâts (appuyer sur n'importe quelle touche)
-  $
-  Le Demogorgon subit 3 dégâts!
-  Il lui reste 22 PV.
-```
-
-Il n'est pas nécessaire de reproduire le visuel tel quel mais toutes les informations doivent être présentes.
 
 ### 🏁 Fin du jeu
 
